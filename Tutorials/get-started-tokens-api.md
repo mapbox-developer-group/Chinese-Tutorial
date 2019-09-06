@@ -1,6 +1,6 @@
 ---
-title: Creating access tokens with the Tokens API
-description: Walk through creating permanent and temporary access tokens using the Tokens API.
+title: 使用 Tokens API 创建访问令牌
+description: 使用 Tokens API 演练创建永久和临时访问令牌
 category: Tutorials
 level: 2
 topics:
@@ -8,7 +8,7 @@ topics:
 language:
 - cURL
 thumbnail: tokensCurlRequest
-prereq: Familiarity with APIs and using the command line.
+prereq: 熟悉 API 并使用命令行
 prependJs:
   - "import Note from '@mapbox/dr-ui/note';"
   - "import BookImage from '@mapbox/dr-ui/book-image';"
@@ -18,22 +18,22 @@ prependJs:
 contentType: tutorial
 ---
 
-This guide will walk through how to create permanent/public and temporary access tokens with the [Tokens API](https://docs.mapbox.com/api/accounts/#tokens) using cURL. After reading this tutorial, you will be able to create appropriately scoped access tokens with the Tokens API using cURL.
+本指南将演练如何通过 cURL 使用 [Tokens API](https://docs.mapbox.com/api/accounts/#tokens) 创建永久/公共和临时访问令牌。阅读本教程后，你将能够通过 cURL 使用 Tokens API 创建适当作用域的访问令牌。
 
-If you're unsure what an access token is or how to use one, read our [access tokens guide](/help/how-mapbox-works/access-tokens/) and [Tokens API documentation](https://docs.mapbox.com/api/accounts/#tokens) for more details.
+如果你不确定访问令牌是什么，或者如何使用它，请阅读 [access tokens guide](/help/how-mapbox-works/access-tokens/) 和 [Tokens API documentation](https://docs.mapbox.com/api/accounts/#tokens) 获取更多信息。
 
-## Getting started
+## 开始
 
-You will need a couple resources to get started:
+你需要一些资源才能开始：
 
-- **Mapbox account.** Sign up for free at [mapbox.com/signup](https://www.mapbox.com/signup/).
-- **Experience using APIs and the command line with cURL.**
+- **Mapbox 账号。** 在 [mapbox.com/signup](https://www.mapbox.com/signup/) 注册一个免费账号。
+- **拥有通过 cURL 使用 API 和命令行的经验。**
 
-## Decide on your token scopes
+## 决定你的令牌作用域
 
-Access tokens are keys that allow you to access Mapbox APIs. Every token has one or more token scopes that set the permissions for the token, allowing that access token to do a specific job and interact with specific APIs. For example, if you need to upload data with your new token, you’ll need to select `uploads:write`. Or, if you need your new token to be able to create more access tokens, select `tokens:write`.
+访问令牌是允许你访问 Mapbox API 的密钥。每个令牌都有一个或多个令牌作用域，用于设置令牌的权限，允许该访问令牌执行特定作业并与特定 API 进行交互。例如，如果你需要使用新令牌上传数据，则需要选择 `uploads:write`。或者，如果你需要新令牌创建更多可访问令牌，请选择 `tokens:write`。
 
-If you aren’t sure what scopes you need your new token to have, refer to our [API documentation](https://docs.mapbox.com/api/). Each section lists which scopes are necessary to interact with the specific Mapbox API.
+如果你不确定新的令牌需要什么作用域，请查阅 [API documentation](https://docs.mapbox.com/api/). 每个部分列出了与特定 Mapbox API 交互所需的作用域。
 
 {{
 <AppropriateImage imageId="tokenScopes" />
@@ -41,73 +41,73 @@ If you aren’t sure what scopes you need your new token to have, refer to our [
 
 {{
 <Note imageComponent={<BookImage />}>
-  <p>When you create a new token, some of the scope options are secret scopes. If you add one or more secret scopes to your new token, it will be a secret token. You can only view secret tokens once, at the time when you create them, so it's important to copy the new secret token and save it in a secure place.</p>
+  <p>当你创建新令牌时，某些作用域选项是机密作用域。如果你给新的令牌增加一个或多个机密作用域，它就会是一个机密令牌。在创建它们的时候，你才能查看一次机密令牌。因此，复制新的机密令牌并将其保存在一个安全的地方很重要。</p>
 </Note>
 }}
 
-## Create a token that can create tokens
+## 创建一个能创建其他令牌的令牌
 
-To create access tokens using the Tokens API, you’ll need to use a token with the `tokens:write` scope. You can create a new token with the `tokens:write` scope on your [access tokens page](https://www.mapbox.com/account/access-tokens).
+使用 Tokens API 创建访问令牌，你需要用 `tokens:write` 作用域的令牌。在 [access tokens page](https://www.mapbox.com/account/access-tokens) 上，你可以创建一个具有 `tokens:write` 作用域的新令牌。
 
-As an example, a token with the scopes `uploads:read`, `uploads:list`, `uploads:write`, and `tokens:write` would allow you to create tokens that can interact with the [Mapbox Uploads API](https://docs.mapbox.com/api/maps/#uploads).
+例如, 一个具有 `uploads:read`、 `uploads:list` 、 `uploads:write` 和 `tokens:write` 的令牌，会允许你创建能与 [Mapbox Uploads API](https://docs.mapbox.com/api/maps/#uploads) 交互的令牌。
 
 {{
 <Note imageComponent={<BookImage />}>
-  <p>Every requested scope must be present in the access token used to allow the request. It is not possible to create a token with access to more scopes than the token that created it.</p>
+  <p>每个请求的作用域都必须存在于用于允许请求的访问令牌中。用一个令牌创建另一个更多作用域的令牌，这是不可能的 。</p>
 </Note>
 }}
 
-Now that you have a token with the `tokens:write` scope, you can use it to create new tokens using the Tokens API.
+现在，你有一个具有 `tokens:write` 作用域的令牌，你可以使用它通过 Tokens API 创建新的令牌。
 
-## Make the token using the command line
+## 使用命令行创建令牌
 
-### Permanent/public tokens
+### 永久/公共令牌
 
-A permanent or public tokens are access tokens that only have public scopes. In your command line, you can create a permanent/public token by using this command:
+永久令牌或公共令牌是仅具有公共作用域的访问令牌。在命令行中，你可以通过如下命令创建永久/公共令牌：
 
 ```curl
 curl -H "Content-Type: application/json" -X POST -d '{"note": "{token_name}","scopes": ["styles:read", "fonts:read"]}' 'https://api.mapbox.com/tokens/v2/{{<UserName />}}?access_token={{<UserAccessToken/>}}'
 ```
 
-For example, to create a token for interacting with the Uploads API, your command may look like this:
+例如，创建一个能与 Uploads API 交互的令牌，命令会是这样：
 
 ```curl
 curl -H "Content-Type: application/json" -X POST -d '{"note": "Uploads token","scopes": ["styles:tiles", "styles:read", "fonts:read", "datasets:read", "uploads:read", "uploads:write", "uploads:list"]}' 'https://api.mapbox.com/tokens/v2/{{<UserName />}}?access_token={{<UserAccessToken/>}}'
 ```
 
-Your response will look something like this:
+得到的回复大概会是这样：
 
 ```json
 {"client":"api","note":"Uploads token","usage":"sk","id":"cjo6jcmxn0l3x3vqmdr4epqk8","default":false,"scopes":["styles:tiles","styles:read","fonts:read","datasets:read","uploads:read","uploads:write","uploads:list"],"created":"2018-11-07T02:19:53.538Z","modified":"2018-11-07T02:19:53.538Z","token":"{new_access_token}"}
 ```
 
-Navigate to your [access tokens](https://www.mapbox.com/account/access-tokens) page to see the new token in your account!
+导航到 [access tokens](https://www.mapbox.com/account/access-tokens) 页面，查看你账号中的新令牌。
 
-### Temporary tokens
+### 临时令牌
 
-Our Tokens API offers the ability to create temporary tokens which expire at a set time. Temporary tokens can be created using public, secret, or even other temporary tokens as long as the authenticating token is scoped correctly. Temporary tokens do not show in your [access tokens page](https://www.mapbox.com/account/access-tokens).
+Tokens API 提供了创建临时令牌的能力，使其在设定的时间失效。只要正确限定身份验证令牌的作用域，临时令牌可以用公共令牌、机密令牌甚至其他临时令牌创建。临时令牌不会在 [access tokens page](https://www.mapbox.com/account/access-tokens) 显示。
 
-To make temporary tokens, you will need to include `expires` and `scopes` parameters in your API call:
+要创建临时令牌，你需要在 API 调用中包含 `expires` 和 `scopes` 这两个参数:
 
-- `expires`: The `expires` parameter should be in [Coordinated Universal Time (UTC)](https://www.timeanddate.com/worldclock/timezone/utc) and specifies when the temporary token will expire. It cannot be a time in the past or more than one hour in the future. If the authorizing token is temporary, the  expires time for the new temporary token cannot be later than that of the authorizing temporary token.
-- `scopes`: The `scopes` parameter specifies which scopes that the new temporary token will have. The authorizing token needs to have the same scopes as, or more scopes than, the new temporary token you are creating.
+- `expires`: `expires` 参数需位于 [Coordinated Universal Time (UTC)](https://www.timeanddate.com/worldclock/timezone/utc) 中，并指定临时令牌何时过期。它不能是过去的时间，也不能是未来一小时以外的时间。如果授权令牌是临时的，新临时令牌的过期时间不能晚于该令牌的过期时间。
+- `scopes`: `scopes` 参数指定新临时令牌将具有何种作用域。授权令牌要具有与新创建的临时令牌同样多的作用域，或要比其更多。
 
-### Creating temporary tokens
+### 创建临时令牌
 
-In your command line, you can create a temporary token by using this command:
+在命令行中，可以使用此命令创建临时令牌：
 
 
 ```curl
 curl -X POST -d '{"expires": "2018-11-18T06:30:00Z","scopes": ["styles:read", "fonts:read", "uploads:read", "uploads:write", "uploads:list"]}' 'https://api.mapbox.com/tokens/v2/{{<UserName />}}?access_token={{<UserAccessToken/>}}'
 ```
 
-For example, to create a temporary token for interacting with the Uploads API, your command may look like this:
+例如，创建一个能与 Uploads API 交互的临时令牌，命令会是这样：
 
 ```curl
 curl -H "Content-Type: application/json" -X POST -d '{"note": "Uploads temp token", "expires": "2018-11-18T06:30:00Z", "scopes": ["styles:tiles", "styles:read", "fonts:read", "datasets:read", "uploads:read", "uploads:write", "uploads:list"]}' 'https://api.mapbox.com/tokens/v2/{{<UserName />}}?access_token={{<UserAccessToken/>}}'
 ```
 
-Your response should look something like this:
+得到的回复大概会是这样：
 
 ```json
 {
@@ -116,10 +116,10 @@ Your response should look something like this:
 }
 ```
 
-## Finished product
+## 成品
 
-You have created an access token with the correct scopes using the Tokens API. Go to your [access tokens page](https://www.mapbox.com/account/access-tokens) to find the new token.
+你已经使用 Tokens API 创建了具有正确作用域的访问令牌。转到 [access tokens page](https://www.mapbox.com/account/access-tokens) 页面查找令牌。
 
-## Next steps
+## 下一步
 
-Now that you have a token, you can use it according to its scopes.
+现在，你有了一个令牌，你可以根据它的作用域使用它。
