@@ -1,6 +1,6 @@
 ---
 title: 使用 Tokens API 创建访问令牌
-description: 使用 Tokens API 演练创建永久和临时访问令牌
+description: 使用 Tokens API 演示创建永久和临时访问令牌
 category: Tutorials
 level: 2
 topics:
@@ -18,7 +18,7 @@ prependJs:
 contentType: tutorial
 ---
 
-本指南将演练如何通过 cURL 使用 [Tokens API](https://docs.mapbox.com/api/accounts/#tokens) 创建永久/公共和临时访问令牌。阅读本教程后，你将能够通过 cURL 使用 Tokens API 创建适当作用域的访问令牌。
+本指南将演示如何通过 cURL 使用 [Tokens API](https://docs.mapbox.com/api/accounts/#tokens) 创建永久/公共和临时访问令牌。阅读本教程后，你将能够通过 cURL 使用 Tokens API 创建适当作用域的访问令牌。
 
 如果你不确定访问令牌是什么，或者如何使用它，请阅读 [access tokens guide](/help/how-mapbox-works/access-tokens/) 和 [Tokens API documentation](https://docs.mapbox.com/api/accounts/#tokens) 获取更多信息。
 
