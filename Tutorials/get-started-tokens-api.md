@@ -22,7 +22,7 @@ contentType: tutorial
 
 如果你不确定访问令牌是什么，或者如何使用它，请阅读 [access tokens guide](/help/how-mapbox-works/access-tokens/) 和 [Tokens API documentation](https://docs.mapbox.com/api/accounts/#tokens) 获取更多信息。
 
-## 开始
+## 入门
 
 你需要一些资源才能开始：
 
