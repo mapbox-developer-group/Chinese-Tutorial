@@ -33,7 +33,7 @@ contentType: tutorial
 
 访问令牌是允许你访问 Mapbox API 的密钥。每个令牌都有一个或多个令牌作用域，用于设置令牌的权限，允许该访问令牌执行特定作业并与特定 API 进行交互。例如，如果你需要使用新令牌上传数据，则需要选择 `uploads:write`。或者，如果你需要新令牌创建更多可访问令牌，请选择 `tokens:write`。
 
-如果你不确定新的令牌需要什么作用域，请查阅 [API documentation](https://docs.mapbox.com/api/). 每个部分列出了与特定 Mapbox API 交互所需的作用域。
+如果你不确定新的令牌需要什么作用域，请查阅 [API documentation](https://docs.mapbox.com/api/)。 每个部分列出了与特定 Mapbox API 交互所需的作用域。
 
 {{
 <AppropriateImage imageId="tokenScopes" />
@@ -41,7 +41,7 @@ contentType: tutorial
 
 {{
 <Note imageComponent={<BookImage />}>
-  <p>当你创建新令牌时，某些作用域选项是机密作用域。如果你给新的令牌增加一个或多个机密作用域，它就会是一个机密令牌。在创建它们的时候，你才能查看一次机密令牌。因此，复制新的机密令牌并将其保存在一个安全的地方很重要。</p>
+  <p>当你创建新令牌时，某些作用域选项是机密作用域。如果你给新的令牌增加一个或多个机密作用域，它就会是一个机密令牌。只有在创建它们的时候，你才能查看一次机密令牌。因此，复制新的机密令牌并将其保存在一个安全的地方很重要。</p>
 </Note>
 }}
 
