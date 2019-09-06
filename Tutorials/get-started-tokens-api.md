@@ -24,7 +24,7 @@ contentType: tutorial
 
 ## 入门
 
-你需要一些资源才能开始：
+以下是入门前需要的一些资源：
 
 - **Mapbox 账号。** 在 [mapbox.com/signup](https://www.mapbox.com/signup/) 注册一个免费账号。
 - **拥有通过 cURL 使用 API 和命令行的经验。**
