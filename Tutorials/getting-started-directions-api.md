@@ -1,6 +1,6 @@
 ---
-title: Getting started with the Mapbox Directions API
-description: Add routing capabilities to your application with the Mapbox Directions API.
+title: Mapbox Directions API 入门
+description: 通过 Mapbox Directions API 为应用程序添加指路功能。
 thumbnail: directionsApi
 level: 1
 language:
@@ -16,68 +16,73 @@ prependJs:
 contentType: tutorial
 ---
 
-The [Mapbox Directions API](https://docs.mapbox.com/api/navigation/#directions) makes it possible to provide users with routes, turn instructions, and trip durations. This tutorial walks you through the process of requesting directions, adding a single bike route between a fixed location and a clicked location, and displaying the route's turn-by-turn instructions.
+[Mapbox Directions API](https://docs.mapbox.com/api/navigation/#directions) 能为用户提供路线、转弯指引和行程持续时间。本教程将引导你完成请求路线的过程、在固定位置和单击点位间添加单个自行车路线的过程，以及显示路线逐段指引的过程。
 
 {{
   <DemoIframe src="/help/demos/directions-api/index.html" />
 }}
 
-## Getting started
+## 入门
 
-Here are a few resources you'll need before getting started:
+以下是入门前需要的一些资源：
 
-- [**An access token**](/help/glossary/access-token/) from your account. You will use an access token to associate a map with your account and you can find it on the  [Account page](https://www.mapbox.com/account/).
-- [**Mapbox Directions API documentation**](https://docs.mapbox.com/api/navigation/#directions). A reference for all options available when making requests and how to interpret responses.
-- [__Mapbox GL JS__](https://docs.mapbox.com/mapbox-gl-js/overview/). The Mapbox JavaScript library that uses WebGL to render interactive maps from Mapbox GL styles.
-- __A text editor.__ You'll be writing HTML, CSS, and JavaScript.
+- [**访问令牌**](/help/glossary/access-token/) 由你的账号提供。你将使用访问令牌将地图与你的账号关联，你可以在 [Account page](https://www.mapbox.com/account/) 找到它。
+- [**Mapbox Directions API 文档**](https://docs.mapbox.com/api/navigation/#directions) 发送请求时的所有可用选项以及如何解释回应的参考。
+- [__Mapbox GL JS__](https://docs.mapbox.com/mapbox-gl-js/overview/) 使用 WebGL 从 Mapbox GL 样式来渲染交互式地图的 Mapbox JavaScript 库。
+- __文本编辑器__ 你将编写 HTML、 CSS 和 JavaScript。
 
-## Build a Directions API request
+## 生成一个 Directions API 请求
 
-When making a request to any Mapbox web service, the general structure of the request URL will start like this:
+向任何 Mapbox web 服务发出请求时，请求 URL 的一般结构会这样开头：
 
 ```
 https://api.mapbox.com/{service}/
 ```
 
-In this case, the `{service}` will be `directions`, but you can also make requests of `styles`, `geocoding`, and other Mapbox APIs.
+在这种情况下，`{service}` 将是 `directions`，但你也可以请求 `styles`、 `geocoding` 和其他 Mapbox API。
 
 The next part will be the version number. The version number is helpful to know since the API may change over time and provide you with greater capabilities or change how the requests may work. The current version for directions is `v5`:
+下一部分将是版本号，它有助于了解，因为 API 可能会随着时间的推移而更改，为你提供更强大的功能或更改请求的工作方式。Directions API 当前版本是"v5"：
 
 ```
 https://api.mapbox.com/directions/v5/
 ```
 
-### Parameters
+### 参数
 
-If you tried to paste this into your browser's address bar, the request would not return anything. You still need to pass in some parameters that will narrow the scope of your request. In the case of the Mapbox Directions API, you are required to supply a **profile** (a mode of travel) and **coordinates** (the origin and the destination) for your request:
+如果你尝试将上述 URL 粘贴到浏览器的地址栏中，请求将不会返回任何内容。你仍然需要传递一些参数，这些参数将缩小请求的范围。对于 Mapbox Directions API，你需要为请求提供 **profile**（旅行模式）和 **coordinates**（原点和目标）：
 
-- In this case, use the `cycling` profile to generate a bike route.
-- Use `-84.518641, 39.134270` as your starting coordinate and `-84.512023, 39.102779` as your destination. Note that these coordinates must be separated by a semi-colon `;`.
-- Use the optional parameter `geometries=geojson` to specify that you would like it to return the route as a GeoJSON feature.
+- 在这种情况下，使用 `cycling` 为 profile，会生成自行车路线。
+- 使用 `-84.518641, 39.134270` 作为起始坐标，`-84.512023, 39.102779` 作为目的地。请注意，这些坐标必须用分号 `;` 分隔。
+- 使用可选参数 `geometries=geojson` 指定它以 GeoJSON 特性返回路线。
 
 ```
 https://api.mapbox.com/directions/v5/mapbox/cycling/-84.518641,39.134270;-84.512023,39.102779?geometries=geojson
 ```
 
-### Access token
+### 访问令牌
 
 The only required item left is your access token. The access token is required to track the requests you make from your account _for this particular service_. You can create specific tokens for your requests or use your default token.
 
 When adding this token, use an ampersand (the `&` symbol) before the token to append this to the request:
 
+剩下的唯一必需项目是你的访问令牌。为了跟踪你账号 _针对此特定服务_ 发出的请求，需要访问令牌。你可以为请求创建特定令牌或使用默认令牌。
+
+添加此令牌时，在令牌之前使用 `&` 符号，将此标记追加到请求中：
+
 ```
 https://api.mapbox.com/directions/v5/mapbox/cycling/-84.518641,39.134270;-84.512023,39.102779?geometries=geojson&access_token={{ <UserAccessToken /> }}
 ```
 
-Now that you have a request, paste the full URL into your browser's address bar to get a response.
+现在你有一个请求，请将完整的 URL 粘贴到浏览器的地址栏中以获取响应。
 
-## Review the response
+## 查看响应
 
-When you make your request, a JSON object will be returned with the following information:
+发出请求时，将返回 JSON 对象，并包含以下信息：
 
-- **waypoints**: This is an array of _Waypoint_ objects. In this case, this array will include your starting and ending points.
-- **routes**: This is an array of _Route_ objects ordered by descending recommendation rank. In this case, you have not requested alternative routes, so only one route will be returned. You will use the `geometry` property to display the route on a map in the next step.
-- **code**: This string indicates the state of the response. On normal valid responses, the value will be `Ok`.
+- **waypoints**：这是一个 _Waypoint_ 对象的数组。在这种情况下，此数组将包括起点和结束点。
+- **routes**：这是按推荐等级降序排列的 _Route_ 对象的数组。在这种情况下，你没有请求其他路线，因此将只返回一条路线。您将在下一步中使用 `geometry` 属性在地图上显示此路线。
+- **code**：此字符串表示响应的状态。在正常有效响应中，该值将为 `Ok`。
 
 ```json
 {
@@ -195,13 +200,13 @@ When you make your request, a JSON object will be returned with the following in
 }
 ```
 
-## Build the map
+## 生成地图
 
-Now that you understand how Mapbox Directions API requests and responses both work, you can use this API request to add a route to a web map.
+现在，你已经了解了 Mapbox Directions API 请求和响应的工作原理，因此可以使用此 API 请求将路线添加到 Web 地图上。
 
-### Set up your HTML file
+### 设置 HTML 文件
 
-Create a new HTML file called `index.html` and initialize a Mapbox GL JS map using the code below.
+创建一个名为 `index.html` 的新 HTML 文件，并使用以下代码初始化 Mapbox GL JS 地图。
 
 ```html
 <!DOCTYPE html>
@@ -235,7 +240,7 @@ Create a new HTML file called `index.html` and initialize a Mapbox GL JS map usi
 </html>
 ```
 
-Next, add the following script to the block of code within the `<script>` tags to initialize your map, the style, and starting position:
+接下来，将以下脚本添加到 `<script>` 标签中，初始化地图、样式和起始位置：
 
 ```js
 mapboxgl.accessToken = '{{ <UserAccessToken /> }}';
@@ -260,9 +265,9 @@ var start = [-122.662323, 45.523751];
 ```
 
 
-### Add your route request function
+### 添加路由请求功能
 
-Next, you'll build a function called `getRoute` to make the API request and add the resulting route as a new layer. You'll then call that function when the map loads.
+接下来，你将构建一个名为 `getRoute` 的函数来发出 API 请求，并将获得的路线添加为新图层。然后，当地图加载时，调用该函数。
 
 Within the `getRoute` function, specify the `start` and `end` coordinates. The start was defined outside of this function and the end will be passed in as an argument. Use an [XHR](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest) object to make the API request. You can then use the response to get all the relevant objects and use the geometry to add the response as a layer to the map. You can end this part of the code by executing it with a request _after_ the map loads so that it makes a route that begins and ends at the start location.
 
@@ -488,3 +493,58 @@ Now that you have practiced using the Mapbox Directions API, read about addition
 - Explore other ways to integrate directions services, including turn-by-turn instructions, into your applications including the [Mapbox GL directions plugin](https://github.com/mapbox/mapbox-gl-directions), the [JavaScript SDK](https://github.com/mapbox/mapbox-sdk-js#mapbox-sdk-js), and the Mapbox Navigation SDKs for [iOS](https://docs.mapbox.com/ios/navigation/overview/) and [Android](https://docs.mapbox.com/android/navigation/overview/).
 
 Don't forget to explore other directions-related services like the [Mapbox Matrix API](https://docs.mapbox.com/api/navigation/#matrix) and [Optimization API](https://docs.mapbox.com/api/navigation/#optimization).
+
+
+
+在"getRoute"函数中，指定"开始"和"结束"坐标。开始是在此函数之外定义的，结束将作为参数传入。使用 [XHR]（https：//开发人员.mozilla.org/en-US/文档/Web/API/XMLHttpRequest）对象发出 API 请求。然后，可以使用响应获取所有相关对象，并使用几何体将响应作为图层添加到地图中。可以通过加载映射加载的请求 [后] 来结束代码的这一部分，以便它创建在起始位置开始和结束的路由。
+
+在之前声明的 start 变量之后添加以下代码：
+
+{{
+  [注意标题]'地图框 JavaScript SDK'图像组件_[书记/]
+    <p>Mapbox 还提供 JavaScript SDK、node.js 和浏览器 JavaScript 客户端，可直接在 Web 应用程序中与我们的 Web 服务进行交互。您可以使用 JavaScript SDK 直接发出方向 API 请求。有关 Mapbox JavaScript SDK 的更多信息，请参阅 GitHub</a>.</p> 上的 [a href]https：//github.com/mapbox/mapbox-sdk-js/blob/master/docs/服务.md_文档
+  </Note>
+}}
+
+现在，您已经构造了发出请求并绘制路由的函数，您需要从起点加载初始路由。
+
+要查看这是否正常工作，请打开浏览器的控制台（Mac 上的"命令+Alt+J"，Windows 上的"Ctrl_Alt_J"），您可以在其中与到目前为止编写的应用程序进行交互。在控制台中，键入"getRoute（#122.677738，45.522458]）"以执行您的功能，并传递位于波尔兰市中心（OR）的坐标。如果一切工作，你应该看到一条线从河的东侧向西。
+
+{{
+  [演示框架 src]"/帮助/演示/方向-api/演示-一.html" /*
+}}
+
+• 添加您的始发地和目的地
+
+现在，您已经创建了起点（"getRoute（开始"），您将提供一种允许用户选择目标的方法。添加允许用户单击地图并更新目标位置的下一个代码位：
+
+{{
+  [演示框架 src]"/帮助/演示/方向-api/演示-两个.html" /*
+}}
+
+• 添加转弯说明
+
+由于将"步骤_true"参数添加到初始请求中，因此导航路由的所有说明都可以进行解析。现在，将这些步骤添加到称为"说明"的 div 元素中的侧边栏。
+
+在方向响应对象中，转弯指令存储在"路线"属性中。您可以在"路线">"路线">"腿">"步">"机动"内找到"说明"。每个"指令"是一个字符串，描述自行车骑手下一步应该沿着路线做什么。
+
+接下来，添加一些 CSS 以设置"div"的样式，使其显示在地图的左侧，并且具有白色背景。
+
+• 成品
+
+您已使用地图框方向 API 和 Mapbox GL JS 将自行车路线添加到地图中。
+
+{{
+  [演示框架 src]"/帮助/演示/方向-api/index.html" /*
+}}
+
+• 后续步骤
+
+现在您已经练习了使用 Mapbox 方向 API，请阅读 [方向 API 文档]（https：//docs.mapbox.com/api/导航/#directions）中的其他选项。您还可以尝试向应用程序添加更多详细信息：
+
+- 唯一地设置原点和目的地样式。
+- 使用 [地图框地理编码 API]（https：//docs.mapbox.com/api/搜索/#geocoding）根据用户输入分配起点和终点。
+- 向转弯说明添加更多详细信息，如距离和持续时间。
+- 探索其他集成方向服务的方法，包括逐向说明， 到您的应用程序，包括 [Mapbox GL 方向插件]（https：//github.com/地图框-gl-方向），[JavaScript SDK]（https：//github.com/mapbox/mapbox/mapbox-js_mapbox-sdk 和 [iOS]的地图框导航 SDK（https：//docs.mapbox.com/ios/导航/概述/）和 [安卓]（https：//docs.mapbox.com/android/导航/概述/）。
+
+不要忘记探索其他与方向相关的服务，如 [地图框矩阵 API]（https：//docs.mapbox.com/api/导航/#matrix）和 [优化 API]（https：//docs.mapbox.com/api/导航/#optimization）。
