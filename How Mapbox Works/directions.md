@@ -82,6 +82,14 @@ The Mapbox Directions API, Matrix API, and Optimization API all provide estimate
 - The speed stored in the [`maxspeed` tag in OpenStreetMap](http://wiki.openstreetmap.org/wiki/Key:maxspeed).
 - Traffic derived from real-time telemetry data (when the traffic profile is used).
 
+### 行程时间
+
+Mapbox Directions API，Matrix API和Optimization API都可以为您提供预估行程时间。地点位置间的行程时间由很多因素决定，其中包括：
+
+- 使用的profile类型，例如，出行方式（步行，骑行或驾驶）。
+- OpenStreetMap的[`maxspeed`（最大速度）标签](http://wiki.openstreetmap.org/wiki/Key:maxspeed)中储存的速度。
+- 来自实时遥测数据的交通流量（当使用交通流量profile进行分析）。
+
 ### Traffic data
 
 Incorporate real-time traffic into route selection and ETA generation using the `mapbox/driving-traffic` profile with the Mapbox [Directions API](https://docs.mapbox.com/api/navigation/#directions), [Map Matching API](https://docs.mapbox.com/api/navigation/#map-matching), or [Matrix API](https://docs.mapbox.com/api/navigation/#matrix), or add a traffic layer to road geometries on a visual map. Read more about our traffic tileset in [Our map data](/help/how-mapbox-works/mapbox-data/#mapbox-traffic).
@@ -89,9 +97,19 @@ Incorporate real-time traffic into route selection and ETA generation using the 
 
 The `mapbox/driving-traffic` profile is available globally, but the accuracy of traffic-dependent travel times vary by country.
 
+### 交通流量/路况数据
+
+您可以通过使用Mapbox Directions API, Map Matching API或者Matrix API中的`mapbox/driving-traffic` profile来将实时路况信息纳入路径选择分析中并生成相应的ETA（预计到达时间）。您也可以将一个交通路况图层添加到可视地图的道路几何中去。若您想了解更多交通路况图块集的相关内容，请阅读[我们的地图数据](/help/how-mapbox-works/mapbox-data/#mapbox-traffic)这一章节。
+
+请注意尽管`mapbox/driving-traffic` profile有来自世界范围内的路况信息，但是各个国家据此估算出的行程时间的准确度不尽相同。
+
 #### Highly accurate travel times
 
 Traffic data collected in these countries is comprehensive across geographies and times, resulting in highly accurate travel times.
+
+#### 行程预估时间高度准确的国家或地区
+
+以下国家或地区所收集的交通路况数据在时空范围内都比较全面，所以这些国家有着较高的预估时间准确度。
 
 <div class="grid grid--gut24">
   <div class="col col--4">
@@ -124,9 +142,44 @@ Traffic data collected in these countries is comprehensive across geographies an
   </div>
 </div>
 
+<div class="grid grid--gut24">
+  <div class="col col--4">
+     <ul>
+       <li>澳大利亚</li>
+       <li>加拿大</li>
+       <li>捷克共和国</li>
+       <li>爱沙尼亚</li>
+       <li>直布罗陀</li>
+       <li>冰岛</li>
+     </ul>
+  </div>
+  <div class="col col--4">
+     <ul>
+       <li>爱尔兰</li>
+       <li>韩国</li>
+       <li>拉脱维亚</li>
+       <li>列支敦士登</li>
+       <li>荷兰</li>
+     </ul>
+  </div>
+  <div class="col col--4">
+     <ul>
+       <li>新西兰</li>
+       <li>波多黎各</li>
+       <li>斯洛伐克</li>
+       <li>英国</li>
+       <li>美国</li>
+     </ul>
+  </div>
+</div>
+
 #### Moderately accurate travel times
 
 Traffic data collected in these countries is less comprehensive. Travel times may be inaccurate, especially in heavy and unusual traffic conditions.
+
+#### 行程预估时间较为准确的国家或地区
+
+以下国家或地区所收集的交通路况数据不是很全面，所以由此估算出的行程时间也许不够准确，特别是在交通拥堵繁忙或者交通异常的情况下。
 
 <div class="grid grid--gut24">
   <div class="col col--4">
@@ -182,9 +235,67 @@ Traffic data collected in these countries is less comprehensive. Travel times ma
   </div>
 </div>
 
+<div class="grid grid--gut24">
+  <div class="col col--4">
+    <ul>
+      <li>安道尔</li>
+      <li>阿根廷</li>
+      <li>亚美尼亚</li>
+      <li>奥地利</li>
+      <li>巴巴多斯</li>
+      <li>白俄罗斯</li>
+      <li>比利时</li>
+      <li>伯利兹</li>
+      <li>开曼群岛</li>
+      <li>智利</li>
+      <li>塞浦路斯</li>
+      <li>丹麦</li>
+      <li>多米尼加共和国</li>
+    </ul>
+  </div>
+  <div class="col col--4">
+    <ul>
+      <li>芬兰</li>
+      <li>法国</li>
+      <li>德国</li>
+      <li>关岛</li>
+      <li>匈牙利</li>
+      <li>伊朗</li>
+      <li>以色列</li>
+      <li>意大利</li>
+      <li>日本</li>
+      <li>约旦</li>
+      <li>立陶宛</li>
+      <li>卢森堡</li>
+      <li>墨西哥</li>
+    </ul>
+  </div>
+  <div class="col col--4">
+  <ul>
+    <li>黑山</li>
+    <li>挪威</li>
+    <li>巴拿马</li>
+    <li>巴拉圭</li>
+    <li>波兰</li>
+    <li>葡萄牙</li>
+    <li>罗马尼亚</li>
+    <li>斯洛文尼亚</li>
+    <li>西班牙</li>
+    <li>瑞典</li>
+    <li>瑞士</li>
+    <li>阿联酋</li>
+    <li>乌拉圭</li>
+  </ul>
+  </div>
+</div>
+
 #### Limited predictability of travel times
 
 Traffic data collected in these countries is less comprehensive. Travel times are less reliable, with partial coverage of traffic conditions.
+
+#### 行程时间预估准确度极为有限的国家或地区
+
+以下国家或地区所收集的交通路况数据不是很全面，只有覆盖到了部分交通状况，所以由此估算出的行程时间并不可靠。
 
 <div class="grid grid--gut24">
   <div class="col col--4">
@@ -298,9 +409,125 @@ Traffic data collected in these countries is less comprehensive. Travel times ar
   </div>
 </div>
 
+<div class="grid grid--gut24">
+  <div class="col col--4">
+    <ul>
+      <li>奥兰群岛</li>
+      <li>阿尔巴尼亚</li>
+      <li>阿尔及利亚</li>
+      <li>美属萨摩亚</li>
+      <li>安圭拉</li>
+      <li>阿鲁巴</li>
+      <li>阿塞拜疆</li>
+      <li>巴哈马</li>
+      <li>巴林</li>
+      <li>孟加拉国</li>
+      <li>百慕大</li>
+      <li>玻利维亚</li>
+      <li>波斯尼亚和黑塞哥维那</li>
+      <li>博茨瓦纳</li>
+      <li>巴西</li>
+      <li>文莱达鲁萨兰国</li>
+      <li>保加利亚</li>
+      <li>柬埔寨</li>
+      <li>喀麦隆</li>
+      <li>哥伦比亚</li>
+      <li>库克群岛</li>
+      <li>哥斯达黎加</li>
+      <li>科特迪瓦</li>
+      <li>克罗地亚</li>
+      <li>多米尼克</li>
+      <li>厄瓜多尔</li>
+      <li>埃及</li>
+      <li>萨尔瓦多</li>
+      <li>法罗群岛</li>
+      <li>斐济</li>
+      <li>法属玻里尼西亚</li>
+      <li>格鲁吉亚</li>
+      <li>加纳</li>
+    </ul>
+  </div>
+  <div class="col col--4">
+    <ul>
+      <li>希腊</li>
+      <li>格林纳达</li>
+      <li>危地马拉</li>
+      <li>海地</li>
+      <li>罗马教廷(梵蒂冈)</li>
+      <li>洪都拉斯</li>
+      <li>香港</li>
+      <li>印度</li>
+      <li>印度尼西亚</li>
+      <li>伊拉克</li>
+      <li>牙买加</li>
+      <li>哈萨克斯坦</li>
+      <li>肯尼亚</li>
+      <li>科威特</li>
+      <li>吉尔吉斯斯坦</li>
+      <li>老挝</li>
+      <li>黎巴嫩</li>
+      <li>马其顿共和国</li>
+      <li>马拉维</li>
+      <li>马来西亚</li>
+      <li>马耳他</li>
+      <li>毛里求斯</li>
+      <li>摩尔多瓦</li>
+      <li>摩纳哥</li>
+      <li>蒙古</li>
+      <li>摩洛哥</li>
+      <li>缅甸</li>
+      <li>纳米比亚</li>
+      <li>尼泊尔</li>
+      <li>新喀里多尼亚</li>
+      <li>尼加拉瓜</li>
+      <li>尼日利亚</li>
+    </ul>
+  </div>
+  <div class="col col--4">
+    <ul>
+      <li>阿曼</li>
+      <li>巴基斯坦</li>
+      <li>菲律宾</li>
+      <li>卡塔尔</li>
+      <li>俄罗斯联邦</li>
+      <li>圣巴泰勒米</li>
+      <li>圣基茨和尼维斯</li>
+      <li>圣卢西亚</li>
+      <li>圣马丁（法属）</li>
+      <li>圣马力诺</li>
+      <li>沙特阿拉伯</li>
+      <li>塞内加尔</li>
+      <li>塞尔维亚</li>
+      <li>塞拉利昂</li>
+      <li>新加坡</li>
+      <li>圣马丁（荷属）</li>
+      <li>南非</li>
+      <li>斯里兰卡</li>
+      <li>斯威士兰</li>
+      <li>塔吉克斯坦</li>
+      <li>坦桑尼亚</li>
+      <li>泰国</li>
+      <li>特立尼达和多巴哥</li>
+      <li>突尼斯</li>
+      <li>土耳其</li>
+      <li>特克斯和凯科斯群岛</li>
+      <li>乌克兰</li>
+      <li>乌兹别克斯坦</li>
+      <li>委内瑞拉玻利瓦尔共和国</li>
+      <li>越南</li>
+      <li>维尔京群岛（英属）</li>
+      <li>赞比亚</li>
+    </ul>
+  </div>
+</div>
+
 ## Using directions services
 
 There are many tools you can use to enable directions-related services for your Mapbox web or mobile application. You can access these services directly using the web services APIs, through our Navigation SDK, or using one of several plugins and libraries to integrate these services into applications across platforms.
+
+## 使用方向导航服务
+
+
 
 ### Web services APIs
 
