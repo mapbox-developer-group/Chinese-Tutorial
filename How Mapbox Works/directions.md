@@ -1,9 +1,9 @@
 ---
-title: Directions
+title: Directions 方向导航
 description: Learn how Mapbox’s directions services work and how to add directions services to applications across platforms.
 image: /img/narrative/directions.svg
 topics:
-  - directions
+  - directions 
 prependJs:
   - "import Note from '@mapbox/dr-ui/note';"
   - "import BookImage from '@mapbox/dr-ui/book-image';"
@@ -14,7 +14,11 @@ contentType: guide
 
 Mapbox provides a collection of APIs to add directions-related services to your application. Generate a route with trip durations, estimated distances, and turn-by-turn directions with the [Mapbox Directions API](https://docs.mapbox.com/api/navigation/#directions), retrieve travel times between many points with the [Mapbox Matrix API](https://docs.mapbox.com/api/navigation/#matrix), retrieve duration-optimized trips between points with the [Mapbox Optimization API](https://docs.mapbox.com/api/navigation/#optimization), or align existing fuzzy routes to the routeable network with the [Mapbox Map Matching API](https://docs.mapbox.com/api/navigation/#map-matching). From routing deliveries efficiently to providing navigation steps for wayfinding, Mapbox provides the tools necessary to integrate directions into your application.
 
+Mapbox提供许多API（应用程序编程接口）以便添加诸多方向导航相关服务到您的应用。例如，使用Mapbox Directions API来生成一条路径并配有行程时间，估算距离以及逐向道路导航指示相关信息；使用Mapbox Matrix API来获取不同地点间的旅途时间；使用Mapbox Optimization API来获得地点间行程时间最短的路线；使用Mapbox Map Matching API来将模糊路线校准至可行合理的路线网路上。从交付高效行程路线安排，到提供具体导航步骤，Mapbox为您准备了许多必要工具以帮助您将方向导航服务添加到应用中。
+
 This guide provides an overview of how the routing network is created, how to add directions services to applications across platforms, how to provide feedback, and relevant documentation to help you get started.
+
+本篇指南将为您介绍：路径网络是如何建立的，如何将方向导航服务添加到跨平台的应用中去，如何提供反馈服务。您可以参考本篇指南最后的相关文档来开始使用Mapbox方向导航服务。
 
 {{
   <DemoIframe src="/help/demos/how-mapbox-works/how-directions-works.html" />
@@ -22,7 +26,13 @@ This guide provides an overview of how the routing network is created, how to ad
 
 This example uses the [Mapbox GL Directions plugin](https://github.com/mapbox/mapbox-gl-directions) to add driving, cycling, or walking directions to a web application built with Mapbox GL JS. Type in two locations to view the raw JSON response for that query.
 
+本示例使用了Mapbox GL Directions插件将驾车，骑行和步行的路线导航添加至一个由Mapbox GL JS构建的网络应用中。输入两个地点（如地点A和地点B），您便可以在上方看到相关查询的原始JSON代码。
+
+
 The Mapbox Directions API returns a JSON object containing a route with trip durations, estimated distances, and turn-by-turn instructions. When using the Mapbox GL Directions plugin, all this information will be automatically added to the map when a request is complete. By default, the plugin will also display turn-by-turn instructions. This example hides the turn-by-turn instructions and displays the raw JSON response to illustrate what information is included in the directions response object.
+
+Mapbox Directions API返回的JSON对象包含了所选路径以及有关此路径的行程时间，估算距离以及逐向道路导航指示信息。当使用Mapbox GL Directions插件，所有的这些信息将会在查询请求完成时被自动添加到地图。在默认情况下，此插件会返回逐向道路导航指示信息，而本示例选择了隐藏逐项道路导航指示信息。示例所展示的原始JSON代码可以为您揭示其返回的方向导航对象到底包含了哪些信息。
+
 
 ## How directions work
 
