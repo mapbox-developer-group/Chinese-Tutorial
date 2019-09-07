@@ -14,7 +14,7 @@ contentType: guide
 
 Mapbox provides a collection of APIs to add directions-related services to your application. Generate a route with trip durations, estimated distances, and turn-by-turn directions with the [Mapbox Directions API](https://docs.mapbox.com/api/navigation/#directions), retrieve travel times between many points with the [Mapbox Matrix API](https://docs.mapbox.com/api/navigation/#matrix), retrieve duration-optimized trips between points with the [Mapbox Optimization API](https://docs.mapbox.com/api/navigation/#optimization), or align existing fuzzy routes to the routeable network with the [Mapbox Map Matching API](https://docs.mapbox.com/api/navigation/#map-matching). From routing deliveries efficiently to providing navigation steps for wayfinding, Mapbox provides the tools necessary to integrate directions into your application.
 
-Mapbox提供许多API（应用程序编程接口）以便添加诸多方向导航相关服务到您的应用。例如，使用Mapbox Directions API来生成一条路径并配有行程时间，估算距离以及逐向道路导航指示相关信息；使用Mapbox Matrix API来获取不同地点间的旅途时间；使用Mapbox Optimization API来获得地点间行程时间最短的路线；使用Mapbox Map Matching API来将模糊路线校准至可行合理的路线网路上。从交付高效行程路线安排，到提供具体导航步骤，Mapbox为您准备了许多必要工具以帮助您将方向导航服务添加到应用中。
+Mapbox提供许多API（应用程序编程接口）以便添加诸多方向导航相关服务到您的应用。例如，使用Mapbox Directions API来生成一条路径并配有行程时间，预估距离以及逐向道路导航指示相关信息；使用Mapbox Matrix API来获取不同地点间的旅途时间；使用Mapbox Optimization API来获得地点间行程时间最短的路径；使用Mapbox Map Matching API来将模糊路径校准至可行合理的道路网路上。从交付高效行程路径安排，到提供具体导航步骤，Mapbox为您准备了许多必要工具以帮助您将方向导航服务添加到应用中。
 
 This guide provides an overview of how the routing network is created, how to add directions services to applications across platforms, how to provide feedback, and relevant documentation to help you get started.
 
@@ -26,21 +26,29 @@ This guide provides an overview of how the routing network is created, how to ad
 
 This example uses the [Mapbox GL Directions plugin](https://github.com/mapbox/mapbox-gl-directions) to add driving, cycling, or walking directions to a web application built with Mapbox GL JS. Type in two locations to view the raw JSON response for that query.
 
-本示例使用了Mapbox GL Directions插件将驾车，骑行和步行的路线导航添加至一个由Mapbox GL JS构建的网络应用中。输入两个地点（如地点A和地点B），您便可以在上方看到相关查询的原始JSON代码。
+本示例使用了Mapbox GL Directions插件将驾车，骑行和步行的路径导航添加至一个由Mapbox GL JS构建的网络应用中。输入两个地点（如地点A和地点B），您便可以在上方看到相关查询的原始JSON代码。
 
 
 The Mapbox Directions API returns a JSON object containing a route with trip durations, estimated distances, and turn-by-turn instructions. When using the Mapbox GL Directions plugin, all this information will be automatically added to the map when a request is complete. By default, the plugin will also display turn-by-turn instructions. This example hides the turn-by-turn instructions and displays the raw JSON response to illustrate what information is included in the directions response object.
 
-Mapbox Directions API返回的JSON对象包含了所选路径以及有关此路径的行程时间，估算距离以及逐向道路导航指示信息。当使用Mapbox GL Directions插件，所有的这些信息将会在查询请求完成时被自动添加到地图。在默认情况下，此插件会返回逐向道路导航指示信息，而本示例选择了隐藏逐项道路导航指示信息。示例所展示的原始JSON代码可以为您揭示其返回的方向导航对象到底包含了哪些信息。
+Mapbox Directions API返回的JSON对象包含了所选路径以及有关此路径的行程时间，预估距离以及逐向道路导航指示信息。当使用Mapbox GL Directions插件，所有的这些信息将会在查询请求完成时被自动添加到地图。在默认情况下，此插件会返回逐向道路导航指示信息，而本示例选择了隐藏逐项道路导航指示信息。示例所展示的原始JSON代码可以为您揭示其返回的方向导航对象到底包含了哪些信息。
 
 
 ## How directions work
 
 When you provide two or more points to the Mapbox Directions API, it returns a **route** as a GeoJSON line that you can add to your map, text for **turn-by-turn instructions** that you can choose to display in your application, and the **distance and estimated travel times** for the mode of transportation you selected. There are many other services that extend Mapbox directions that allow you to fix messy GPS traces to the network or optimize trips to multiple stops on a single journey.
 
+## 方向导航如何运作
+
+当您提供两个或多个地点位置给Mapbox Directions API，它会返回一个GeoJSON line对象作为一条**路径**供您添加至地图上，应用所选的**逐向道路导航指示**文字信息，以及与所选出行方式相配的**距离和预估行程时间**。此外，还有许多其他服务可以用于拓展Mapbox的方向导航功能，例如，将凌乱的GPS追踪路线修正到交通网络上，优化前往多个目的地的单程路线。
+
 ### The routing network
 
 A directions service that can create routes and optimized trips requires a robust network of paths with distinct attributes like speed, turn restrictions, and travel mode (for example, motorway, foot path, bike lane). Mapbox's directions services use a network of roads and paths, or *ways*, derived from [OpenStreetMap](http://learnosm.org/), a collaborative project to create a free and editable map of the world.
+
+### 路径网络
+
+一个可以创建并优化路径的方向导航服务需要一个强大的交通网络。这个交通网络不仅需要有路径位置信息，还需要包含如速度和转弯限制，出行方式（例如，公路，步行道，骑行道）等的路径属性信息。Mapbox的方向导航服务使用了OpenStreetMap提供的公路和小路网络信息，或者说是*道路*网络信息。OpenStreetMap是一个开源合作项目，它可以创建以供免费使用和编辑的世界地图。
 
 {{
   <Note
@@ -51,8 +59,20 @@ A directions service that can create routes and optimized trips requires a robus
   </Note>
 }}
 
+{{
+  <Note
+    title='Ways 道路'
+    imageComponent={<BookImage />}
+  >
+    <p>A <em>way (道路)</em> 是一个OpenStreetMap术语。它可以被用来描述一组通常至少有一个标签名称或者内容说明的有序节点（点）。在方向导航中，道路可以是公路，步行道或者骑行道。</p>
+  </Note>
+}}
+
 
 Contributors to OpenStreetMap have built a vast, routeable network that includes properties like speed limits, turn lane restrictions, and accessibility for bikes and pedestrians. These details provide the framework that the [Open Source Routing Machine](http://project-osrm.org/) (OSRM) needs to calculate the most efficient path for your mode of transportation (driving, cycling, walking).
+
+OpenStreetMap项目的贡献者们已经为大家搭建好了一个巨大且可行合理的道路网络，其中还包括了有关速度和转弯限制，自行车及行人可达性等道路属性信息。这些道路属性信息为Open Source Routing Machine (OSRM)计算所选出行方式（驾车，骑行，步行）的最优路线提供了框架。
+
 
 ### Travel times
 
