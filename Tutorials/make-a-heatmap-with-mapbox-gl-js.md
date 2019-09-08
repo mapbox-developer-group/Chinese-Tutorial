@@ -1,6 +1,6 @@
 ---
-title: Make a heatmap with Mapbox GL JS
-description: Add custom HTML markers, style them, and add tooltips with Mapbox GL JS.
+title: 使用Mapbox GL JS制作一张热图
+description:添加自定义HTML标记，设置样式，并使用Mapbox GL JS添加工具提示.
 thumbnail: makeAHeatmapWithMapboxGlJs
 level: 2
 topics:
@@ -9,65 +9,64 @@ topics:
 - data
 language:
 - JavaScript
-prereq: Familiarity with front-end development concepts.
+prereq: 熟悉前端开发概念.
 prependJs:
-  - "import * as constants from '../../constants';"
-  - "import Note from '@mapbox/dr-ui/note';"
-  - "import BookImage from '@mapbox/dr-ui/book-image';"
-  - "import Icon from '@mapbox/mr-ui/icon';"
-  - "import UserAccessToken from '../../components/user-access-token';"
-  - "import DemoIframe from '@mapbox/dr-ui/demo-iframe';"
-  - "import Button from '@mapbox/mr-ui/button';"
-contentType: tutorial
+  - "从'../../constants'导入常量;"
+  - "从'@mapbox/dr-ui/note'导入注释;"
+  - 从'@mapbox/dr-ui/book-image'导入BookImage;"
+  - "从'@mapbox/mr-ui/icon'导入图标;"
+  - "从'../../components/user-access-token'导入UserAccessToken;"
+  - "从'@ mapbox / dr-ui / demo-iframe'导入DemoIframe;"
+  - "从'@mapbox/mr-ui/button'导入按钮;"
+contentType: 初学者
 ---
 
-In this guide, you will learn how to make a heatmap using [Mapbox GL JS](https://www.mapbox.com/mapbox-gl-js/api/). Heatmaps can be used to display large amounts of points in a way that is visually engaging and encourages your audience to explore your map.
+在这篇教程中, 你会学到如何使用[Mapbox GL JS](https://www.mapbox.com/mapbox-gl-js/api/) 来制作一张热图。 热图用于以视觉上吸引人的方式地展示海量的数据信息，并且鼓励你的用户积极探索你所开发的地图。
 
 {{
   <DemoIframe src="/help/demos/heatmap/index.html" />
 }}
 
-## Getting started
+## 准备开始
 
-- **A Mapbox account and access token**. Sign up for an account at mapbox.com/signup. You can find your access tokens on your [Account page](https://www.mapbox.com/account).
-- [**Mapbox GL JS**](https://www.mapbox.com/mapbox-gl-js). The Mapbox JavaScript API for building web maps.
-- **Data**. In this tutorial, you’ll be using a GeoJSON file of street trees in the city of Pittsburgh from the [Western Pennsylvania Regional Data Center](http://www.wprdc.org/).
+- **一个 Mapbox 账号以及相应的 access token**. 在 mapbox.com/signup 注册一个账号，你可以在你的账号界面[Account page](https://www.mapbox.com/account)找到你拥有的access tokens。
+- [**Mapbox GL JS**](https://www.mapbox.com/mapbox-gl-js). 包含Mapbox 中用于制作web地图的JavaScript API接口.
+- **Data**. 在这篇教程中, 你将使用一个包含匹斯堡市街道树木信息 [Western Pennsylvania Regional Data Center](http://www.wprdc.org/)的GeoJSON 文件.
 
 {{
 <Button href="/help/demos/heatmap/trees.geojson" passthroughProps={{ download: "trees.geojson" }} >
-    <Icon name='arrow-down' inline={true} /> Download GeoJSON
+    <Icon name='arrow-down' inline={true} /> 下载GeoJSON
 </Button>
 }}
 
-## What is the purpose of a heatmap?
+## 热图的主要目的是什么?
 
-The term "heatmap" can refer to a few different kinds of cartographic visualizations. You may see it applied to presidential election maps, population density maps, or even meteorological maps.
+"热图"这个术语可以指许多不同种类的制图可视化，你可能看到他用于总统选举支持率图，人口密度图，甚至是气象图。
 
-Among maps you'll find on the web, there are two common categories of heatmaps: those that encourage the user to explore dense point data, and those that interpolate discrete values over a continuous surface, creating a smooth gradient between those points. The latter is less common and most often used in scientific publications or when a phenomenon is distributed over an area in a predictable way. For example, your town may only have a few weather stations, but your favorite weather app displays a smooth gradient of temperatures across the entire area of your town. For your local weather service, it is reasonable to assume that, if two adjacent stations report different temperatures, the temperature between them will transition gradually from one to the next.
+在你网络上可以找到的地图中，最常见的有两种热图：第一种是鼓励用户取探索密集点数据的热图，第二种是连续曲面上离散插值，并且在这些点直接创建平滑渐变的热图。后者比前者用的更少一些，它通常被用于科学出版物或者当一个现象以一种可预测的方式分布在一个区域时。例如，你的城市可能只有很少的几个气象预测站，但是你最喜欢的天气应用程序会显示整个城市区域的平滑温度梯度。对于你的城镇本地天气服务，我们可以合理地假设：如果两个相邻的气象站点报告了不同的温度，那么他们之间的温度将会平滑地从一个站点变化到下一个站点。
 
-For the purposes of this tutorial, we are referring to a different kind of visualization that is more useful for showing the **density** of points over an area. This type of heatmap does not visualize density by aggregating features within a set of boundaries in the way a [choropleth](/help/tutorials/choropleth-studio-gl-pt-1/) map does, but instead displays a continuous gradient between points.
+这篇教程的目的在于, 我们指出一种不同类型的可视化，它能更好地展示区域上点的密集度。这种类型的热图并不是通过以[choropleth](/help/tutorials/choropleth-studio-gl-pt-1/)映射的方式来聚合一组边界内的特征点来显示密度, 而是在两个点之间连续地渐变来展示密度。 
 
-Heatmaps aren't only useful for visualizing point density. They can also help visualize relative differences between those points. You can assign each point a higher or lower importance based on the value of a particular property within the dataset. In this tutorial, you will weight your map by the `DBH` property in your data. `DBH` stands for "diameter at breast height" and is a standard way of measuring a tree's diameter at 4.5 feet above the ground. In general, it is safe to assume that a tree with a higher `DBH` is older and larger. When you give these larger trees a higher weight compared to smaller saplings, your visualization can be an effective approximation of the area that is shaded by trees' leaves.
+热图不仅用于可视化地展示密度，它还有助于可视化地展示这些点之间的差异。你可以根据每个点在数据集中的特征值来为每个点分配更高或者更低的权重。在这篇教程中，你将会你数据集中的`DBH`属性进行加权. `DBH` 代表 "胸部直径" ，并且这是在离地4.5英尺测量树木直径的标准方法。通常而言，可以安全地假设拥有更高DBH的树更加年老且体积更大。当你给这些比较大的树一些相比较小树苗更高的权重时，你的可视化可以是区域森林覆盖率的有效近似。 
 
-## Heatmap paint properties
+## 热图绘制属性
 <!-- copyeditor ignore represents -->
-To add a [heatmap layer](https://www.mapbox.com/mapbox-gl-js/style-spec/#layers-heatmap) to your map, you will need to configure a few properties. Understanding what these properties mean is key to creating a heatmap that accurately represents your data and strikes the right balance between too much detail and being a single, generalized blob.
+添加一个热图图层 [heatmap layer](https://www.mapbox.com/mapbox-gl-js/style-spec/#layers-heatmap) 到你的地图, 你需要配置一些属性。理解这些属性含义是创建出准确表示你的数据地图的关键，并且在太多细节和简单通用之间找到正确的平衡。
+- **heatmap-weight热图权重**: 用于衡量每个点各自为你的热图表现起多大的作用。热图图层的权重默认是1.0，这意味着所有点的权重都是均等的。把 `heatmap-weight` 属性增加到5.0 和把五个点放在同一个位置具有同样的效果。你可以使用一个暂停的功能来为每个点设置基于指定属性的权重。
+- **heatmap-intensity热图强度**: 一个在 `heatmap-weight`之上的乘数， 主要用于方便地根据缩放级别来调整热图外观。
+- **heatmap-color热图颜色**: 定义了热图的颜色渐变，从最小值到最大值。颜色取决于每个像素点的热图密度 [heatmap-density](https://www.mapbox.com/mapbox-gl-js/style-spec#expressions-heatmap-density) (范围从`0.0` 到 `1.0`)，这个属性值是 [expression](https://www.mapbox.com/mapbox-gl-js/style-spec/#expressions) 它使用热图密度作为输入。有关热图颜色的选择灵感，请查看 [Color Brewer](http://colorbrewer2.org/#type=sequential&scheme=BuGn&n=3).
+- **heatmap-radius热图半径**: 为每个点设置以像素为单位的半径，半径越大，热图越平滑，而细节也越少。
+- **heatmap-opacity热图不透明度**: 控制热图图层的全局不透明度.
 
-- **heatmap-weight**: Measures how much each individual point contributes to the appearace of your heatmap. Heatmap layers have a weight of one by default, which means that all points are weighted equally. Increasing the `heatmap-weight` property to five has the same effect as placing five points in the same location. You can use a stop function to set the weight of your points based on a specified property.
-- **heatmap-intensity**: A multiplier on top of `heatmap-weight` that is primarily used as a convenient way to adjust the appearance of the heatmap based on zoom level.
-- **heatmap-color**: Defines the heatmap's color gradient, from miniumum value to maximum value. The color displayed is dependent on the [heatmap-density](https://www.mapbox.com/mapbox-gl-js/style-spec#expressions-heatmap-density) value of each pixel (ranging from `0.0` to `1.0`). The value of this property is an [expression](https://www.mapbox.com/mapbox-gl-js/style-spec/#expressions) that uses heatmap-density as the input. For inspiration on color choices for your heatmap, take a look at [Color Brewer](http://colorbrewer2.org/#type=sequential&scheme=BuGn&n=3).
-- **heatmap-radius**: Sets the radius for each point in pixels. The bigger the radius, the smoother the heatmap and the less amount of detail.
-- **heatmap-opacity**: Controls the global opacity of the heatmap layer.
+## 使用 Mapbox GL JS 创建你的地图
 
-## Create your map using Mapbox GL JS
+现在你理解了热图的目的和你可能用到的绘制属性，是时候来建立你的地图了。在这个示例中，你将会使用 Mapbox Dark 主题 [template style](https://www.mapbox.com/studio-manual/reference/styles/#mapbox-template-styles)。 你可以在 [our API documentation](https://docs.mapbox.com/api/maps/#styles)中找到每种模板样式的 [Style URLs](/help/glossary/style-url)。
 
-Now that you understand the purpose of heatmaps and the paint properties you will be working with, it's time to set up your map. For this example, you will be using the Mapbox Dark [template style](https://www.mapbox.com/studio-manual/reference/styles/#mapbox-template-styles). You can find the [Style URLs](/help/glossary/style-url) for each of the template styles in [our API documentation](https://docs.mapbox.com/api/maps/#styles).
-
-In your text editor, create a new `index.html` file, then copy and paste the below code into it. Make sure to replace `{{ <UserAccessToken /> }}` with an [access token](/help/glossary/access-token/) that is associated with your account. Once you add this code and save your `index.html` file, you can preview the file in your browser to make sure you see the map.
+在你的文本编辑器中，创建一个新的 `index.html` 文件，接下来复制并粘贴下面的代码，确保你把 `{{ <UserAccessToken /> }}`替换为你个人账号中的 [access token](/help/glossary/access-token/)。把代码添加完毕并保存到 `index.html` 文件中之后，你就可以在浏览器中浏览并确保你可以正确查看到你的地图。
 
 {{
   <Note imageComponent={<BookImage />}>
-    <p>Be sure to save and store the GeoJSON file in the same directory as your project. You will also need to run this application from a local web server, otherwise you will receive a <a href='http://en.wikipedia.org/wiki/Cross-origin_resource_sharing'>Cross-origin Resource Sharing (CORS)</a> error. <a href='http://www.2ality.com/2014/06/simple-http-server.html'>Python's SimpleHTTPServer</a> is included on many computers and is a good choice if this is your first time running a local server.</p>
+    <p>请务必把 GeoJSON 文件保存并放到和你项目相同的目录中，你需要在本地服务器运行这个应用，否则你会收到 <a href='http://en.wikipedia.org/wiki/Cross-origin_resource_sharing'>跨资源共享(CORS)</a> 的错误提示。 <a href='http://www.2ality.com/2014/06/simple-http-server.html'>Python的SimpleHTTPServer</a> 在许多计算机中都已经包含，并且如果这是你第一次运行本地服务器，这将是一个很好的选择。</p>
   </Note>
 }}
 
@@ -112,10 +111,9 @@ In your text editor, create a new `index.html` file, then copy and paste the bel
 </html>
 
 ```
-### Add your data
+### 添加你的数据
 
-You will first need to add the GeoJSON you downloaded at the beginning of this guide as the source for your heatmap. You can do this by using the [`addSource`](https://www.mapbox.com/mapbox-gl-js/api/#map#addsource) method. This source will be used to create not only a heatmap layer but also a circle layer. The heatmap layer will fade out while the circle layer fades in to show individual data points at higher zoom levels. Add the following code after the map you initialized in the previous step.
-
+你需要首先把本教程开头要求下载的 GeoJSON 文件添加为热图的来源。 你可以通过使用 [`addSource`](https://www.mapbox.com/mapbox-gl-js/api/#map#addsource) 方法来实现这个操作。这个来源文件不仅仅用于制作热图图层，还可以制作圆图层。热图图层将会在圆图层淡入的时候淡出，以便在更高缩放级别显示各个数据点。在你完成前一步的初始化操作后，添加以下代码。
 ```js
 map.on('load', function() {
 
@@ -128,13 +126,13 @@ map.on('load', function() {
 });
 ```
 
-### Add the heatmap layer
+### 添加热图图层
 
-Next, use the [`addLayer`](https://www.mapbox.com/mapbox-gl-js/api/#map#addlayer) method to create a new layer for your heatmap. Once you've created this layer, you will make use of the heatmap properties discussed earlier to fine-tune your heatmap's appearance.
+下一步，使用 [`addLayer`](https://www.mapbox.com/mapbox-gl-js/api/#map#addlayer) 方法来为你的热图创建一个新的图层。创建完图层之后，你将利用前面所提到的热图属性来微调热图的外观。
 
-For `heatmap-weight`, specify a range that reflects your data (the `dbh` property ranges from 1-62 in the GeoJSON source). Because larger trees have a high `dbh`, give them more weight in your heatmap by creating a stop function that increases `heatmap-weight` as `dbh` increases.
+对于 `heatmap-weight`，指定一个反映你数据的范围 (`dbh` 属性的范围是 GeoJSON源中的 1-62)。因为较大的树有较高的 `dbh`，所以通过创建一个暂停函数来给这些树一些更加高的权重，当 `dbh` 增加时，`heatmap-weight`也会增加。
 
-Since `heatmap-intensity` is a multiplier on top of `heatmap-weight`, `heatmap-intensity` can be increased as the map zooms in to preserve a similar appearance throughout the zoom range. The images below show the impact of `heatmap-intensity` on your map's appearance. The image on the left shows `heatmap-intensity` that increases with zoom level and the one on the right shows `heatmap-intensity` that uses the default of `1`.
+因为 `heatmap-intensity` 是 `heatmap-weight`之上的乘数，`heatmap-intensity` 可以随着地图缩放等级而增大，以在整个变焦范围内保持类似的外观。下面的图片显示了 `heatmap-intensity` 对你的地图外观影响，左边的图展示了`heatmap-intensity`随缩放等级而增大的地图外观，而右边图片显示了`heatmap-intensity`使用默认值 `1`时的地图外观.
 
 {{
 <div className='grid'>
@@ -143,9 +141,9 @@ Since `heatmap-intensity` is a multiplier on top of `heatmap-weight`, `heatmap-i
 </div>
 }}
 
-For `heatmap-color`, add an [interpolate](https://www.mapbox.com/mapbox-gl-js/style-spec/#expressions-interpolate) expression that defines a linear relationship between heatmap-density and heatmap-color using a set of input-output pairs. If you are interested in learning more about Mapbox GL JS Expressions, read the [Get Started with Mapbox GL JS expressions guide](/help/tutorials/mapbox-gl-js-expressions) and the [Mapbox GL JS documentation](https://www.mapbox.com/mapbox-gl-js/style-spec/#expressions).
+对于 `heatmap-color`，添加一个 [interpolate](https://www.mapbox.com/mapbox-gl-js/style-spec/#expressions-interpolate) 表达式，用一组输入-输出的集合来定义一个热图密度和热图颜色之间的线性关系。如果你对学习更多的Mapbox GL JS 表达式有兴趣，阅读以下两个文档：[Get Started with Mapbox GL JS expressions guide](/help/tutorials/mapbox-gl-js-expressions) 和 [Mapbox GL JS documentation](https://www.mapbox.com/mapbox-gl-js/style-spec/#expressions)。
 
-Finish configuring your heatmap layer by setting values for `heatmap-radius` and `heatmap-opacity`. `heatmap-radius` should increase with zoom level to preserve the smoothness of the heatmap as the points become more dispersed. `heatmap-opacity` should be decreased from `1` to `0`  between zoom levels 14 and 15 to provide a smooth transition as your circle layer fades in to replace the heatmap layer. Add the following code within the 'load' event handler after the `addSource` method.
+通过设置`heatmap-radius` 和`heatmap-opacity`的值来完成热图图层的配置。`heatmap-radius` 应该随着缩放等级的增高而增大，以保持热图的平滑度，因为点变得更加分散。`heatmap-opacity` 应该在缩放级别介于14和15之间时，刚好平滑地从 `1` 减少到 `0`，因为你的圆图层在这时淡入并代替热图图层。在`addSource` 方法之后的load事件中添加以下代码。
 
 ```js
 map.addLayer({
@@ -200,10 +198,10 @@ map.addLayer({
 }, 'waterway-label');
 ```
 
-### Add the circle layer
-Next, add a circle layer. As you zoom in to your heatmap, the points stop overlapping visually and it is no longer necessary to show their distribution and density. At this point, you can show the points themselves and allow viewers to explore the data interactively.
+### 添加圆图层
+下一步，添加一个圆图层。当你放大你的热图时，这些点在视觉上会停止重叠，并不再需要显示它们的分布和密度。此时，你可以把点本身显示出来并且允许查看者以交互的方式浏览数据。
 
-Remember how you used a stop function in the previous step to fade the heatmap layer out between zoom level 14 and 15? You'll need to replace that layer by fading your circle layer in, using a zoom function to increase its `circle-opacity` between zooms 14 and 15. For `circle-radius`, use a zoom-and-property function to increase the radius by zoom level and property (as demonstrated below). Add the following code after the heatmap layer you added in the last step.
+记住你在上一步是如何在缩放等级介于14到15之间时把热图图层淡出的吗？你需要把图层替换为圆图层，通过让圆图层淡入来实现，使用一个缩放函数function来增加缩放等级14和15之间圆图层的不透明度 `circle-opacity`。对于圆图层半径 `circle-radius`，使用一个缩放和属性的函数function来增加缩放级别和属性半径(如下所示)。添加以下代码到上一步热图层之后。
 
 ```js
 map.addLayer({
@@ -248,8 +246,8 @@ map.addLayer({
 }, 'waterway-label');
 ```
 
-## Add some additional interactivity
-The following code adds interactivity to your map by allowing your viewers to click on your circle layer to view a popup containing the tree's `DBH` value. Include the code below after your circle layer.
+## 添加一些额外的交互
+以下的代码通过允许观看者点击你的圆图层来查看包含树木`DBH`值的弹出窗口，从而为你的地图添加了交互性，圆图层代码之后添加以下代码即可实现。
 
 {{<img src='/help/img/gl-js/heatmap-popup.gif' alt='demonstrates how to add a popup to the circle layer of a heatmap' className="w-full" />}}
 
@@ -263,9 +261,9 @@ map.on('click', 'trees-point', function(e) {
 
 ```
 
-## Finished product
+## 完成你的作品
 
-Congrats! You made your first heatmap with Mapbox GL JS!
+恭喜! 你已经使用我们的 Mapbox GL JS制作完成了属于你的第一张热图!♥
 
 {{
   <DemoIframe src="/help/demos/heatmap/index.html" />
