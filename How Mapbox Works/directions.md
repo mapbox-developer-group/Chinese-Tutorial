@@ -527,7 +527,7 @@ There are many tools you can use to enable directions-related services for your 
 
 ## 使用方向导航服务
 
-
+我们有诸多工具供您选择，以帮助您添加方向导航相关服务到网页或者移动设备应用中。您可以通过使用网页服务web service APIs，我们的Navigation SDK来直接获取这些方向导航服务。或者您也可以选择使用插件和工具库来将这些服务导入到跨平台应用中去。
 
 ### Web services APIs
 
@@ -540,6 +540,16 @@ There are four directions-related services that Mapbox offers:
 
 Read more about the required inputs for each API below.
 
+### 网页服务Web services APIS
+
+Mapbox有四种方向导航相关服务API供您选择使用：
+
+- **Mapbox Directions API**：获取点对点方向，包括一条带有预估行程时间，距离以及逐向道路导航指示信息的路径。
+- **Mapbox Matrix API**：获取多点间所有行程时间。
+- **Mapbox Optimization API**：获取输入坐标点间预估时间最优行程路线。
+- **Mapbox Map Matching API**：将现有模糊路径校准至可行合理的道路网络。
+
+您可以阅读下面的内容来了解每种API所需要的输入参数。
 
 #### Mapbox Directions API
 
@@ -550,6 +560,8 @@ You can read more about the directions response object in our [API documentation
 {{
   <DemoIframe src="https://www.mapbox.com/bites/00321/#14.48/38.9101/-77.0373" />
 }}
+
+从[Mapbox Directions API](https://docs.mapbox.com/api/navigation/#directions)请求方向导航服务需要至少两个航路点 &mdash; 一个起点和一个终点 &mdash; 但是也可以在起点与终点间额外包含最多23个航路点（换言之，总共最多25个航路点）。当要发出一个服务请求，您可以设定更多参数值，例如，将要使用哪一种**profile**（步行，骑行，驾驶，或考虑到路况的驾驶），是否在API返回信息中包含替换路线。您还可以在服务请求中添加自选注释，包括预估行程时间，距离，速度和交通拥堵状况。我们会通过对比夜间和实时行车速度来计算交通拥堵状况，并根据数值的百分比差异为实时交通状况指定一个交通拥堵等级。
 
 
 #### Mapbox Matrix API
@@ -681,7 +693,14 @@ If you would like to get a feel for how the Mapbox Directions API works without 
 
 <a class='txt-bold' href='https://www.mapbox.com/api-playground/#/directions'>{{<ChevronousText text="Visit the API Playground" />}}</a>
 
+### 测试API服务
+
+若您想在不构建一整个应用的情况下快速体验Mapbox Directions API服务，我们也为您提供了 [API Playground](https://www.mapbox.com/api-playground/#/directions)。除了具备方便测试查询请求的用户界面以外，这个API Playground还可以允许您测试API的请求URL网址和查询参数，例如，出行方式，是否包括具体导航步骤，是否包括替换路线信息等。
 
 ## Providing directions feedback
 
 If you find issues with routing or any of the related services, you can provide feedback on our [Directions Feedback page](https://www.mapbox.com/feedback/). If you are using the API directly, you can use the [API Playground](https://www.mapbox.com/api-playground/#/directions?_k=8qemr9) to test your request, response, and any parameters you would like to include in your request.
+
+## 为方向导航服务提供反馈意见
+
+如果您发现了任何有关路径及方向导航服务的问题，您可以将意见提交反馈给[方向导航服务反馈页面](https://www.mapbox.com/feedback/)。如果您正在使用API服务，您可以使用[API Playground](https://www.mapbox.com/api-playground/#/directions?_k=8qemr9)来测试您的服务请求，查看服务返回信息，以及指定任何其他想要包含在服务请求中的参数值。
