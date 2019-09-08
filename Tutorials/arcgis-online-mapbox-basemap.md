@@ -14,22 +14,21 @@ prependJs:
 contentType: tutorial
 ---
 
-Mapbox allows you to integrate your [Mapbox Studio styles](https://www.mapbox.com/studio/styles) with [ArcGIS Online](https://www.arcgis.com/home). In this tutorial, you'll learn how to add a style from your Mapbox account to your ArcGIS Online project as a tile layer.
+Mapbox允许你将[Mapbox工作室样式](https://www.mapbox.com/studio/styles)整合入[ArcGIS Online](https://www.arcgis.com/home)中。在这篇教程中，您将学习到如何将Mapbox账号中的样式作为切片图层添加至ArcGIS Online中。
 
-## Getting Started
+## 操作准备
 
-There are a few resources you will need to follow along with this tutorial:
+在按教程进行后续操作前您需要作如下准备：
 
-- **ArcGIS Online account.** You can sign up for a free account on the [ArcGIS website](https://www.arcgis.com/home/createaccount.html).
-- **Integration URL.** You can find the integration URL in the *Share &amp; use* modal for your [style](https://www.mapbox.com/studio). Finding this will be covered in a later step.
+- **ArcGIS Online 账号**。 您可以在[ArcGIS网站](https://www.arcgis.com/home/createaccount.html)上注册免费帐户。
+- **集成 URL**。 您可以在*Share &amp; use* 窗口中找到[地图样式](https://www.mapbox.com/studio)的集成URL。我们将在后续步骤中详细介绍。
+## 在ArcGIS中创建一个新项目
 
-## Create a new project in ArcGIS
+找到您的ArcGIS Online项目页面并创建一个新的项目：
 
-Navigate to your ArcGIS Online projects page and create a new project:
-
-- Log into ArcGIS Online.
-- Navigate to the [**Make a Map**](https://www.arcgis.com/home/webmap/viewer.html) page. This will automatically create a new project.
-- Click **Add** > **Add Layer from Web**.
+- 登录ArcGIS Online。
+- 找到[**地图**](http://www.arcgisonline.cn/arcgis/home/index.html)页面。网页将自动为您生成一个新项目。
+- 点击 **添加** > **从Web添加图层**。
 
 {{
   <AppropriateImage
@@ -38,7 +37,7 @@ Navigate to your ArcGIS Online projects page and create a new project:
   />
 }}
 
-A new window will open. Choose **A Tile Layer** from the dropdown list.
+在新的窗口中从下拉菜单里选择**切片图层**。
 
 {{
   <AppropriateImage
@@ -47,17 +46,17 @@ A new window will open. Choose **A Tile Layer** from the dropdown list.
   />
 }}
 
-## Find your ArcGIS integration URL
+## 查找您的ArcGIS集成URL
 
-In another tab in your browser, open Mapbox Studio and find your ArcGIS integration URL:
+在浏览器中新开一个选项卡，打开Mapbox工作室并找到您的ArcGIS集成URL：
 
-- Log into [Mapbox Studio](https://www.mapbox.com/studio).
-- Open the style you would like to use in the style editor.
-- Click on the **Share...** button in the top bar.
-- When the **Share** modal opens, make sure you're looking at the **Production** tab.
-- Toggle to the **Third party** option.
-- Select the **ArcGIS Online** option in the drop down.
-- Copy the URL by clicking the {{<Icon name='menu' inline={true} />}} clipboard icon.
+- 登录 [Mapbox工作室](https://www.mapbox.com/studio)。
+- 在样式编辑器中打开您准备使用的样式。
+- 点击顶部菜单栏中的 **Share...** 按钮。
+- 在 **Share**窗口打开后，切换到其中的**Production** 选项卡。
+- 点击**Third party** 选项。
+- 在下拉列表中选择 **ArcGIS Online** 选项。
+- 点击剪贴板图标{{<Icon name='menu' inline={true} />}}复制URL。
 
 {{
   <AppropriateImage
@@ -66,18 +65,18 @@ In another tab in your browser, open Mapbox Studio and find your ArcGIS integrat
   />
 }}
 
-## Add your Mapbox style as a tile layer
+## 将Mapbox样式添加为切片图层
 
-Let's return to ArcGIS Online to finish adding our tile layer:
+返回ArcGIS Online完成添加图块层
 
 <!--copyeditor ignore basemap-->
 
-- Navigate back to your ArcGIS Online project.
-- In the open **Add Layer from Web** window, paste your ArcGIS integration URL in the **URL** field.
-- Check the **Use as Basemap** box.
-- Add a **Title** to your layer.
-- Add "© OpenStreetMap contributors Design © Mapbox" to the **Credits** field.
-- Click **Add Layer**.
+- 回到您的ArcGIS Online项目中。
+- 在之前步骤中打开的**从Web添加图层**的窗口里，将您的ArcGIS集成URL粘贴至**URL** 栏中。
+- 勾选用作底图 **用作底图**选项。
+- 在**标题栏**中输入图层标题。
+- 添加 "© OpenStreetMap contributors Design © Mapbox" 至 **制作者名单**。
+- 点击 **添加图层**.
 
 {{
   <AppropriateImage
@@ -86,12 +85,12 @@ Let's return to ArcGIS Online to finish adding our tile layer:
   />
 }}
 
-## Finished product
+## 完成项目
 
-You've successfully added your Mapbox style as the basemap in your ArcGIS Online project.
+您已成功将Mapbox工作室样式添加至ArcGIS Online项目中！
 
 <iframe width="500" height="400" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" title="Mapbox and Esri" src="//www.arcgis.com/apps/Embed/index.html?webmap=9584661e8d7341bc8a6708defb704419&extent=-123.4323,45.1638,-121.8598,45.8605&zoom=true&previewImage=false&scale=true&disable_scroll=true&theme=light"></iframe>
 
-## Next steps
+## 后续步骤
 
-If you're interested in creating a custom or branded style in Mapbox Studio to be used in ArcGIS Online, take a look at our [Create a custom style](/help/tutorials/create-a-custom-style) tutorial.
+如果您感兴趣在Mapbox工作室中创建自定义风格样式以在ArcGIS Online中使用，请查看我们的[创建自定义样式](/help/tutorials/create-a-custom-style) 教程。
