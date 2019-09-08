@@ -1,11 +1,11 @@
 ---
-title: Build a store locator for iOS
-description: Build a store locator that can be integrated into any iOS application.
-thumbnail: iosStoreLocator
-level: 3
-topics:
-- mobile apps
-language:
+标题：在iOS系统上搭建商铺定位
+概述：搭建可以内置在iOS系统应用的商铺定位
+缩略：ios商铺定位
+级别：3
+主题:
+- 移动应用
+编程语言:
 - Swift
 - Objective-C
 prereq: Familiarity with Xcode, Swift, and CocoaPods.
