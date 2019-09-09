@@ -1,8 +1,6 @@
 ---
 title: 新手入门：开始使用Mapbox Maps SDK（iOS）
-First steps with the Mapbox Maps SDK for iOS
 description: 学习如何安装Mapbox Maps SDK（iOS），在屏幕上显示地图，以及在地图上进行标记。
-Walk through installing the Mapbox Maps SDK for iOS, getting a map on the screen, and placing a pin on it.
 thumbnail: firstStepsiOS
 level: 1
 topics:
@@ -11,7 +9,6 @@ language:
 - Swift
 - Objective-C
 prereq: 熟悉Xcode和Swift（或Objective-C），并完成Mapbox Maps SDK（iOS）的安装教程。
-Familiarity with Xcode and either Swift or Objective-C, and completion of the Mapbox Maps SDK for iOS installation guide.
 prependJs:
   - "import * as constants from '../../constants';"
   - "import Note from '@mapbox/dr-ui/note';"
@@ -22,7 +19,7 @@ contentType: tutorial
 ---
 
 
-[面向iOS的Mapbox Map SDK](https://www.mapbox.com/ios-sdk) 是Mapbox面向iOS提供的矢量地图库。本节内容将展示如何使用Map SDK (iOS），具体内容包括如何制作自定义地图，如何添加地图标记，以及如何在地图上显示用户位置。
+[Mapbox Map SDK (iOS)](https://www.mapbox.com/ios-sdk) 是Mapbox面向iOS提供的矢量地图库。本节内容将展示如何使用Map SDK (iOS），具体内容包括如何制作自定义地图，如何添加地图标记和标注框，以及如何在地图上显示用户定位。
 
 
 ## 新手入门
