@@ -118,7 +118,7 @@ contentType: tutorial
 
 ### 局部放大至地图标记
 
-当标记被点击时，设置地图的中心点为该标记处。为了实现这个功能，首先要实现 [`-mapView:didSelectAnnotation:`](https://www.mapbox.com/ios-sdk/api/{{constants.VERSION_IOS_MAPS}}/Protocols/MGLMapViewDelegate.html#/c:objc(pl)MGLMapViewDelegate(im)mapView:didSelectAnnotation:) 委托方法。 当委托函数被调用时，定义并初始化一个新的地图视野 &mdash; [`MGLMapCamera`](https://www.mapbox.com/ios-sdk/api/{{constants.VERSION_IOS_MAPS}}/Classes/MGLMapCamera.html) 。然后就可以在 `MGLMapView` 上调用 [`-setCamera:animated:`](https://www.mapbox.com/ios-sdk/api/{{constants.VERSION_IOS_MAPS}}/Classes/MGLMapView.html#/c:objc(cs)MGLMapView(im)setCamera:animated:) ，以此来设置新的地图视角。新的地图视角将以地图标记坐标处为中心，并可以设置地图视角离地面的距离。
+当标记被点击时，设置地图的中心点为该标记处。为了实现这个功能，首先要实现 [`-mapView:didSelectAnnotation:`](https://www.mapbox.com/ios-sdk/api/{{constants.VERSION_IOS_MAPS}}/Protocols/MGLMapViewDelegate.html#/c:objc(pl)MGLMapViewDelegate(im)mapView:didSelectAnnotation:) 委托函数。 当委托函数被调用时，定义并初始化一个新的地图视野–––– [`MGLMapCamera`](https://www.mapbox.com/ios-sdk/api/{{constants.VERSION_IOS_MAPS}}/Classes/MGLMapCamera.html) 。然后就可以在 `MGLMapView` 上调用 [`-setCamera:animated:`](https://www.mapbox.com/ios-sdk/api/{{constants.VERSION_IOS_MAPS}}/Classes/MGLMapView.html#/c:objc(cs)MGLMapView(im)setCamera:animated:) ，来设置新的地图视野。新的地图视角将以地图标记坐标处为中心，并可以设置视角离地面的距离。
 
 {{
   <IosCodeToggle
@@ -195,7 +195,7 @@ contentType: tutorial
 
 为了您继续开发您的Mapbox应用，我们推荐您阅读以下教程：
 
-* [Mapbox Maps SDK for iOS homepage](https://www.mapbox.com/ios-sdk) &mdash; 使用Mapbox Maps SDK（iOS）的基本信息。
-* [Mapbox Maps SDK for iOS documentation](https://www.mapbox.com/ios-sdk) &mdash; 所有类和函数的完整参考。 
-* [Mapbox Maps SDK for iOS code examples](https://www.mapbox.com/ios-sdk) &mdash; 类和函数的应用实例。 
-* [Mapbox GL Native on GitHub](https://github.com/mapbox/mapbox-gl-native) &mdash; 使用Mapbox Maps SDK（iOS）的开源项目。
+* [Mapbox Maps SDK for iOS homepage](https://www.mapbox.com/ios-sdk) ––––使用Mapbox Maps SDK（iOS）的基本信息。
+* [Mapbox Maps SDK for iOS documentation](https://www.mapbox.com/ios-sdk) ––––所有类和函数的完整参考。 
+* [Mapbox Maps SDK for iOS code examples](https://www.mapbox.com/ios-sdk) ––––类和函数的应用实例。 
+* [Mapbox GL Native on GitHub](https://github.com/mapbox/mapbox-gl-native) ––––使用Mapbox Maps SDK（iOS）的开源项目。
