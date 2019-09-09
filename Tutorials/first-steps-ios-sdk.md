@@ -94,9 +94,9 @@ contentType: tutorial
 
 ### 添加标注框
 
-当用户点击地图标注时，为了显示一个标注框，您的视图控制器需要使用 `MGLMapViewDelegate` 提供的符合 [`MGLMapViewDelegate`](https://www.mapbox.com/ios-sdk/api/{{constants.VERSION_IOS_MAPS}}/Protocols/MGLMapViewDelegate.html) 协议的委托方法（delegate methods）。
+当用户点击地图标注时，为了显示一个标注框，您的视图控制器需要使用 `MGLMapViewDelegate`(https://www.mapbox.com/ios-sdk/api/{{constants.VERSION_IOS_MAPS}}/Protocols/MGLMapViewDelegate.html) 提供的符合 [`MGLMapViewDelegate`] 协议的委托函数（delegate methods）。
 
-当视图控制器符合 `MGLMapViewDelegate` 的协议并且地图视图的委托被设置为视图控制器时，您就可以实现 <code><a href="https://www.mapbox.com/ios-sdk/api/{{constants.VERSION_IOS_MAPS}}/Protocols/MGLMapViewDelegate.html#/c:objc(pl)MGLMapViewDelegate(im)mapView:annotationCanShowCallout:">-mapView:annotationCanShowCallout:</a></code> 委托方法。这就实现了地图视图在被点击时自动显示标注框的功能。完整的实现方法如下：
+当视图控制器符合 `MGLMapViewDelegate` 协议并且地图视图的委托（delegate）被设置为视图控制器时，您就可以实现 <code><a href="https://www.mapbox.com/ios-sdk/api/{{constants.VERSION_IOS_MAPS}}/Protocols/MGLMapViewDelegate.html#/c:objc(pl)MGLMapViewDelegate(im)mapView:annotationCanShowCallout:">-mapView:annotationCanShowCallout:</a></code> 委托函数。这就实现了地图视图在被点击时自动显示标注框的功能。完整的实现方法如下：
 
 {{
   <IosCodeToggle
@@ -108,7 +108,7 @@ contentType: tutorial
   />
 }}
 
-运行应用程序，然后点击地图标注 &mdash; 点击后将出现一个带 `标题` and `副标题` 的标注框！
+运行应用程序，然后点击地图标注––––点击后将出现一个带`标题`and`副标题`的标注框！
 
 {{
 <div className='my12 p2 clearfix align-center'>
