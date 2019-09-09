@@ -1,11 +1,14 @@
+刘年华已完成 ios-store-locator.md 文件翻译
+@xuewOng
+
 ---
-标题：在iOS系统上搭建商铺定位
-概述：搭建可以内置在iOS系统应用的商铺定位
-缩略：ios商铺定位
-级别：3
-主题:
-- 移动应用
-编程语言:
+title: Build a store locator for iOS
+description: Build a store locator that can be integrated into any iOS application.
+thumbnail: iosStoreLocator
+level: 3
+topics:
+- mobile apps
+language:
 - Swift
 - Objective-C
 prereq: Familiarity with Xcode, Swift, and CocoaPods.
@@ -16,104 +19,103 @@ prependJs:
 contentType: tutorial
 ---
 
-This guide will walk you through how to use our **iOS Store Locator starter kit** to create a custom store locator map that can be integrated into any iOS application. You'll be able to browse several locations, select a specific location to view more information, and retrieve a route from a user's location to any of the store locations. You can start with one of five different themes and customize everything from store location data to marker icons and individual store cards.
+这份指南将指引您如何使用我们的**iOS商铺定位入门套件**，创建可集成到任何iOS应用程序中的自定义商铺定位地图。您可以直观地看到许多位置，或者选择特定位置以查看详细信息，以及检索从用户位置到任何商店位置的路线。我们提供了五个主题供您选择，您可以自定义商店位置到图标记号，甚至是每个商店的相关信息。
 
 {{<img alt='animated GIF of a store locator application on an iOS device' src='/help/img/ios/store-locator-final-product.gif' className='wmax360 block mx-auto' />}}
 
-## Getting started
+## 入门
 
-The iOS Store Locator starter kit runs on iOS 9.0 and above. It can be used with code written in Swift 3.1 and above using Xcode 9. Here are the resources you’ll need before getting started:
+iOS商铺定位入门套件可在iOS 9.0及更高版本上运行。它可以与使用Xcode 9在Swift 3.1及更高版本的代码一起运行。下面这些是开始前您需要的资源：
 
-- **Starter kit files**. Download or clone the [iOS Store Locator starter kit](https://github.com/mapbox/store-locator-ios/) from GitHub. This includes all the necessary files for a functional Xcode project.
-- **A Mapbox account and access token**. Sign up for an account at [mapbox.com/signup](https://www.mapbox.com/signup/). You can find your [access tokens](/help/how-mapbox-works/access-tokens/) on your [Account page](https://www.mapbox.com/account/). You will add your access token to your Info.plist file.
-- **A physical or [simulated iOS device](https://help.apple.com/simulator/mac/current/#/deve44b57b2a)**.
-- **Optional: SVG editing tool**. If you'd like to create custom icons, you can use a program like [Sketch](http://sketchapp.com), [Figma](http://figma.com), or Adobe Illustrator.
+- **入门套件相关文件**. 从Github下载或者复制一份 [iOS Store Locator starter kit](https://github.com/mapbox/store-locator-ios/) 里面包括所有运行Xcode项目的必要文件。
+- **Mapbox账号和访问token**. 在Mapbox官网上注册一个账号 [mapbox.com/signup](https://www.mapbox.com/signup/). 您可以查找到访问token [access tokens](/help/how-mapbox-works/access-tokens/) 在您的账户页面 [Account page](https://www.mapbox.com/account/). 您可以将访问token添加至 Info.plist 文件中。
+- **能访问iOS系统的硬件或者模拟iOS系统环境 [simulated iOS device](https://help.apple.com/simulator/mac/current/#/deve44b57b2a)**.
+- **可选项：SVG编辑工具**. 如果您想创建自定义图标，可以使用 [Sketch](http://sketchapp.com), [Figma](http://figma.com), 或者 Adobe Illustrator 等程序。
 
 
-## Set up the starter kit
+## 设置入门套件
 
-The [iOS Store Locator starter kit](https://github.com/mapbox/store-locator-ios/) includes all the source files needed to build a store locator. The kit includes:
+在iOS商铺定位入门套件包括所有所需的源文件 [iOS Store Locator starter kit](https://github.com/mapbox/store-locator-ios/)。该套件包括：
 
-- Five UI theme variations.
-- Sample GeoJSON data with store locations.
-- Code for retrieving directions with the [Mapbox Directions API](https://docs.mapbox.com/api/navigation/#directions) and displaying a navigation route line on the map.
+- 五个UI主题
+- 带有商铺定位的GeoJSON数据相关示例
+- 检索路线并在地图上导航的代码 [Mapbox Directions API](https://docs.mapbox.com/api/navigation/#directions) 
 
-### Install dependencies
+### 安装须知
 
-Start by installing the project's dependencies using CocoaPods. If you're new to CocoaPods, read the [CocoaPods documentation](https://guides.cocoapods.org/using/getting-started.html) before getting started. You'll need to run `pod update` in the directory containing the starter kit files to add the necessary pods (**Mapbox-iOS-SDK** and **MapboxDirections.swift**) to your project.
+使用 CocoaPods 安装项目所需的程序. 如果你不了解 CocoaPods，请阅读 [CocoaPods documentation](https://guides.cocoapods.org/using/getting-started.html) 。在包含入门套件的目录中运行 `pod update` 这样就能将运行程序所需的程序 (**Mapbox-iOS-SDK** and **MapboxDirections.swift**) 添加到项目中。
 
-Once you’ve run `pod update`, work out of the space `mapbox-store-locator.xcworkspace` (not `mapbox-store-locator.xcodeproj`). The `mapbox-store-locator.xcworkspace` includes the necessary dependencies. The easiest way to do this from the command line is to use `open mapbox-store-locator.xcworkspace/` after your pods have been installed.
+运行 `pod update`后, 退出 `mapbox-store-locator.xcworkspace` (不是 `mapbox-store-locator.xcodeproj`)。 `mapbox-store-locator.xcworkspace` 包含了必要的程序。下载好pod后，用命令行输入 `open mapbox-store-locator.xcworkspace/` 
 
-### Add access token
+### 添加访问 token
 
-As soon as you open your project in Xcode 9, you'll need to add your access token to the `Info.plist` file to display a map. You can find your [access tokens](/help/how-mapbox-works/access-tokens/) on your [Account page](https://www.mapbox.com/account/). To add your access token to the project:
+如果希望在 Xcode 9 中打开项目并显示地图, 就需要将访问token添加至 `Info.plist` 文件中。 您可以在个人账户[Account page](https://www.mapbox.com/account/)页面中，找到token访问页面 [access tokens](/help/how-mapbox-works/access-tokens/)，并将访问token添加到项目中:
+1. 打开 `Info.plist`.
+1. 找到 `MGLMapboxAccessToken`中的 _Key_ 并替换占位符 _Value_,用你的访问token替换 `<Add Access Token>`.
 
-1. Open `Info.plist`.
-1. Find the `MGLMapboxAccessToken` _Key_ and replace the placeholder _Value_, `<Add Access Token>`, with your access token.
+### `ThemeViewController`主题预览
 
-### `ThemeViewController`
+`ThemeViewController.swift` 是自定义的主要位置。通过 `ThemeViewController.swift`文件，您可以：
 
-The `ThemeViewController.swift` file is the primary place where you’ll customize your code. Within the `ThemeViewController.swift` file, you can:
-
-- Select a theme.
-- Set the map's style URL.
-- Choose the marker icons.
-- Customize other UI elements and colors as needed.
+- 选择一个主题
+- 设置地图样式 URL
+- 选择标记图表
+- 根据需要自定义UI的其他元素和颜色
 
 {{
     <Note
       imageComponent={<BookImage />}
     >
-        <p>The starter kit files include detailed inline comments that tell you what customizations are possible.</p>
+        <p>入门套件相关文件中详细注释了哪些元素是可以自定义的.</p>
     </Note>
 }}
 
-## Choose a theme
+## 选择主题
 
-Once you have the starter kit set up, start customizing your application by picking a theme.
+完成入门套件的设置后，选择一个主题，开始自定义应用程序。
 
-### Explore themes
+### 主题预览
 
-Unless adjusted, the theme picker preview will be the first thing you see when the app is launched. Run your application and browse available themes by clicking on the preview image for one of five themes made by our mobile designers.
+Unless adjusted, the theme picker preview will be the first thing you see when the app is launched. Run your application and browse available themes by clicking on the preview image for one of five themes made by our mobile designers.除非有修改，否则主题选择预览将是您在启动应用时看到的第一个内容。运行应用程序，单击我们的设计师制作的预览图像，即可浏览相关主题。
 
 {{<img alt='animated GIF of a user clicking through to preview various available themes' src='/help/img/ios/store-locator-explore-themes.gif' className='wmax360 block mx-auto' />}}
 
-### Set the theme
+### 设置主题
 
-In this tutorial you'll work with the fifth theme displayed in the theme picker preview, the `neutralTheme`. This theme features the [Mapbox Streets](https://www.mapbox.com/maps/streets/) style and a house icon at each store location. To set this theme:
+本教程将以第五个主题 `neutralTheme`为例。这个主题有 [Mapbox Streets](https://www.mapbox.com/maps/streets/)的样式，每个商铺坐标也有一个房屋的图案标识。通过以下操作来设置这个主题：
 
-1. Open the `ThemeViewController.swift` file.
-1. Find the line `var viewControllerTheme : Theme?` and delete it.
-1. Then find the line `// var viewControllerTheme : Theme? = MBXTheme.purpleTheme`, which has been commented out.
-1. Highlight the line and use `command` + `/` to uncomment the line.
-1. Replace `.purpleTheme` with `.neutralTheme`.
+1. 打开 `ThemeViewController.swift` 文件
+2. 找到 `var viewControllerTheme : Theme?` 并删除这行
+3. 找到被注释的一行 `// var viewControllerTheme : Theme? = MBXTheme.purpleTheme`
+4. 高亮这行代码，并用 `command` + `/` 取消注释
+5. 用 `.purpleTheme` 替代 `.neutralTheme`.
 
-Now you've chosen the neutral theme, but your application is still set up to start with the theme picker preview when it is initialized. Next, you'll change the initial view controller.
+现在已经选择了 the neutral theme 这个主题。但在初始化时，应用程序仍然设置为打开主题预览。接下来，我们来更改这个设置。
 
-### Change the initial view controller
+### 更改主题预览
 
-1. Open `Main.storyboard`.
-1. Click on **Theme View Controller Scene**.
-1. Click on the Attributes inspector in the upper right side.
-1. Check the box next to *Is Initial View Controller*.
+1. 打开 `Main.storyboard`
+2. 点击 **Theme View Controller Scene**
+3. 单击右上角的 Attributes 属性检查
+4. 点击 *Is Initial View Controller* 旁边的框
 
 ![screenshot of how to set the initial view controller in Xcode](/help/img/ios/store-locator-set-initial-view.png)
 
-Run your application, and it will display a map using the Mapbox Streets style with several house icons.
+运行应用程序，将显示有Mapbox Streets样式并带有多个房屋图标的地图。
 
 {{<img alt='screenshot of a map with several markers on an iOS device using the neutral theme centered on New York City' src='/help/img/ios/store-locator-choose-a-theme.png' className='wmax360 block mx-auto' />}}
 
-## Add your data
+## 添加数据
 
-The starter kit contains a GeoJSON file called `stores.geojson`  where you’ll find all the current store locations that are visible on the map. [GeoJSON](/help/glossary/geojson/) is a file format for geospatial data and a subset of the JSON format. In this section, you'll update the sample data to reflect your actual store locations.
+入门套件中包含了一个 GeoJSON 文件叫做 `stores.geojson` ，您可以在其中找到地图上所有当前可见的商店坐标。[GeoJSON](/help/glossary/geojson/) 是地理空间数据的文件格式和JSON格式的子集。这一部分，我们来更新示例数据以显示商店的实际位置。
 
-Locate the `stores.geojson` file and take a look at how the data is formatted. Notice that each store location is a separate GeoJSON _feature_ in the file. Each feature has four `properties` describing a few characteristics about the store location and `geometry` specifying that the feature is a single point and where that point is located in the world.
+找到 `stores.geojson` 文件并查看其数据格式。 请注意，每个商铺位置都是一个单独的 GeoJSON _feature_ 文件。每个 feature 有四个 `properties` 来描述有关位置的一些特征, `geometry` 指的是这个 feature 是一个孤点，并且在世界中所处的位置。
 
-If you have store location data available in GeoJSON form, you can delete the current data and replace it with your own.
+如果有 GeoJSON 格式的商店位置数据，可以删除当前数据并将其替换为自己的数据。
 
-### Replace data
+### 替换数据
 
-In this guide, we've provided GeoJSON data for you to use in this step. In this example, you'll replace the current GeoJSON data in `stores.geojson` with [animal shelters in Cook County, Illinois](https://datacatalog.cookcountyil.gov/dataset/Area-Animal-Shelters-Map/t86e-hv9w). Then, you'll adjust the bounding box and mock user location and run your app to see the new store locations.
+在这份指南中，我们为这一步提供了相关的 GeoJSON 示例。 这个例子中，我们将使用伊利诺伊周动物收容所的相关数据 [animal shelters in Cook County, Illinois](https://datacatalog.cookcountyil.gov/dataset/Area-Animal-Shelters-Map/t86e-hv9w)替换 `stores.geojson` 中的现有数据。然后就可以调整边界框并模拟用户位置来运行应用，以查看新的商店位置。
 
 
 ```json
@@ -294,58 +296,58 @@ In this guide, we've provided GeoJSON data for you to use in this step. In this 
 }
 ```
 
-Replace the data in the `stores.geojson` file to reflect your actual store locations. Open the `stores.geojson` file. Delete the current contents and add the GeoJSON data above. The data that's provided in the sample code and in this example contain four properties for each store location:
+为了显示真实的商店坐标，我们需要替换掉 `stores.geojson` 文件中的相关数据。打开 `stores.geojson` 文件，删除掉现有的内容，并有上面的 GeoJSON 数据替代。 示例代码和此示例中提供的数据包含每个商店位置的四个属性：
 
 - `name`
 - `description`
 - `hours`
 - `phone`
 
-Since all the feature `properties` are identical to the four that were used in the initial GeoJSON data, your map will be fully functional immediately. If you have different information you would like to display as `properties`, you will need to update the related code in the `ThemeViewController.swift` file &mdash; look for the code immediately following the `// MARK: Update the attribute keys based on your data's format` comment.
+只要所有的属性 `properties` 都与初始条件下使用的四个属性相似，这个地图就可以立刻运行了。如果有其他信息希望通过属性 `properties` 来显示，可以更新 `ThemeViewController.swift` 文件中的相关代码 &mdash; 寻找在 `// MARK: Update the attribute keys based on your data's format` 后方注释的代码。
 
 {{
     <Note
-      title='Create a GeoJSON file from scratch'
+      title='从零开始构建一个 GeoJSON 格式数据集'
       imageComponent={<BookImage />}
     >
-      <p>There are several ways to create GeoJSON data. If you don't have GeoJSON data containing store information, you can use the <a href='https://www.mapbox.com/studio-manual/reference/datasets/#dataset-editor'>Mapbox Studio dataset editor</a>, a convenient in-browser application for creating and editing Mapbox <a href='/help/glossary/dataset/'>datasets</a>.</p>
-      <p>First, create a new dataset:</p>
+      <p>有几种方法可以构建 GeoJSON 数据，如果你没有包含商铺信息的 GeoJSON 数据，你可以使用 <a href='https://www.mapbox.com/studio-manual/reference/datasets/#dataset-editor'>Mapbox Studio dataset editor</a> 来编辑。这是一个非常方面的 Mapbox 数据编辑器 <a href='/help/glossary/dataset/'>datasets</a>.</p>
+      <p>首先，创建一个数据集:</p>
       <ol>
-          <li>Log into Mapbox Studio and navigate to the <a href='https://www.mapbox.com/studio/datasets'>Datasets page</a>.</li>
-          <li>Click the <strong>New dataset</strong> button.</li>
-          <li>A new window will open. You'll use the <strong>Blank dataset</strong> option in the upper right corner.</li>
-          <li>Name your dataset and click <strong>Create</strong>.</li>
-          <li>The dataset editor will automatically open.</li>
+          <li>登录 Mapbox Studio 并找到 <a href='https://www.mapbox.com/studio/datasets'>Datasets page</a>.</li>
+          <li>点击 <strong>新建数据集</strong> 按键.</li>
+          <li>一个新窗口将会打开，使用在右上角的 <strong>空白数据集</strong> 选项.</li>
+          <li>为数据集命名，并单击 <strong>创建</strong>.</li>
+          <li>数据编辑器将会自动打开.</li>
       </ol>
-      <p>Next, begin adding stores. You can use the geocoder in the dataset editor to search for a place and the draw tools to add a new point to your dataset. You can change the geometry, placement, and properties of existing features with the dataset editor’s draw tools.</p>
-      <p>After you've added each location, you can <strong>Save</strong>, return to the <a href='https://www.mapbox.com/studio/datasets'>Datasets page</a>, click the <strong>Menu</strong><Icon name="menu" inline={true} /> button next to the name of your dataset, and click <strong>Download</strong> to retrieve GeoJSON.</p>
+      <p>接下来，开始添加商铺坐标。可以使用数据编辑器中的地理编码器搜索位置，使用绘图工具向数据集添加新点。也可以使用数据编辑器的绘图工具更改现有要素的几何，位置和属性。</p>
+      <p>添加完每个位置后，可以 <strong>保存</strong>, 返回 <a href='https://www.mapbox.com/studio/datasets'>Datasets page</a>，点击 数据集旁边的<strong>菜单</strong><Icon name="menu" inline={true} /> 按钮, 然后点击 <strong>下载</strong> 以获取 GeoJSON 数据。</p>
     </Note>
 }}
 
-## Simulate user location and center map
+## 模拟用户位置和地图中心
 
-The `ThemeViewController.swift` file specifies that the map be centered on New York when the app is initialized. Next, you'll update the user's simulated location to Cook County in Illinois.
+ `ThemeViewController.swift` 文件指定在初始化应用程序以纽约为地图中心。接下来，我们将更新用户的模拟位置到伊利诺伊州库克县。
 
-### Allow user location
+### 用户位置许可
 
-Before you can draw a user’s location on the map, you must ask for their permission and give a brief explanation of how your application will use their location data. By default, location permissions are already configured in the starter kit files.
+在地图上绘制用户位置之前，必须征得他们的许可，并简要说明您的应用程序将如何使用他们的位置数据。默认情况下，已在入门套件中配置位置权限。
 
-You can edit the location usage description by setting the `NSLocationWhenInUseUsageDescription` key in the Info.plist file. We recommend setting the value to the following string, which is the application's location usage description: `Shows your location on the map and helps improve OpenStreetMap`. iOS 11 requires that you provide a `NSLocationAlwaysAndWhenInUseUsageDescription` in addition to a `NSLocationWhenInUseUsageDescription`. We recommend providing a different string for this key to help your users decide which level of permission they wish to grant to your application. When a user opens your application for the first time, they will be presented with an alert that asks them if they would like to allow your application to access their location.
+通过设置  Info.plist 文件中的密钥 `NSLocationWhenInUseUsageDescription`来编辑位置使用说明。我们建议将其中的内容设置为以下字符串，即应用程序的位置使用说明： `Shows your location on the map and helps improve OpenStreetMap`iOS 11要求在 `NSLocationWhenInUseUsageDescription` 的基础上提供 `NSLocationAlwaysAndWhenInUseUsageDescription`。我们建议为此密钥提供不同的字符串，以帮助用户决定应用程序的授权级别。当用户第一次打开应用程序时，系统会向他们显示一条警告，询问他们是否允许应用程序访问其位置。
 
-### Simulate user location
+### 模拟用户位置
 
-When you run your app in Simulator, you’ll be presented with a dialog box asking for permission to use Location Services. Click **Allow**. You won’t see your location on the map until you go to Simulator’s menu bar and select **Debug > Location > Custom Location**. Enter `41.948` for latitude, `-87.839` for longitude, and you'll see the location dot appear in the middle of Cook County.
+在模拟器中运行应用程序时，将看到一个对话框，要求获得使用位置服务的权限。点击 **Allow**。在转到模拟器的菜单栏 **Debug > Location > Custom Location**之前，将无法在地图上看到相关位置。输入 `41.948` 作为纬度坐标， `-87.839` 作为经度坐标，将会看到用户位置出现在库克县。
 
 {{
     <Note
-      title='Simulating user location on a physical device'
+      title='在设备上模拟用户位置'
       imageComponent={<BookImage />}
     >
-        <p>If you are running your application on a physical device instead of on Simulator, you will need to create a GPX file containing the coordinates (<code>41.948</code> for latitude, <code>-87.839</code> for longitude). Name your file <code>Chicago</code>. Then, use <strong>Product > Scheme > Edit Scheme</strong> to change <em>Default location</em> to <code>Chicago</code>.</p>
+        <p>如果你在硬件设备上运行程序，而不是通过模拟器，你需要创建一个包含坐标的 GPX 文件 (<code>41.948</code> for latitude, <code>-87.839</code> for longitude)。命名文件 <code>Chicago</code>。然后，使用 <strong>Product > Scheme > Edit Scheme</strong> 将 <em>默认位置更改</em> to <code>Chicago</code>.</p>
     </Note>
 }}
 
-Finally, adjust the zoom level of the mapView. Within the `viewDidLoad` function, find `mapView.zoomLevel` and set it equal to `8`.
+最后，调整地图预览级别。通过 `viewDidLoad` 功能，寻找 `mapView.zoomLevel` ，并将其设置为 `8`。
 
 ```swift
 override func viewDidLoad() {
@@ -357,33 +359,32 @@ override func viewDidLoad() {
 }
 ```
 
-Once you’ve updated the user location information, the Mapbox Directions API will automatically read your GeoJSON file to retrieve routes to each of your locations.
+更新用户位置信息后，Mapbox Directions API 将自动读取 GeoJSON 文件，以检索每个位置的路线。
 
-Run your application and you will see a map centered on Cook County displaying your new data.
+运行应用程序，将看到以库克县为中心的地图，显示新替代的数据。
 
 {{<img alt='screenshot of a map with several markers on an iOS device using the neutral theme centered on Cook County Illinois' src='/help/img/ios/store-locator-add-data.png' className='wmax360 block mx-auto' />}}
 
-## Add custom markers
+## 添加自定义图标
 
-Your application uses house icon to show the location of each animal shelter, but with the store locator kit you can customize icons to be whatever you'd like. Next, you'll switch to the current house icon to a dog icon.
+应用程序将默认使用房屋图标显示每个动物收容所的位置，但使用商铺定位套件，您可以自定义图标，使用任何想要的内容。接下来，我们将当前房屋图标切换为狗图标。
 
 {{<img alt='preview of a selected dog icon' src='/help/img/ios/store-locator-dog-icon-selected.png' className='wmax120 mx-auto block' />}}
 
-### Add the icon as an asset
+### 添加图标
 
-The images used for the icons are located in the `Assets.xcassets` folder. Open the folder and browse the current files. You'll see that there are two house icons: `blue_selected_house` and `blue_unselected_house`. Right-click on `blue_selected_house` and click **Show in finder**.
+作为图标的图片都将放置在 `Assets.xcassets` 文件夹中。打开文件夹并浏览当前文件，将会看到两个房屋图标 `blue_selected_house` 和 `blue_unselected_house`。右键单击 `blue_selected_house` 并点击 **Show in finder**。
 
-You'll see that each icon comes from a folder, in this case `blue_selected_house.imageset`. Inside that folder are two files: a PDF of the image and a [`Contents.json` file](https://developer.apple.com/library/content/documentation/Xcode/Reference/xcode_ref-Asset_Catalog_Format/ImageSetType.html).
+在这种情况下，每个图标都来自同一个文件夹 `blue_selected_house.imageset`。这个文件夹中有两个文件：图像的pdf文件和 [`Contents.json` file](https://developer.apple.com/library/content/documentation/Xcode/Reference/xcode_ref-Asset_Catalog_Format/ImageSetType.html).
 
-Upload two new dog icons (one for when the icon is selected and one when it is not selected):
+上传两个新的狗图标（一个用于选中图标时，一个用于未选中图标）：
 
-1. Download [this zipped file](/help/demos/ios-store-locator/dog_icon.zip) that contains an image set for two dog icons.
-1. Unzip and add the contents to the `Assets.xcassets` folder in your project.
+1.下载此压缩包 [this zipped file](/help/demos/ios-store-locator/dog_icon.zip) ，其中包含了两个狗图标。
+2.解压并将其添加至项目中 `Assets.xcassets` 文件夹。
 
-### Change icon references
+### 更改图标引用
 
-Next, you need to change all references to the house icons to point to the dog icons instead. In the `Themes.swift` file, find references to `blue_selected_house` and `blue_unselected_house` and replace with `blue_selected_dog` and `blue_unselected_dog` respectively.
-
+接下来，您需要将所有对房屋图标的引用更改为指向狗图标。在 `Themes.swift` 文件中，分别查找对 `blue_selected_house` 和 `blue_unselected_house` 的引用，并用 `blue_selected_dog` 和 `blue_unselected_dog` 分别替代。
 ```swift
 static let neutralTheme = Theme(defaultMarker: UIImage(named: "blue_unselected_dog")!,
     selectedMarker: UIImage(named: "blue_selected_dog")!,
@@ -392,13 +393,13 @@ static let neutralTheme = Theme(defaultMarker: UIImage(named: "blue_unselected_d
     fileURL: Bundle.main.url(forResource: "stores", withExtension: "geojson")!)
 ```
 
-Run your application, and you will see a map with dog icons at the location for each animal shelter.
+运行应用程序，将在每个动物收容所的位置看到狗图标。
 
 {{<img alt='screenshot of a map with several markers with dog icons on an iOS device' src='/help/img/ios/store-locator-custom-markers.png' className='wmax360 block mx-auto' />}}
 
-## Customize cards
+## 自定义信息卡
 
-Besides customizing the map and icons, you can also customize the design of the cards that display information about a location when it is clicked. Next, you'll customize the background color of the top half of the cards. In the `Themes.swift` file, replace the current `primaryDarkColor` for the `neutralTheme` from gray to blue:
+除了自定义地图和图标外，还可以自定义信息卡，以便在单击时显示有关位置的信息。接下来，您将自定义信息卡上半部分的背景颜色。在 `Themes.swift` 文件中，将当前 `primaryDarkColor` 的 `neutralTheme` 颜色从灰色替换为蓝色:
 
 ```swift
 static let neutralTheme = Color(primaryColor: UIColor(red:0.91, green:0.90, blue:0.88, alpha:1.0),
@@ -409,7 +410,7 @@ static let neutralTheme = Color(primaryColor: UIColor(red:0.91, green:0.90, blue
     accentColor: UIColor.white)
 ```
 
-Run your application, click on a location, and you will see an updated card with a blue background.
+运行应用程序，单击某个位置，将看到一个蓝色背景的信息卡。
 
 {{
 <div className='my12 grid grid--gut12'>
@@ -424,12 +425,12 @@ Run your application, click on a location, and you will see an updated card with
 </div>
 }}
 
-## Final product
+## 最终产品
 
-You've learned how the iOS Store Locator starter kit works and modified a few of the key customizable elements of a store locator.
+您已经学习了iOS商铺定位套件的工作原理，并修改了定位的一些可自定义元素。
 
 {{<img alt='animated GIF of a store locator application on an iOS device' src='/help/img/ios/store-locator-final-product.gif' className='wmax360 block mx-auto' />}}
 
-## Next steps
+## 下一步
 
-Take a look at the [Mapbox Maps SDK for iOS documentation](https://www.mapbox.com/ios-sdk/) and [examples](https://www.mapbox.com/ios-sdk/examples) to learn more about customizing your application or adding additional functionality. If you're interested in creating your own custom map style to replace the designer themes provided in the iOS Store locator starter kit, complete our [Create a custom style](/help/tutorials/create-a-custom-style/) tutorial to use Mapbox Studio to build a style that fits your brand.
+阅读 [Mapbox Maps SDK for iOS documentation](https://www.mapbox.com/ios-sdk/) 和 [examples](https://www.mapbox.com/ios-sdk/examples) 以了解有关自定义应用程序或添加其他功能的更多信息。如果您对创建自定义地图样式来替换iOS Store定位器入门套件中提供的设计器主题感兴趣，请继续阅读 [Create a custom style](/help/tutorials/create-a-custom-style/) 教程，以使用 Mapbox Studio 构建喜欢的主题。
