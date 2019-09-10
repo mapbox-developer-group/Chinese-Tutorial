@@ -1,5 +1,5 @@
 ---
-title: Geocoding
+title: Geocoding 地理编码
 description: Learn how geocoding works and how to use geocoding in your next Mapbox project.
 image: /img/narrative/geocoding.svg
 topics:
@@ -14,7 +14,11 @@ contentType: guide
 
 The [Mapbox Geocoding API](https://docs.mapbox.com/api/search/#geocoding) performs two main tasks: *forward geocoding* and *reverse geocoding*. Forward geocoding converts text into geographic coordinates, for example, turning `2 Lincoln Memorial Circle NW` into `-77.050,38.889`. Reverse geocoding converts geographic coordinates into a text description, for example, turning `-77.050,38.889` into `2 Lincoln Memorial Circle NW`.
 
+[Mapbox Geocoding API](https://docs.mapbox.com/api/search/#geocoding)主要执行两项任务：*地理编码*和*反向地理编码*。地理编码可以将地址文本转换成对应的地理坐标，例如，将`2 Lincoln Memorial Circle NW`转换为`-77.050,38.889`。反向地理编码则是指将地理坐标转化为地址文本说明的过程，例如，将`-77.050,38.889` 转化为 `2 Lincoln Memorial Circle NW`。
+
 All geocoding requests require you to submit a *query*, or what you're trying to find. When you make a query, you get a *response*, a JSON-formatted document of the most relevant results from your query. This guide provides an overview of how the Geocoding API works, how to use it, how to provide feedback, and links to relevant documentation to get you started.
+
+所有的地理编码请求都需要您提交一个*查询*问题，换言之，您需要告诉API您想查找的地点。当您发出一个查询请求，您将获得一则*回复*信息。这则*回复*记录了与您提出的查询请求最相关的查询结果，它以JSON文件格式出现。本篇指南将为您介绍：Geocoding API如何运作，如何使用Geocoding API，以及如何提交相关的反馈意见给Mapbox。您可以参考本篇指南最后的相关文档来开始使用Mapbox地理编码服务。
 
 {{
   <DemoIframe src="/help/demos/how-mapbox-works/how-geocoding-works.html" />
@@ -22,6 +26,7 @@ All geocoding requests require you to submit a *query*, or what you're trying to
 
 Here's an example that uses the [Mapbox GL geocoder plugin](https://github.com/mapbox/mapbox-gl-geocoder) to add forward geocoding to a web app built with Mapbox GL JS. Type in a location to view the raw JSON response for that query. Geocoding results are returned in [Carmen GeoJSON](https://github.com/mapbox/carmen/blob/master/carmen-geojson.md) format and contain both descriptive location information and geographic information. You can use the geographic information returned in the JSON response to show your query on a map, like in this example, or do additional spatial analysis.
 
+本示例使用了[Mapbox GL geocoder插件](https://github.com/mapbox/mapbox-gl-geocoder)将地理编码功能添加到了一个由Mapbox GL JS创建的网页应用中。输入一个地址，您便可以在地图下方查看本次查询所返回的原始JSON代码回复信息。地理编码查询结果会以[Carmen GeoJSON](https://github.com/mapbox/carmen/blob/master/carmen-geojson.md)的格式返回，它既包含了描述性位置信息，又包含了地理信息。您可利用JSON回复中的地理信息，将您的查询请求及结果显示在地图上，正如本示例所展示的那样。此外，您还可以利用所返回的地理信息进行额外的空间分析。
 
 ## How geocoding works
 
