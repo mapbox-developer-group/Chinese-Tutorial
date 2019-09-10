@@ -1,3 +1,6 @@
+刘年华 已完成 custom-markers-gl-js.md 翻译
+@coffee-gh
+
 ---
 title: Add custom markers in Mapbox GL JS
 description: Add custom HTML markers, style them, and add tooltips with Mapbox GL JS.
@@ -18,22 +21,21 @@ prependJs:
   - "import Button from '@mapbox/mr-ui/button';"
 contentType: tutorial
 ---
-
-In this tutorial, you'll learn how to build an interactive web map with custom [markers](/help/glossary/marker/) using Mapbox GL JS, a JavaScript library that will require writing code. You'll learn how to load [GeoJSON](/help/glossary/geojson) data inline and add it to your map dynamically using HTML Markers. Finally, you'll add popups when a marker is clicked. Your final map will look like this:
+在本教程中，您将学习如何使用 Mapbox GL JS 构建带有自定义标记 [markers](/help/glossary/marker/) 的交互式 Web 地图。Mapbox GL JS 是一个需要编写代码的JavaScript库。您将学会如何加载内联 [GeoJSON](/help/glossary/geojson) 数据并使用 HTML 标记自动添加到地图中。最后，您将学习如何在单击标记时添加弹出窗口。最终地图将如下所示：
 
 {{
   <DemoIframe src="/help/demos/custom-markers-gl-js/index.html" />
 }}
 
-## Getting started
+## 入门
 
-For this project, we recommend that you create a local folder called `mapbox-markers` to house your project files. You’ll see this folder referred to as your project folder.
+对于此项目，我们建议您创建一个名为 `mapbox-markers` 的本地文件夹来保存项目文件。此文件夹将作为您的项目文件夹。
 
-To follow along with this guide you'll need:
+按照本指南进行操作，您需要提前准备以下文件：
 
-- [__An access token__](/help/glossary/access-token/). from your account. You will use an access token to associate a map with your account. Your access token is on the [Account page](https://www.mapbox.com/account).
-- **A text editor.** You'll be writing HTML, CSS, and JavaScript after all.
-- **Custom image**. This tutorial uses an image within each custom HTML marker to show the location of the offices. You'll need to download the PNG file to use as your custom icon and save it in the same project folder as your index.html file.
+- [__访问 token__](/help/glossary/access-token/)。在您的账号管理中，将访问 token 与地图相关联。您的访问 token 位于 [Account page](https://www.mapbox.com/account)。
+- **文本编辑器** 您需要编写 HTML, CSS, and JavaScript
+- **自定义图像**本教程使用自定义 HTML 标记的图像来显示办公室的位置。您需要下载 PNG 图像文件以用作自定义图标，并将其保存在与 index.html 文件相同的项目文件夹中。
 
 {{
 <Button href="/help/demos/custom-markers-gl-js/mapbox-icon.png" passthroughProps={{ download: "mapbox-icon" }} >
@@ -41,19 +43,19 @@ To follow along with this guide you'll need:
 </Button>
 }}
 
-## Create a Mapbox GL JS map
+## 创建 Mapbox GL JS 地图
 
-Now you're ready to use Mapbox GL JS! To start, create a new HTML file and write code to initialize a Mapbox GL JS map.
+现在您已准备好使用Mapbox GL JS！首先，创建一个新的 HTML 文件并编写代码以初始化 Mapbox GL JS 地图。
 
-### Initialize your map
+### 初始化地图
 
-1. Open your text editor.
-1. Create a new HTML file.
-1. Copy and paste the code below into your text editor to initialize your Mapbox GL JS map.
-1. Make sure you are using your API access token with `mapboxgl.accessToken`.
-1. Save your file as `index.html` in your project folder.
-1. Open the file in a browser.
-1. You should see an initialized Mapbox GL JS map displaying the Mapbox Light style in a browser window. You won't see your markers yet.
+1. 打开文本编辑器
+2. 创建一个新的 HTML 文件
+3. 将下面的代码复制并粘贴到文本编辑器中以初始化 Mapbox GL JS 地图
+4. 确保您使用的是 API 访问 token 是 `mapboxgl.accessToken`
+5. 命名为 `index.html` 并保存于项目文件夹中
+6. 使用浏览器打开文件
+7. 您应该会在浏览器窗口中看到一个初始化的 Mapbox GL JS 地图，其中显示了 Mapbox Light 样式。但是这个时候还没有地图标记。
 
 ```html
 <!DOCTYPE html>
@@ -102,19 +104,18 @@ var map = new mapboxgl.Map({
 </html>
 ```
 
-As you can see above, the Mapbox GL JS map requires several options:
+正如所看到的，Mapbox GL JS 地图需要几个参数设置：
 
-- `container`: the `id` of the `<div>` element on the page where the map should live. In this case, the `id` for the `<div>` is `'map'`.
-- `style`: the style URL for the map style. In this case, use the Mapbox Light map which has the style URL `mapbox://styles/mapbox/light-{{constants.VERSION_LIGHT_STYLE}}`.
-- `center`: the initial centerpoint of the map in `[longitude, latitude]` format.
-- `zoom`: the initial zoom level of the map.
+- `container`: 地图应存在于 `id` 集合中的 `<div>` 元素。在本教程中， `id` 集合中的 `<div>` 元素应该是 `'map'`。
+- `style`: 地图演示。在本教程中，使用 Mapbox Light map 样式的地图应有以下的URL `mapbox://styles/mapbox/light-{{constants.VERSION_LIGHT_STYLE}}`。
+- `center`: 地图初始中心点应以 `[longitude, latitude]` 格式设置
+- `zoom`: 地图的初始缩放级别。
 
+### 加载 GeoJSON 数据
 
-### Load GeoJSON data
+将内联 GeoJSON 数据添加到 HTML 文件中，这样就能够加载数据。此 GeoJSON 将用于确定地图上的标记位置。
 
-Load your data by adding inline GeoJSON to your HTML file. This GeoJSON will be used to determine where your markers will appear on the map.
-
-Copy and paste the following after the code that initializes your map but before the `</script>` tag. This code declares a variable `geojson` that is set equal to GeoJSON data.
+复制以下内容，粘贴在 `</script>` 标记之前，这样就能完成地图初始化操作。此代码声明一个变量 `geojson` ，值等于 GeoJSON 数据。
 
 ```js
 var geojson = {
@@ -146,19 +147,19 @@ var geojson = {
 
 {{
   <Note imageComponent={<BookImage />}>
-    <p>If you have a large GeoJSON file, you may want to load it as an external source rather than adding it inline. You can do so by linking to its URL, if it's hosted remotely, or by using an AJAX call to load locally or from a third-party API.</p>
+    <p>如果您有一个很大的 GeoJSON 文件，您可能希望将其作为外部文件加载而不是内联添加。您可以通过链接到其 URL（如果是远程托管），或使用 AJAX 调用在本地或从第三方 API 加载来实现。</p>
   </Note>
 }}
 
-## Add HTML markers
+## 添加 HTML 标记
 
-Now that you've loaded your data, add code to create an HTML DOM element for each marker and bind it to the GeoJSON features using the Mapbox GL JS [Marker](https://www.mapbox.com/mapbox-gl-js/api/#marker) method. You'll be using the image you downloaded at the beginning of this tutorial, which should be saved in your project folder.
+现在您已经加载了数据，添加代码并为每个标记创建 HTML DOM 元素。使用 Mapbox GL JS [Marker](https://www.mapbox.com/mapbox-gl-js/api/#marker) 将其绑定到 GeoJSON 中。您将使用在本教程开头下载的图像，该图像应保存在项目文件夹中。
 
-When you add a marker using the Marker method, you are attaching an empty `div` to each point in your GeoJSON. You'll need to specify the style of the marker before adding it to the map.
+使用 Marker 方法添加标记时，会将空白 div 附加到 GeoJSON 的每个点。将标记添加到地图前，您需要指定标记的样式。
 
-### Style markers
-
-First, add the CSS you'll need to style your markers. In this case, add the image file you downloaded as the `background-image` for a class called `marker`. In your same `index.html` file, copy and paste the code inside your `style` tag below the `#map` declaration.
+### 样式标记
+background-image为名为的类marker。在同一个index.html文件中，将代码复制并粘贴style到#map声明下方的代码中。
+首先，添加您需要设置标记样式的 CSS 。这个案例中，请将下载的图像文件作为背景图片 `background-image` 在一个 `marker`的集合中。在同一个文件件`index.html`中，复制下方的代码并粘贴至 `style` 标签下的 `#map` 声明中。
 
 ```css
 .marker {
@@ -171,9 +172,9 @@ First, add the CSS you'll need to style your markers. In this case, add the imag
 }
 ```
 
-### Add markers to the map
+### 将标记添加至地图中
 
-Next, add the JavaScript needed to create the markers and add them to the map. Copy and paste the following code within your `script` tag after the end of your `map` object declaration but before the closing script tag.
+接下来，将创建标记所需的 JavaScript 代码添加到地图中。在结束脚本标记之前，对象 `map` 声明结束，将以下代码复制并粘贴到`script` 标记中。
 
 ```js
 // add markers to map
@@ -190,16 +191,16 @@ geojson.features.forEach(function(marker) {
 });
 ```
 
-Save the file and refresh your browser. You should see you map displaying with your custom HTML markers.
+保存文件并刷新浏览器。您应该看到使用自定义 HTML 标记的地图。
 
 
-## Add popups
+## 添加弹窗
 
-As your final step, add popups to your markers using Mapbox GL JS. You'll do this within the `mapboxgl.Marker` declaration.
+最后一步，使用 Mapbox GL JS 为您的标记添加弹窗，在 `mapboxgl.Marker` 声明中这样操作。
 
-### Style popups
+### 弹窗样式
 
-First, add the CSS code you'll need to style your popups. In the same `index.html` file, copy and paste the code inside your `style` tag below the `.marker` declaration.
+首先，添加需要的 CSS 代码来设置弹窗样式。在同一 index.html 文件中，复制代码并粘贴到 `.marker` 声明下方的 `style` 标记中。
 
 ```css
 .mapboxgl-popup {
@@ -212,14 +213,14 @@ First, add the CSS code you'll need to style your popups. In the same `index.htm
 }
 ```
 
-### Attach popups to markers
+### 将弹窗附在标记上
 
-Next, you'll add the JavaScript needed to add popups containing information about each point and display the popup when a marker is clicked:
+接下来，将包含每个点信息的弹窗所需的 JavaScript 添加至代码中，这样在单击标记时就能显示弹窗：
 
-1. Copy and paste the `.setPopup` code below after the `.setLngLat()` method and before the `.addTo()` method within your `script` tags.
-  - Make sure you're using the correct key for the data you want to display in your popups. In this example, you will be displaying your data's `title` and `description` properties.
-1. Save your file and refresh your browser.
-1. You should be able to click on the markers and see popups displayed.
+1. 复制下方的 `.setPopup` 代码，将其粘贴至  `script` 标签中，其位于 `.setLngLat()` 后和 `.addTo()` 前。
+  -确保您使用正确的密钥来显示要在弹窗中展示的数据。在此示例中，您将显示数据 `title` 和 `description` 属性。
+2. 保存文件并刷新浏览器。
+3. 够单击标记并查看显示的弹窗。
 
 
 ```js
@@ -230,24 +231,23 @@ new mapboxgl.Marker(el)
   .addTo(map);
 ```
 
-Notice that you've added an offset value when you declare popups using the [`mapboxgl.Popup`](https://www.mapbox.com/mapbox-gl-js/api/#popup) method to make sure your popups are centered over your markers.
+请注意，在使用该 [`mapboxgl.Popup`](https://www.mapbox.com/mapbox-gl-js/api/#popup) 方法声明弹出窗口时，您已添加了偏移值，以确保弹窗位于标记的中心。
 
 
-## Final product
+## 最终产品
 
-You've made an interactive marker map with custom data and styling using Mapbox GL JS.
-
+您已使用 Mapbox GL JS 制作了包含自定义数据和样式的交互式标记贴图。
 {{
   <DemoIframe src="/help/demos/custom-markers-gl-js/index.html" />
 }}
 
-## Next steps
+## 下一步
 
-Now that you've created a project using Mapbox GL JS, we recommend checking out our other tutorials to extend your web app:
+现在您已经使用 Mapbox GL JS 创建了一个项目，我们建议您查浏览我们的其他教程以扩展您的 Web 应用程序：
 
 - [Add points to a map](/help/tutorials/add-points-pt-1/) using Mapbox Studio and Mapbox GL JS.
 - [Build a store locator](/help/tutorials/building-a-store-locator/) using Mapbox GL JS.
 - [Show changes over time](/help/tutorials/show-changes-over-time/) with Mapbox GL JS.
 - [Analyze data with Turf.js](/help/tutorials/analysis-with-turf/) and Mapbox GL JS.
 
-Explore our [Mapbox GL JS examples](https://www.mapbox.com/mapbox-gl-js/examples/) for more ideas on how to extend your project and code to get you started.
+浏览 [Mapbox GL JS examples](https://www.mapbox.com/mapbox-gl-js/examples/) 以探索更多内容，了解有关如何扩展项目和代码的更多想法，以帮助您更好地入门。
