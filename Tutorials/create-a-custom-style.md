@@ -18,40 +18,41 @@ prependJs:
 contentType: tutorial
 ---
 
-This guide will walk through how to create a custom style in the **Mapbox Studio style editor**. The Mapbox Studio Basic style is customizable, which lets you create a map style that conforms to your company's branding. This tutorial will show you how to customize the Mapbox Basic style by changing colors, fonts, and label properties. After you have completed the tutorial, you will have created a map style that reflects the Mapbox brand colors at any zoom level and at any place across the world.
+本指南将介绍如何在 **Mapbox Studio style editor**中创建一个自定义样式，Mapbox Studio 基本样式是可以定制的，这便于你创建符合你公司品牌的地图样式。
+本教程将向您展示如何通过更改颜色、字体和标签属性来定制Mapbox基本样式。在您完成本教程之后，您将完成创建一个地图样式，它可以在世界上任何缩放层级和任何地方反映Mapbox品牌的颜色。
 
 {{
   <DemoIframe src="https://api.mapbox.com/styles/v1/examples/cji3d7gpt1i8m2rn7l7w0vl99.html?access_token=MapboxAccessToken#9.7/37.758664/-122.233084/0" />
 }}
 
-## Getting started
+## 开始
 
-You will need a few resources to get started:
+你需要一些用于开始的资源:
 
-- **Mapbox account**. Sign up for a free account on [Mapbox](https://account.mapbox.com/auth/signup/).
-- **Style guidelines**. It is often helpful to start a new custom map style with some broad style guidelines. Mapbox's brand has three primary colors (blue, gray, and pink) and a broader set of secondary colors. Every hue includes a dark, light, and faint variation. This tutorial will use a combination of these colors to style the background, water, buildings, and labels in a custom map style.
+- **Mapbox account**。 在[Mapbox](https://account.mapbox.com/auth/signup/)注册一个免费的账户
+- **Style guidelines**。 这些广泛的Style guidelines对于创建一个新的自定义地图样式是非常有帮助的。Mapbox的品牌有三种基色（蓝色，灰色，粉色）和一组更广泛的颜色。每种色调都包括暗、亮、微弱的变化。本教程将使用这些颜色的组合在一个自定义地图样式中为背景、水、建筑物和文字标签着色。
 
-## Create a new style
+## 创建一个新的样式
 
-Log in to your Mapbox account and navigate to the [Styles](https://studio.mapbox.com/styles) page. This is where all your map styles are listed. A [style](/help/glossary/style/) is a set of rules that defines how Mapbox draws your map on the page. It includes references to your data, map images (icons, markers, and patterns), fonts, and defines how all your data should be styled on the map. For more information about styles, read the [Styles](https://docs.mapbox.com/studio-manual/reference/styles/) section of the Mapbox Studio Manual.
+使用你的Mapbox帐号登陆并跳转到[Styles](https://studio.mapbox.com/styles)页面，那里会列出你所有的地图样式。一个[style](/help/glossary/style/) 是一组规则，它定义了Mapbox在页面上如何绘制你的地图。它包括了您数据、地图图像（图标、标记和模式）、字体的引用，并且定义了您所有数据在地图上的样式。更多关于样式的信息，请阅读Mapbox Studio手册的[Styles](https://docs.mapbox.com/studio-manual/reference/styles/) 部分。
 
-To create a new style from your [Styles](https://studio.mapbox.com/styles) page, click the **New style** button. Find the _Basic Template_ style and click **Customize Basic Template**.
+从您的[Styles](https://studio.mapbox.com/styles)页面创建一个新的样式，请点击**New style**按钮。找到 _Basic Template_ 样式并点击**Customize Basic Template**。
 
-The Mapbox Studio style editor will open, and you will be able to start creating a custom map style.
+Mapbox Studio 样式编辑器将会打开，您可以开始创建一个自定义地图样式。
 
-## Customize your style
+## 自定义你的样式
 
-### The style editor
+### 样式编辑器
 
-The **Mapbox Studio style editor** is a visual tool for creating custom map styles. Look at the layers on the left side of the style editor screen. Each layer can be customized in a variety of ways, including by changing its colors. You can also filter layers within the layer list and edit the properties of multiple layers at once. This is the easiest way to change the color of layers with similar properties. To learn more about the Mapbox Studio style editor, visit the [Mapbox Studio Manual](https://docs.mapbox.com/studio-manual/reference/styles/).
+样式编辑器**Mapbox Studio style editor**是一个用于创建自定义地图样式的可视化工具。在样式编辑器界面的左侧您可以看到有一些图层。每一层都可以通过多种方式进行定制，包括更改其颜色。您还可以在图层列表中过滤图层，并同时编辑多个图层的属性。这是改变具有相似属性的图层颜色的最简单的方法。要了解更多关于Mapbox Studio style editor的信息，请访问[Mapbox Studio Manual](https://docs.mapbox.com/studio-manual/reference/styles/)。
 
-In this section, you will change the color of the water, background, and building layers and alter the fonts for various labels to create a customized map.
+在本节中，您将更改水、背景、建筑物图层的颜色，并更改各种标签的字体，以创建自定义地图。
 
-But first, change the name of your new style. Click into the name field in the upper left side of the screen and change the name to _Mapbox Style_.
+但首先，更改你新样式的名字，点击屏幕左上角的name字段，将名字更改为 _Mapbox Style_.
 
-### Style background and water layers
+###  定制背景图层和水图层的样式
 
-When the style editor first opens with the Basic style template, the map is zoomed in at a high level. Zoom out to approximately zoom level 10 so that you can see a larger geographic region. In the search bar, type in San Francisco (or another region that gives you a good mix of water, land, and city features).
+当样式编辑器第一次使用基本样式模板打开时，地图已缩放到一个高层级。缩小到大约第10级，这样你可以看到一个更大的地理区域，在搜索栏中，输入Francisco（或者另一个地区，它具有水，陆地，城市特性的良好组合).
 
 {{
   <AppropriateImage
@@ -60,14 +61,14 @@ When the style editor first opens with the Basic style template, the map is zoom
   />
 }}
 
-You will start by altering the water and background layers so they match the colors from the Mapbox style guide.
+您将从更改水图层和背景图层开始，使它们与Mapbox样式指南中的颜色相匹配。
 
-#### Style the water layer
+#### 定制水图层的样式
 
-You will style the **water** layer with a bright blue color from the Mapbox style guide.
+您将使用Mapbox样式指南中的亮蓝色为**water**图层设置样式。
 
-1. Click on the **water** layer in the layer list. When the layer panel opens, click on the **Color** field if it is not highlighted already.
-2. Change the color to {{<ColorSwatch color="#314CCD" />}}.
+1. 点击图层列表中的**water**图层。当图层面板打开时，如果它没有高亮显示，点击**Color**字段。
+2. 更改颜色为 {{<ColorSwatch color="#314CCD" />}}.
 
 {{
   <AppropriateImage
@@ -77,15 +78,15 @@ You will style the **water** layer with a bright blue color from the Mapbox styl
 }}
 
 
-#### Style the background layer by zoom level
+#### 定制背景层的样式
 
-Mapbox Studio lets you adjust styles based on specific data. In this case, you will use the style editor to change the color of the style's background based on the zoom level. Using zoom properties, the background color will become gradually lighter as the map zooms in. To style the background layer by zoom level:
+Mapbox Studio允许您根据特定的数据调整样式。在本例中，您将使用样式编辑器根据缩放级别更改样式背景的颜色。使用缩放属性，随着地图的缩放，背景颜色将逐渐变浅。按缩放级别设置背景图层样式：
 
-1. Click on the **background** layer in the layer list.
-2. When the layer panel opens, click the **Color** option if it's not already highlighted.
-3. Click on **Style across zoom range**.
-4. In the _Zoom_ panel, edit the first stop so the zoom level is `6` and the color is {{<ColorSwatch color="#A9B6EF" />}}. Click **Done**.
-5. Click on the second stop to open its _Zoom_ panel. Change the zoom level to `12` and the color to {{<ColorSwatch color="#EDF0FD" />}}. Click **Done**.
+1. 点击图层列表中的**background**图层。
+2. 当图层面板打开时，如果没有高亮显示，点击**Color**选项。
+3. 点击**Style across zoom range**.
+4. 在 _Zoom_ 面板中，编辑第一个stop，使缩放层级为 `6` 并且颜色为 {{<ColorSwatch color="#A9B6EF" />}}。点击**Done**。
+5. 点击第二个stop打开它的 _Zoom_ 面板。将缩放层级改为`12`并且颜色为 {{<ColorSwatch color="#EDF0FD" />}}。点击**Done**。
 
 {{
   <AppropriateImage
@@ -94,14 +95,14 @@ Mapbox Studio lets you adjust styles based on specific data. In this case, you w
   />
 }}
 
-Now, when you zoom in, the background color changes gradually as the zoom level increases.
+现在，当您放大地图时，背景颜色会随着缩放层级的增加而逐渐变化。
 
-### Style the landuse and national park layers
+### 定制土地使用图层和国家公园图层的样式
 
-Now that you have changed the colors for the water and background layers, the green color that is used in the Basic style looks too bold. You will change the color of these layers to a light green from the style guide's secondary colors.
+现在已经更改了水和背景图层的颜色，基本样式中使用的绿色看起来太大胆了。您将把这些层的颜色从样式指南的辅助颜色更改为浅绿色。
 
-1. Select the **national_park** layer.
-2. When the layer panel opens, select the **Color** field. Change the **Color** field to {{<ColorSwatch color="#E8F5EE" />}}.
+1. 选中**national_park**图层.
+2. 当图层面板打开时，选择**Color**字段。改变**Color**字段的值为 {{<ColorSwatch color="#E8F5EE" />}}。
 
 {{
   <AppropriateImage
@@ -110,10 +111,10 @@ Now that you have changed the colors for the water and background layers, the gr
   />
 }}
 
-3. Select the **landuse** layer.
-4. Click on the **Color** field if it is not highlighted already.
-5. Click the "`class` is **park, pitch**" condition.
-6. Change the **Color** field to {{<ColorSwatch color="#E8F5EE" />}}.
+3. 选中**landuse**图层.
+4. 点击**Color**字段如果它没有高亮显示。
+5. 点击"`class` is **park, pitch**"条件。
+6. 更改**Color**字段为 {{<ColorSwatch color="#E8F5EE" />}}。
 
 {{
   <AppropriateImage
@@ -122,17 +123,17 @@ Now that you have changed the colors for the water and background layers, the gr
   />
 }}
 
-### Update fonts
+### 更新字体
 
-Next, alter the fonts that are used as labels in your style.
+接下来，更改样式中用作标签的字体。
 
-1. Click {{<Icon name='filter' inline={true} />}} **Filter layers** at the top of the layers list.
-2. Choose **Filter by value**.
-3. Choose **Fonts**.
-4. Select `Roboto Black`. This will return the only layer in which this font is being used, **state-label**.
-5. Click on **state-label**, then click on **Font**. Change the font to `Roboto Condensed Bold`.
-6. Click on {{<Icon name='filter' inline={true} />}} **Filter layers** again, and repeat this process for the font `Roboto Regular`, which you will change to `Roboto Medium`.
-    - *You can select multiple layers at once by holding down* `command` *(Mac) or* `CTRL` *(Windows) while clicking to select layers*
+1. 点击图层列表顶部的 {{<Icon name='filter' inline={true} />}} **Filter layers** 。
+2. 选择**Filter by value**.
+3. 选择**Fonts**.
+4. 选择`Roboto Black`。这将返回唯一使用字体的图层，**state-label**。
+5. 点击**state-label**，然后点击**Font**。更改字体为`Roboto Condensed Bold`。
+6. 再次点击{{<Icon name='filter' inline={true} />}} **Filter layers**， 然后对字体`Roboto Regular`重复这个过程，将其更改为`Roboto Medium`。
+    - *您可以通过按住* `command` *(Mac) 或者* `CTRL` *(Windows) 同时选择多个图层*
 
 {{
   <AppropriateImage
@@ -141,19 +142,19 @@ Next, alter the fonts that are used as labels in your style.
   />
 }}
 
-### Style labels
+### 定制标签样式
 
-After you have changed the fonts and set some general options, it's time to update the colors of the various label types used in your style.
+当您更改了字体并设置了一些常规选项之后，就可以更新样式中使用的各种标签类型的颜色了。
 
 <!--copyeditor disable clear-->
 
-1. Click {{<Icon name='filter' inline={true} />}} **Filter layers** at the top of the layers list and search for the word _label_. This search will return 9 layers with the word _label_ in their names.
-2. Select **country-label**.
-3. When the layer panel opens, select the **Color** field and change it to {{<ColorSwatch color="#ffffff" />}}.
-4. Change the **Halo color** field to {{<ColorSwatch color="#314CCD" />}}.
-5. Change the following label layers to have the following attributes:
+1. 点击图层列表顶部的{{<Icon name='filter' inline={true} />}} **Filter layers** 并搜索单词  _label_ 。 这个搜索将返回9个名称中带有单词 _label_ 的图层。
+2. 选择 **country-label**。
+3. 当图层面板打开时，选择**Color**字段并将其更改为 {{<ColorSwatch color="#ffffff" />}}。
+4. 更改**Halo color**字段为 {{<ColorSwatch color="#314CCD" />}}。
+5. 更改以下标签层，使其具有以下属性：
   - **place-neighborhood-suburb-label**: `color` {{<ColorSwatch color="#EE4E8B" />}}, `halo color` {{<ColorSwatch color="#ffffff" />}}
-  - **place-city-label**: click **Clear value** and then specify the `color` {{<ColorSwatch color="#ffffff" />}}, `halo color` {{<ColorSwatch color="#273D56" />}}
+  - **place-city-label**: 点击 **Clear value** 并且指定 `color` {{<ColorSwatch color="#ffffff" />}}, `halo color` {{<ColorSwatch color="#273D56" />}}
 
 {{
   <AppropriateImage
@@ -164,13 +165,13 @@ After you have changed the fonts and set some general options, it's time to upda
 
 <!--copyeditor enable clear-->
 
-### Style buildings
+### 定制建筑物样式
 
-Next, change the color of the buildings in your style to a color from the Mapbox style guide:
+接下来，将你的建筑风格的颜色从Mapbox样式指南中更改为一种颜色：
 
-1. Click on the **building** layer in the layer list.
-2. When the layer panel opens, change the **Color** field to {{<ColorSwatch color="#aab7ef" />}}.
-3. Change the **1px stroke** field to {{<ColorSwatch color="#aab7ef" />}}.
+1. 在图层列表中**building**。
+2. 当图层面板打开时, 改变**Color**字段为 {{<ColorSwatch color="#aab7ef" />}}.
+3. 更改**1px stroke**字段为 {{<ColorSwatch color="#aab7ef" />}}。
 
 {{
   <AppropriateImage
@@ -179,13 +180,13 @@ Next, change the color of the buildings in your style to a color from the Mapbox
   />
 }}
 
-To make sure that Mapbox template styles are performant, layers are not included at every zoom level. The building layer, for example, is visible only at zoom levels 15 and higher. You can use a zoom function to create a fade-in effect as you zoom past level 15 rather than buildings showing up abruptly once you hit zoom level 15:
+为了确保Mapbox模板样式是高性能的，并不是在每个缩放层级都包含图层。例如，建筑物图层仅在缩放层级为16和更高时可见。当你缩放超过15级时你可以使用缩放功能创建一个淡入效果，而不是当你到达15层级时建筑物突然出现：
 
-1. In the **Opacity** field of the **building** layer, select **Style across zoom range**.
-2. Click **Edit** to open and edit each stop:
-    - Edit the first stop so the zoom level is `15` and the opacity is `0`. To change the opacity, move the opacity slider all the way to the left.
-    - Edit the second stop so the zoom level is `16` and the opacity is `1`.
-3. Zoom in to see the buildings fade between zoom level 15 and 16.
+1. 在**building**图层的**Opacity**字段中，选择**Style across zoom range**。
+2. 点击**Edit**打开并编辑每一个stop：
+    - 编辑第一个stop使缩放层级为`15`，opacity `0`. 为了改变透明度， 将不透明度滑块一直向左移动。
+    - 编辑第二个stop，使缩放级别为`16`并且opacity为`1`。
+3. 放大可以看到建筑物在缩放15到16级之间淡入。
 
 {{
   <Video
@@ -194,11 +195,11 @@ To make sure that Mapbox template styles are performant, layers are not included
   />
 }}
 
-This fade-in effect could also be applied to roads, parks, waterways, and any other layers you choose.
+这种淡入效果也可以应用于道路、公园、水道和您选择的任何其他层。
 
-## Publish
+## 发布
 
-When you have finished editing your map style, publish your changes by clicking **Publish** in the upper right side of the screen. When you click the publish button, a window will display the difference between the previous and current version of this style. If you're happy with the changes, click **Publish**. Your style will now be available to share from a variety of tools and applications.
+编辑完地图样式后，单击屏幕右上角的**Publish**发布更改。当您点击publish按钮，一个窗口将显示此样式的前一个版本和当前版本之间的差异。如果您对更改感到满意，请单击**Publish**。 您的样式现在可以从各种工具和应用程序中共享。
 
 {{
   <AppropriateImage
@@ -207,14 +208,14 @@ When you have finished editing your map style, publish your changes by clicking 
   />
 }}
 
-## Finished product
+## 成品
 
-You have created a map that reflects the Mapbox style guide, from a world view to the street level and at any location across the world. Explore your finished custom map style and take some time to view the style at various zoom levels.
+您已经创建了一个展现Mapbox样式指南的地图，从世界视野到街道水平和世界各地的任何位置。探索您完成的自定义地图样式，并花一些时间在不同的缩放级别查看样式。
 
 {{
   <DemoIframe src="https://api.mapbox.com/styles/v1/examples/cji3d7gpt1i8m2rn7l7w0vl99.html?access_token=MapboxAccessToken#9.7/37.758664/-122.233084/0" />
 }}
 
-## Next steps
+## 下一步骤
 
-Mapbox Studio provides a wide variety of ways to use your new map style. You can use this map directly on your website or in a web or mobile application. Take a look at the [Publish style section](https://docs.mapbox.com/studio-manual/overview/publish-your-style/) of the Mapbox Studio Manual to see all the ways you can use your style!
+Mapbox Studio 提供了多种使用新地图样式的方法。您可以直接在您的网站或者web或者移动应用程序中使用此地图。查看Mapbox Studio手册的[Publish style section](https://docs.mapbox.com/studio-manual/overview/publish-your-style/)，查看所有可以定制样式的方法！
