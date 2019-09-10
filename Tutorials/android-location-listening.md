@@ -1,13 +1,13 @@
 ---
-title: Tracking device location for Android
-description: Display a Mapbox map on an Android device and receive updates on the device's current location.
+title: 基于安卓设备的位置跟踪
+description: 在安卓设备上显示一幅 Mapbox 地图，并实时更新当前位置
 thumbnail: androidLocationTracking
 level: 2
 topics:
 - mobile apps
 language:
 - Java
-prereq: Familiarity with Android Studio and Java.
+prereq: 熟悉 Android Studio 和 Java.
 prependJs:
   - "import * as constants from '../../constants';"
   - "import Icon from '@mapbox/mr-ui/icon';"
@@ -20,30 +20,30 @@ prependJs:
 contentType: tutorial
 ---
 
-The [Mapbox Core Libraries for Android](https://docs.mapbox.com/android/core/overview/) are a set of utilities, which help you with system permissions, device location, and connectivity within your Android project. These libraries help you with:
+[Mapbox Core Libraries for Android](https://docs.mapbox.com/android/core/overview/) 负责处理安卓项目中的系统权限、设备位置以及网络连接等事宜，例如:
 
-- Checking for, requesting, and responding to Android system location permissions.
-- Checking for and responding to a change in the device's internet connectivity status.
-- Retrieving a device's real-time location.
+- 检测、请求以及响应安卓系统的位置权限。
+- 检测并响应设备的网络连通状态变化。
+- 获取设备实时位置信息。
 
-This tutorial will instruct you on how to add a Mapbox map to an Android app and then set up the Mapbox Core Libraries for Android to receive an update whenever a device's location changes. You will also use the Mapbox Maps SDK for Android's `LocationComponent` to display the device location icon. The information in a location change update includes the device's real-time coordinates, which can be helpful for your project.
+本教程将指导您添加 Mapbox 地图到安卓应用程序，并设置 Mapbox Core Libraries for Android 来获取设备的实时位置变化更新。您还将利用 Mapbox Maps SDK for Android 的 `LocationComponent` 组件来显示设备位置的图标。此外，位置变化更新信息包含了设备的实时地理位置坐标，可能对您的项目有所帮助。
 
-By the end of this tutorial, you will have an app that displays [an Android system toast](https://developer.android.com/guide/topics/ui/notifiers/toasts) with the latest device location coordinates, whenever the Core library delivers a location update. Rather than showing a toast, you could use the coordinates how you'd like:
+本教程结束后，您的应用程序将显示一个 [Android system toast](https://developer.android.com/guide/topics/ui/notifiers/toasts)，每当 Core library 传递位置更新时，它都可以显示设备的最新位置坐标。除了利用 toast 显示位置坐标，您还可以选择您喜欢的其他方式：
 
 <div class='align-center'>
 <img src='/help/img/android/android-location-tracking-final.png' alt='map with location tracked and showing LocationComponent' class='inline wmax360-mm wmax-full'>
 </div>
 
 
-## Getting started
+## 开始
 
-Start by creating a new project in Android Studio and initializing a `MapView`. There are five files you'll be working with in your Android Studio project to set up a Mapbox map and add custom data to be styled using data-driven styling. The five files you'll be working with include:
+首先在 Android Studio 中创建一个新项目并初始化一个地图视图。为了使用 Android Studio 项目创建一个 Mapbox 地图，并添加定制化数据来使用数据驱动样式，您需要以下5个文件：
 
-- **build.gradle**: Android Studio uses a toolkit called Gradle to compile resources and source code into an APK. The `build.gradle` file is used to configure the build and list dependencies, including the Mapbox Maps SDK for Android.
-- **AndroidManifest.xml**: The `AndroidManifest.xml` file is where you'll describe components of the application, including Mapbox-related permissions.
-- **activity_main.xml**: The `activity_main.xml` file is where you'll set the properties for your `MapView` (for example, the center of the map view, the zoom level, and the map style used).
-- **strings.xml**: You'll store your access token in the `strings.xml` file.
-- **MainActivity.java**: `MainActivity.java` is a Java file where you'll specify Mapbox-specific interactions.
+- **build.gradle**: Android Studio 使用 Gradle 工具集将源文件和源代码编译成一个 APK 文件。build.gradle 文件被用来配置构建和管理包括 Mapbox Maps SDK for Android 在内的依赖。
+- **AndroidManifest.xml**: 您可以在 `AndroidManifest.xml` 文件中描述应用程序的组件，比如与 Mapbox 相关的权限。
+- **activity_main.xml**: 您可以在 `activity_main.xml` 文件中设置 `MapView` 的属性(例如 MapView 的中心, 缩放级别以及地图样式)。
+- **strings.xml**: 您可以将 access token 存储在 `strings.xml` 文件中。
+- **MainActivity.java**: 您可以在 `MainActivity.java` 文件中指定 Mapbox 的各种交互。
 
 {{
   <div className="txt-s txt-fancy mb6" style={{ color: "#273d56" }}>build.gradle (App module)</div>
@@ -103,9 +103,9 @@ dependencies {
   />
 }}
 
-You can learn how to set up an Android Studio project with the Maps SDK for Android in the [First steps with the Mapbox Maps SDK for Android](/help/tutorials/first-steps-android-sdk/) guide.
+您可以在教程 [First steps with the Mapbox Maps SDK for Android](/help/tutorials/first-steps-android-sdk/) 中学习如何在 Android Studio 创建一个包含 Maps SDK for Android 的项目.
 
-Run your application, and you should see a map with the Mapbox Traffic Night style centered on Nashville, Tennessee, in the United States of America.
+运行您的应用程序，您将看到一幅以美国田纳西州纳什维尔市为中心的 Mapbox Traffic Night 样式地图。
 
 <div class='align-center'>
 <img src='/help/img/android/android-location-tracking-nashville-only.png' alt='map with location tracked and showing LocationComponent' class='inline wmax360-mm wmax-full'>
@@ -113,15 +113,15 @@ Run your application, and you should see a map with the Mapbox Traffic Night sty
 
 
 
-## Handle location permissions
+## 处理位置权限
 
-The Android system requires an app to be approved for device location tracking. The Mapbox Core Library helps to check for, request, and respond to the location permission request.
+应用程序需要被安卓系统批准以使用设备位置追踪服务。Mapbox Core Library 负责位置权限的检查、请求以及相关响应。
 
 <div class='align-center'>
 <img src='/help/img/android/android-location-tracking-permission-dialog.png' alt='map with location tracked and showing LocationComponent' class='inline wmax360-mm wmax-full'>
 </div>
 
-Using our static check, which returns a boolean, you can check if location permissions have already been requested. To make a location permission request, first implement the `PermissionsListener` interface.
+通过使用 static check 返回的布尔值，您可以检测位置权限请求是否已经发送。如需创建一个位置权限请求，首先需要实现 `PermissionsListener` 接口。
 
 {{
   <AndroidTutorialCodeBlock
@@ -136,9 +136,9 @@ Using our static check, which returns a boolean, you can check if location permi
   />
 }}
 
-Override the `onExplanationNeeded()` method once you implement the `PermissionsListener` interface.
+实现 `PermissionsListener` 接口后，您需要重写 `onExplanationNeeded()` 方法。
 
-Add a String resource titled `user_location_permission_explanation` in your `strings.xml` file, which will display if and when you need to provide further explanation for your location permission request.
+向文件 `strings.xml` 添加一个名为 `user_location_permission_explanation` 的字符串资源，这样，当您需要在位置权限请求中提供更多说明信息时，该字符串将会显示。
 
 ```xml
 <string name="user_location_permission_explanation">EXPLANATION_HERE</string>
@@ -154,7 +154,8 @@ Add a String resource titled `user_location_permission_explanation` in your `str
   />
 }}
 
-The other method to override is `onPermissionResult()`. This convenient method will deliver you a true/false boolean value, which tells you whether a user accepted or denied the app's request to gain access to the device's location. Initialize the Maps SDK's `LocationComponent` once the location permission has been granted.
+
+方法 `onPermissionResult()` 也需要重写，其返回的布尔值表示用户接受或拒绝了应用程序的位置权限获取请求。获取位置权限后，则需初始化 Maps SDK 的 `LocationComponent` 组件。
 
 {{
   <AndroidTutorialCodeBlock
@@ -167,7 +168,7 @@ The other method to override is `onPermissionResult()`. This convenient method w
   />
 }}
 
-To start a permission check, create a new `PermissionManager` and call `requestLocationPermissions()`
+创建一个新 `PermissionManager` 对象并调用其方法 `requestLocationPermissions()` 来检测权限。
 
 {{
   <AndroidTutorialCodeBlock
@@ -181,14 +182,15 @@ To start a permission check, create a new `PermissionManager` and call `requestL
 }}
 
 
-## Initialize the `LocationEngine`
+## 初始化 `LocationEngine`
 
-Now that permissions have been handled, a `LocationEngine` object must be created and used.
+现在位置权限已经处理好了，我们需要创建一个 `LocationEngine` 对象。
 
-Building a `LocationEngineRequest` is next. In the request, define:
-- how many milliseconds you'd like to pass between location updates.
-- how accurate you want the location updates to be.
-- the maximum wait time in milliseconds for location updates. Locations determined at intervals but delivered in batch based on wait time. Batching is not supported by all engines.
+首先创建一个 `LocationEngineRequest`。在请求中，定义如下：
+
+- 位置更新的间隔（毫秒）。
+- 位置更新的精度。
+- 位置更新的最长等待时间（毫秒）。 在更新间隔测定位置，并根据等待时间的长短分批传递返回，但只有部分引擎支持分批这一特性。
 
 {{
   <AndroidTutorialCodeBlock
@@ -202,7 +204,7 @@ Building a `LocationEngineRequest` is next. In the request, define:
   />
 }}
 
-You'll also want to add the following to `onDestroy()` to prevent leaks:
+您可能还需添加如下代码到 `onDestroy()` 方法来防止内存泄漏：
 
 {{
   <AndroidTutorialCodeBlock
@@ -215,21 +217,21 @@ You'll also want to add the following to `onDestroy()` to prevent leaks:
 }}
 
 
-## Enable the `LocationComponent`
+## 启用 `LocationComponent` 组件
 
 {{<Note imageComponent={<BookImage />}>}}
-This section is optional. You can skip this section if you don't care about showing the location puck on the map.
+本节是可选内容。如您无意在地图上显示位置图标，可跳过本节。
 {{</Note>}}
 
-Thanks to the `PermissionsManager.areLocationPermissionsGranted(this)` boolean check, you now know that the location permission has been granted. You also know that the `LocationEngine` has been initialized. Now you can confidently initialize [the Maps SDK's `LocationComponent`](https://docs.mapbox.com/android/maps/overview/location-component/). The `LocationComponent` shows the device location "puck" icon on the map. You don't **have** to show the device location icon on the map to progress through this help guide. _Skip this section if you don't care about showing the location puck on the map_
+通过 `PermissionsManager.areLocationPermissionsGranted(this)` 的布尔检查， 您已知晓应用程序已经获取了位置权限，同时 `LocationEngine` 也已经初始化。现在您可以安心地初始化 [Maps SDK 的 `LocationComponent` 组件](https://docs.mapbox.com/android/maps/overview/location-component/)。该组件可在地图上显示设备位置图标，但您**并非必须**显示该图标，因为其并不影响您继续阅读本教程。_因此，如您无意在地图上显示位置图标，可跳过本节_。
 
-The `LocationComponent` has `COMPASS` as its `RenderMode`, which means an arrow will be shown outside the location icon to display the device's compass bearing. The arrow indicates which direction the device is pointed towards. [There are other `RenderMode` choices if you do not want `COMPASS`](https://docs.mapbox.com/android/maps/overview/location-component/#rendermode).
+当 `LocationComponent` 组件的 `RenderMode` 选项是 `COMPASS` 时，位置图标的外部将显示一个箭头表征罗盘方位。该箭头指向设备的朝向。[有关其他 `RenderMode` 选项，请参考本链接](https://docs.mapbox.com/android/maps/overview/location-component/#rendermode)。
 
 <div class='align-center'>
 <img src='/help/img/android/android-location-tracking-compass-arrow.png' alt='map with location tracked and showing LocationComponent' class='inline wmax360-mm wmax-full'>
 </div>
 
-The `LocationComponent` has `TRACKING` as its `CameraMode`, which means that the map camera will follow the device's location. [There are other `CameraMode` options though](https://docs.mapbox.com/android/maps/overview/location-component/#cameramode).
+当`LocationComponent` 的 `CameraMode` 选项是 `TRACKING` 时，地图视野将随设备位置的变化而变化。[有关其他 `CameraMode` 选项，请参考本链接](https://docs.mapbox.com/android/maps/overview/location-component/#cameramode)。
 
 {{
   <AndroidTutorialCodeBlock
@@ -244,13 +246,13 @@ The `LocationComponent` has `TRACKING` as its `CameraMode`, which means that the
   />
 }}
 
-## Listen to location updates
+## 监听位置变化
 
-The last step is to create a location update interface callback to listen to location updates from the Mapbox Core Libraries for Android.
+最后，我们将创建一个位置更新的接口回调来监听来自于 Mapbox Core Libraries for Android 的位置更新。
 
-Create a class that implements `LocationEngineCallback<LocationEngineResult>`. The `LocationEngineCallback<LocationEngineResult>` interface is a part of the Core Libraries. Make sure the class requires Android system `Activity` as a constructor parameter. This new class should be created because a `LocationEngine` memory leak is possible if the activity/fragment directly implements the `LocationEngineCallback<LocationEngineResult>`. The `WeakReference` setup avoids the leak.
+创建一个实现 `LocationEngineCallback<LocationEngineResult>` 接口的类，该接口是 Core Libraries 的一部分，同时请确保安卓系统的 `Activity` 作为该类的一个构造参数。值得注意的是，Activity/Fragment直接实现 `LocationEngineCallback<LocationEngineResult>` 接口可能引起 `LocationEngine` 内存泄漏，而创建此新类并设置 `WeakReference` 可避免该泄漏。
 
-Implementing `LocationEngineCallback<LocationEngineResult>` requires you to override the `onSuccess()` and `onFailure()` methods.
+实现 `LocationEngineCallback<LocationEngineResult>` 接口需要重写 `onSuccess()` 和  `onFailure()` 方法。
 
 {{
   <AndroidTutorialCodeBlock
@@ -263,12 +265,12 @@ Implementing `LocationEngineCallback<LocationEngineResult>` requires you to over
   />
 }}
 
-`OnSuccess()` runs whenever the Mapbox Core Libraries identifies a change in the device's location. `result.getLastLocation()` gives you a `Location` object and that object has the latitude and longitude values. Now you can display the values in your app's UI, save it in memory, send it to your backend server, or use the device location information how you'd like.
+每当 Mapbox Core Libraries 发现设备位置变化时，就会调用 `OnSuccess()` 方法。其中，`result.getLastLocation()` 方法返回一个包含经、纬度值的 `Location` 对象。现在，您可以通过您喜欢的方式使用该设备位置信息了，例如显示在应用程序的 UI 里 ，保存于内存中，或者发送到后端服务器。
 
 
-## Finished product
+## 完结
 
-You have set up code to be notified of device location updates. The screenshot below shows Nashville, but in reality, the map camera will move to wherever your device is if you're still using `TRACKING` as the `LocationComponent`'s `CameraMode`.
+至此，您已配置好用来获得设备位置更新的代码。下方截图显示位于纳什维尔市，但实际上，如果 `LocationComponent` 组件的 `CameraMode` 选项仍是 `TRACKING`，地图视野将移动到任何您设备所在的位置。
 
 <div class='align-center'>
 <img src='/help/img/android/android-location-tracking-final.gif' alt='map with location tracked and showing LocationComponent' class='inline wmax360-mm wmax-full'>
@@ -281,6 +283,6 @@ You have set up code to be notified of device location updates. The screenshot b
   />
 }}
 
-## Next steps
+## 下一步
 
-There are many possibilities when using the `LocationComponent`. Explore [the Android demo app's location-related examples](https://github.com/mapbox/mapbox-android-demo/blob/master/MapboxAndroidDemo/src/main/java/com/mapbox/mapboxandroiddemo/examples/location/) to see how to show a device's location in an Android fragment, to customize the `LocationComponent` icon, and much more.
+`LocationComponent` 组件提供了很多可能性。 请参考 [Android 演示应用程序中的位置相关案例](https://github.com/mapbox/mapbox-android-demo/blob/master/MapboxAndroidDemo/src/main/java/com/mapbox/mapboxandroiddemo/examples/location/)， 了解如何在 Android Fragment 中显示设备位置，定制 `LocationComponent` 组件图标等等。
