@@ -14,7 +14,7 @@ contentType: guide
 
 The [Mapbox Geocoding API](https://docs.mapbox.com/api/search/#geocoding) performs two main tasks: *forward geocoding* and *reverse geocoding*. Forward geocoding converts text into geographic coordinates, for example, turning `2 Lincoln Memorial Circle NW` into `-77.050,38.889`. Reverse geocoding converts geographic coordinates into a text description, for example, turning `-77.050,38.889` into `2 Lincoln Memorial Circle NW`.
 
-[Mapbox Geocoding API](https://docs.mapbox.com/api/search/#geocoding)主要执行两项任务：*地理编码* 和 *反向地理编码*。地理编码可以将地址文本转换成对应的地理坐标，例如，将 `2 Lincoln Memorial Circle NW` 转换为 `-77.050,38.889`。反向地理编码则是指将地理坐标转化为地址文本说明的过程，例如，将 `-77.050,38.889` 转化为 `2 Lincoln Memorial Circle NW`。
+[Mapbox Geocoding API](https://docs.mapbox.com/api/search/#geocoding) 主要执行两项任务：*地理编码* 和 *反向地理编码*。地理编码可以将地址文本转换成对应的地理坐标，例如，将 `2 Lincoln Memorial Circle NW` 转换为 `-77.050,38.889`。反向地理编码则是指将地理坐标转化为地址文本说明的过程，例如，将 `-77.050,38.889` 转化为 `2 Lincoln Memorial Circle NW`。
 
 All geocoding requests require you to submit a *query*, or what you're trying to find. When you make a query, you get a *response*, a JSON-formatted document of the most relevant results from your query. This guide provides an overview of how the Geocoding API works, how to use it, how to provide feedback, and links to relevant documentation to get you started.
 
@@ -44,7 +44,7 @@ Mapbox Geocoding API 包含了来自政府机构，开源数据项目及私营�
 
 The Mapbox Geocoding API source data contains the following types of geographic information, ordered from the most granular to the largest:
 
-Mapbox Geocoding API 源数据包含了以下几种地理信息（顺序排列自点到面，由小至大）：
+Mapbox Geocoding API 源数据包含了以下几种地理信息（顺序排列根据覆盖区域自点到面，由小至大）：
 
 - **Points of interest (POI):** A named place including commercial businesses, public buildings, monuments, and parks, among other features.
 - **Address:** A specific mailing address, including the address number if applicable.
@@ -56,7 +56,11 @@ Mapbox Geocoding API 源数据包含了以下几种地理信息（顺序排列�
 - **Region:** States, provinces, and prefectures. This is typically the largest sub-national administrative unit of a country. Note that some large cities (such as Tokyo and Istanbul) may be categorized as regions rather than places.
 - **Country:** Generally recognized countries or, in some cases like Hong Kong, an area of quasi-national administrative status that has been given a designated country code under ISO 3166-1.
 
+
+
 This hierarchy of feature types is also used to determine what will be returned as the encompassing parent features in a Geocoding API response object's [`context` property](https://docs.mapbox.com/api/search/#geocoding-response-object). For example, if the returned feature is a `place` (like Detroit), then the encompassing parent features in the `context` property will be the `region` (the state of Michigan) and the `country` (United States).
+
+
 
 ### Tools
 
