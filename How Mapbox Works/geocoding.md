@@ -58,18 +58,18 @@ Mapbox Geocoding API 源数据包含了以下几种地理信息（顺序排列�
 - **Country:** Generally recognized countries or, in some cases like Hong Kong, an area of quasi-national administrative status that has been given a designated country code under ISO 3166-1.
 
 - **兴趣点（POI, Points of Interest）：** 一个有名称的地点，它可以是在其余地理信息要素中的商务楼，公共建筑，纪念碑/历史遗迹，公园。
-- **地址：** 一个具体的邮寄地址，包含门牌号或建筑物号码（如果适用）。
-- **街区：** 一个地方子区域的俗称。街区不一定有确切的，法定的边界。仅于某些国家地址中出现。
-- **本地居民区：** 一个小于地方的行政区域单位。仅于某些国家地址中出现。
-- **邮政行政区（以邮编代表）：** （邮编）作为地址中的一部分，描述用来分理邮件的地理区域。
-- **地方：** 以城市或村镇为代表。请注意，一些大城市（例如，东京和伊斯坦布尔）可被归类为区域而不是地方。
-- **区级行政区：** 一个比地方大，同时又比区域小的行政区域单位。仅于某些国家地址中出现。
-- **区域：** 以州，省和县为代表。通常它是一个仅次于国家的最大行政区域单位。值得注意的是，一些大城市（例如，东京和伊斯坦布尔）可被归类为区域而不是地方。
-- **国家或地区：** 一般指公认的国家，或者一些情况下也指地区， 如：香港特别行政区。它们都有指定的 ISO 3166-1 国家或地区编码。
+- **地址 Address：** 一个具体的邮寄地址，包含门牌号或建筑物号码（如果适用）。
+- **街区 Neighborhood：** 一个地方子区域的俗称。街区不一定有确切的，法定的边界。仅于某些国家地址中出现。
+- **本地居民区 Locality：** 一个小于地方的行政区域单位。仅于某些国家地址中出现。
+- **邮政行政区（以邮编代表）Postcode：** （邮编）作为地址中的一部分，描述用来分理邮件的地理区域。
+- **地方 Place：** 以城市或村镇为代表。请注意，一些大城市（例如，东京和伊斯坦布尔）可被归类为区域而不是地方。
+- **区级行政区 District：** 一个比地方大，同时又比区域小的行政区域单位。仅于某些国家地址中出现。
+- **区域 Region：** 以州，省和县为代表。通常它是一个仅次于国家的最大行政区域单位。值得注意的是，一些大城市（例如，东京和伊斯坦布尔）可被归类为区域而不是地方。
+- **国家或地区 Country：** 一般指公认的国家，或者一些情况下也指地区， 如：香港特别行政区。它们都有指定的 ISO 3166-1 国家或地区编码。
 
 This hierarchy of feature types is also used to determine what will be returned as the encompassing parent features in a Geocoding API response object's [`context` 属性](https://docs.mapbox.com/api/search/#geocoding-response-object). For example, if the returned feature is a `place` (like Detroit), then the encompassing parent features in the `context` property will be the `region` (the state of Michigan) and the `country` (United States).
 
-这个关于要素类别的层次结构也可以被用来决定一个 Geocoding API 的JSON回复对象中 [`context` 属性](https://docs.mapbox.com/api/search/#geocoding-response-object) 所包含的父要素。举个例子，如果返回的要素是一个 `地方` （如：底特律），那么其 `context` 属性将会是 `区域` （密歇根州） 和  `国家或地区` (美国)。
+这个关于要素类别的层次结构也可以被用来决定一个 Geocoding API 的JSON回复对象中 [`context` 属性](https://docs.mapbox.com/api/search/#geocoding-response-object) 所包含的父要素。举个例子，如果返回的要素是一个 `place` （如：底特律），那么其 `context` 属性将会是 `region` （密歇根州） 和  `country` (美国)。
 
 
 ### Tools
@@ -80,24 +80,42 @@ The Mapbox Geocoding API uses [Carmen](https://github.com/mapbox/carmen), an ope
 Mapbox Geocoding API 使用 [Carmen](https://github.com/mapbox/carmen)，一个为Mapnik矢量切片进行地理编码的开源项目。若想了解跟多有关Carmen的内容，您可以参考 [Carmen是如何运作的？](https://github.com/mapbox/carmen#how-does-carmen-work)。
 
 ### Customizing your queries
+### 自定义您的查询请求
 
 The Mapbox Geocoding API accepts many optional parameters. You can use these optional parameters to customize your queries so that the most relevant results are returned. These parameters can be specified using URL query parameters, or they can be specified as options with one of our client-side libraries or plugins. These parameters allow you to view results as you type, filter results by geographic feature type, and limit or bias results to a specified area. For example, to limit your search results to addresses in the Washington DC Metro area, you could set the `type` parameter to `address` and the `bbox` parameter to `-77.08,38.90,-76.99,38.95`. With those parameters set, your query for `Constitution Ave` will only return street addresses in the DC Metro area, and will not include features you're not interested in (like `Constitution Ave, El Paso, Texas 79908, United States`).
 
+Mapbox Geocoding API 接受多种可选参数。您可以使用这些可选参数来自定义您的查询请求以便返回最相关的查询结果。这些参数可以根据URL中的查询参数来指定，也可以根据任意一个我们客户端库或者插件中的选项来指定。这些参数允许您边输入边查看相关查询结果，根据地理元素类来筛选结果，以及将结果限定在指定地区。例如，若您想将搜索查询结果限制在华盛顿特区都市区内，您可以首先将 `type` 参数设为 `address`, `bbox` 参数设为`-77.08,38.90,-76.99,38.95`。有了这些参数设置，您的输入查询地点 `Constitution Ave` 将会为您返回限定在华盛顿特区都市区内的相关街道地址，它们并不会包含您不感兴趣的地理元素（如，位于德克萨斯州的`Constitution Ave`， `Constitution Ave, El Paso, Texas 79908, United States）
+
 Read the [Geocoding API documentation](https://docs.mapbox.com/api/search/#geocoding) for more information on available features.
 
+请阅读 [Geocoding API 文档](https://docs.mapbox.com/api/search/#geocoding) 来了解更多Geocoding API中的可用功能。
+
 ### Language support
+### 语言支持
 
 The Mapbox Geocoding API accepts a `language` query parameter, which allows you to specify the language in which you would like to search. One or more languages can be specified using [ISO 639-1 codes](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes). Translation availability varies by language and region, and you can expect more consistent results for areas where the specified language is most widely used. Language support has three different levels:
+
+Mapbox Geocoding API 接受一个 `language` 语言查询参数，它允许您指定用来查询搜索的语言。一种或多种语言可以根据 [ISO 639-1 代码](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) 来指定。翻译的可用性因语言种类和地区而异，您可以期待从那些指定语言使用广泛的地区中获得更加一致的查询结果。语言支持有三个级别：
 
 - **Global coverage.** These languages are almost always present for `country`, `region`, and prominent `place` features.
 - **Local coverage.** These languages may lack global coverage, but they are almost always present for `country`, `region`, and prominent `place` features where they are widely used.
 - **Limited coverage.** These languages are sometimes present, but coverage tends to be inconsistent or geographically constrained.
 
+- **全球覆盖：** 这些语言通常都能显示并支持定义 `country`, `region`, 和显著的 `place` 这类元素。
+- **局部覆盖：** 这些语言尽管没有覆盖全球范围，但是它们通常也可以在广泛使用这些语言的地区显示并支持定义 `country`, `region`, 和显著的 `place` 这类元素。
+- **有限覆盖：** 这些语言有时会显示，但是其覆盖范围趋于不一致或者受到地理位置限制。
+
+
 For a current list of the languages covered at each level, see the [Geocoding API documentation](https://docs.mapbox.com/api/search/#language-coverage).
 
+若您有兴趣了解Mapbox Geocoding API有关不同级别语言覆盖范围的最新信息，请参考阅读 [Geocoding API 文档](https://docs.mapbox.com/api/search/#language-coverage)。 
+
 ### Search result prioritization
+### 查询结果优先次序
 
 Results from geocoding queries are prioritized differently depending on whether the request was a _forward geocode_ or a _reverse geocode_.
+
+地理编码查询服务所返回的结果会根据查询请求是否为_forward geocode_ 或 _reverse geocode_ 来决定优先次序。
 
 #### Result prioritization in forward geocoding
 
