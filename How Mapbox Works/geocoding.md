@@ -18,7 +18,8 @@ The [Mapbox Geocoding API](https://docs.mapbox.com/api/search/#geocoding) perfor
 
 All geocoding requests require you to submit a *query*, or what you're trying to find. When you make a query, you get a *response*, a JSON-formatted document of the most relevant results from your query. This guide provides an overview of how the Geocoding API works, how to use it, how to provide feedback, and links to relevant documentation to get you started.
 
-所有的地理编码请求都需要您提交一个 *查询* 问题，换言之，您需要告诉API您想查找的地点。当您发出一个查询请求，您将获得一则 *回复* 信息。这则 *回复* 记录了与您提出的查询请求最相关的查询结果，它以JSON文件格式出现。本篇指南将为您介绍：Geocoding API如何运作，如何使用Geocoding API，以及如何提交相关的反馈意见给Mapbox。您可以参考本篇指南最后的相关文档来开始使用Mapbox地理编码服务。
+所有的地理编码请求都需要您提交一个 *查询* 问题，换言之，您需要告诉API您想查找的地点。当您发出一个查询请求，您将获得一则 *回复* 信息。这则 *回复* 记录了与您提出的查询请求最相关的查询结果，它以JSON文件格式出现。本篇指南将为您介绍：Geocoding API如何
+，如何使用Geocoding API，以及如何提交相关的反馈意见给Mapbox。您可以参考本篇指南最后的相关文档来开始使用Mapbox地理编码服务。
 
 {{
   <DemoIframe src="/help/demos/how-mapbox-works/how-geocoding-works.html" />
@@ -56,15 +57,27 @@ Mapbox Geocoding API 源数据包含了以下几种地理信息（顺序排列�
 - **Region:** States, provinces, and prefectures. This is typically the largest sub-national administrative unit of a country. Note that some large cities (such as Tokyo and Istanbul) may be categorized as regions rather than places.
 - **Country:** Generally recognized countries or, in some cases like Hong Kong, an area of quasi-national administrative status that has been given a designated country code under ISO 3166-1.
 
+- **兴趣点（POI, Points of Interest）：** 一个有名称的地点，它可以是在其余地理信息要素中的商务楼，公共建筑，纪念碑/历史遗迹，公园。
+- **地址：** 一个具体的邮寄地址，包含门牌号或建筑物号码（如果适用）。
+- **街区：** 一个地方子区域的俗称。街区不一定有确切的，法定的边界。仅于某些国家地址中出现。
+- **本地居民区：** 一个小于地方的行政区域单位。仅于某些国家地址中出现。
+- **邮政行政区（以邮编代表）：** （邮编）作为地址中的一部分，描述用来分理邮件的地理区域。
+- **地方：** 以城市或村镇为代表。请注意，一些大城市（例如，东京和伊斯坦布尔）可被归类为区域而不是地方。
+- **区级行政区：** 一个比地方大，同时又比区域小的行政区域单位。仅于某些国家地址中出现。
+- **区域：** 以州，省和县为代表。通常它是一个仅次于国家的最大行政区域单位。值得注意的是，一些大城市（例如，东京和伊斯坦布尔）可被归类为区域而不是地方。
+- **国家或地区：** 一般指公认的国家，或者一些情况下也指地区， 如：香港特别行政区。它们都有指定的 ISO 3166-1 国家或地区编码。
 
+This hierarchy of feature types is also used to determine what will be returned as the encompassing parent features in a Geocoding API response object's [`context` 属性](https://docs.mapbox.com/api/search/#geocoding-response-object). For example, if the returned feature is a `place` (like Detroit), then the encompassing parent features in the `context` property will be the `region` (the state of Michigan) and the `country` (United States).
 
-This hierarchy of feature types is also used to determine what will be returned as the encompassing parent features in a Geocoding API response object's [`context` property](https://docs.mapbox.com/api/search/#geocoding-response-object). For example, if the returned feature is a `place` (like Detroit), then the encompassing parent features in the `context` property will be the `region` (the state of Michigan) and the `country` (United States).
-
+这个关于要素类别的层次结构也可以被用来决定一个 Geocoding API 的JSON回复对象中 [`context` 属性](https://docs.mapbox.com/api/search/#geocoding-response-object) 所包含的父要素。举个例子，如果返回的要素是一个 `地方` （如：底特律），那么其 `context` 属性将会是 `区域` （密歇根州） 和  `国家或地区` (美国)。
 
 
 ### Tools
+### 工具
 
 The Mapbox Geocoding API uses [Carmen](https://github.com/mapbox/carmen), an open source project for Mapnik vector tile-based geocoding. For more on Carmen, see [How does Carmen work?](https://github.com/mapbox/carmen#how-does-carmen-work).
+
+Mapbox Geocoding API 使用 [Carmen](https://github.com/mapbox/carmen)，一个为Mapnik矢量切片进行地理编码的开源项目。若想了解跟多有关Carmen的内容，您可以参考 [Carmen是如何运作的？](https://github.com/mapbox/carmen#how-does-carmen-work)。
 
 ### Customizing your queries
 
