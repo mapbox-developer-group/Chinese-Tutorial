@@ -25,20 +25,20 @@ prependJs:
     }
 </style>
 
-With the [Mapbox Studio](https://studio.mapbox.com) style editor, you can style a single country or region. In this example, you will be styling Australia.
+在 [Mapbox Studio](https://studio.mapbox.com) 样式编辑器的帮助下，您可以定制一个国家或地区的样式。在这个例子中，您将定义澳大利亚的样式。
 
-## Getting started
+## 开始
 
-Before getting started, you will need a few things:
+在开始之前，您需要注意以下几点事项：
 
-- **Mapbox account**. You will need an account to log in and use the Mapbox Studio style editor. You can create an account at [mapbox.com/account](https://account.mapbox.com).
-- **Natural Earth data**. Download the `Admin 0 - Countries` Shapefile from [Natural Earth](http://www.naturalearthdata.com/downloads/10m-cultural-vectors/).
+- **Mapbox account** 。您需要一个帐号用来登录和使用 Mapbox Studio 样式编辑器。你可以在 [mapbox.com/account](https://account.mapbox.com) 创建这样的帐号。
+- **Natural Earth data** 。 您需要从 [Natural Earth](http://www.naturalearthdata.com/downloads/10m-cultural-vectors/) 下载 `Admin 0 - Countries` 的 Shapefile 文件。
 
-## Create a new style
+## 创建一个新的样式
 
-Log into your Mapbox account and navigate to your [Styles](https://studio.mapbox.com/styles) page. This is where all your styles are listed. A [style](/help/glossary/style/) is a set of rules for how Mapbox will draw the map on a page – it includes references to your data, map images (icons, markers, patterns), fonts, and defines how all your data should be styled on your map. For more about styles, see the [Styles](https://docs.mapbox.com/studio-manual/reference/styles/) section of the Mapbox Studio Manual.
+登录您的 Mapbox 帐号并跳转到 [Styles](https://studio.mapbox.com/styles) 页面， 那里会列出您的所有地图样式。一个 [style](/help/glossary/style/) 是一组规则，它定义了 Mapbox 在页面上如何绘制您的地图，它包括了您的数据、地图图像（图标、标记和模式）、字体的引用，并且定义了您所有数据在地图上的样式。更多关于样式的信息，请阅读 Mapbox Studio 手册的 [Styles](https://docs.mapbox.com/studio-manual/reference/styles/) 部分。
 
-To create a new style from your [Styles](https://studio.mapbox.com/styles) page, click **New style**, scroll down, select **Blank**, and click **Customize Blank**. The style editor will automatically open.
+从您的 [Styles](https://studio.mapbox.com/styles) 页面创建一个新的样式，请点击 **New style** 按钮。向下滑动页面，选择 **Blank** 并点击 **Customize Blank**。这个样式编辑会自动打开。
 
 {{
   <Video
@@ -47,25 +47,25 @@ To create a new style from your [Styles](https://studio.mapbox.com/styles) page,
   />
 }}
 
-## Use the style editor
+## 使用样式编辑器
 
-Use the style editor to add the data you downloaded to the map and adjust the style of the country.
+使用样式编辑器添加您下载的数据到地图中，并调整国家的样式。
 
-### Add a tileset source
+### 添加一个 tileset 源
 
-You can add Australia to the empty map canvas by uploading the Natural Earth data as a tileset:
+您可以通过上传的自然地球数据作为一个tileset然后把澳大利亚添加到一个空白的地图画布中：
 
-1. Click **+ Layer**.
-2. In the list of _Data sources_, click **+ Upload**, and select the Natural Earth data.
-3. A popover will appear in the bottom right showing the progress of your upload.
-4. Once the upload has "Succeeded", the tileset will be ready to use!
-5. Search for your tileset in the _Data sources_ list and click the source and then the source layer you'd like to use.
+1. 点击 **+ Layer** 。
+2. 在 _Data sources_ 列表中，点击 **+ Upload** 并选择自然地球数据。
+3. 右下角将出现一个弹出窗口，显示您上传的进度。
+4. 一旦上传 "Succeeded" tileset就可以使用了！
+5. 在 _Data sources_ 列表中搜索您的 tileset，并点击这个数据源，然后您就可以使用这个数据源图层了。
 
-The tileset you created includes all countries. To filter to use only Australia:
+您创建的这个 tileset 包含了所有的国家，进行过滤而只使用澳大利亚：
 
-1. Click the **Filter** option and click **+ Create filter**.
-2. Choose **NAME** from the list of data fields.
-3. Type `Australia` into the search bar. Click **+ Use Australia** and then click **Done**.
+1. 点击 **Filter** 选项，再点击 **+ Create filter** 。
+2. 从数据字段中选择 **NAME** 字段。
+3. 输入 `Australia` 带搜索框中，再点击 **+ Use Australia** 然后点击 **Done** 。
 
 {{
   <AppropriateImage
@@ -74,8 +74,8 @@ The tileset you created includes all countries. To filter to use only Australia:
   />
 }}
 
-4. In the original panel, flip back to the **Style** tab.
-5. You'll see a black outline of Australia in your map canvas.
+4. 在原始的面板中，重新选中 **Style** 选项卡。
+5. 您将在您的地图画布上看到一个黑边的澳大利亚。
 
 {{
   <AppropriateImage
@@ -84,9 +84,9 @@ The tileset you created includes all countries. To filter to use only Australia:
   />
 }}
 
-### Style data
+### 定制数据样式
 
-Next, click the **Style** tab to customize the look and feel of the layer. Change both the **Color** and **1px stroke** fields to {{<span className="color-swatch" style={{ backgroundColor: "#11b1f0" }}></span>}} `#11b1f0`.
+接下来点击 **Style** 选项卡从而自定义这个图层的外观和感受。改变 **Color** and **1px stroke** 字段为 {{<span className="color-swatch" style={{ backgroundColor: "#11b1f0" }}></span>}} `#11b1f0`。
 
 {{
   <AppropriateImage
@@ -97,12 +97,12 @@ Next, click the **Style** tab to customize the look and feel of the layer. Chang
 
 ### Publish
 
-When you have finished editing your map style, publish your changes by clicking **Publish** in the upper right of the style editor. When you click the publish button, a window will display the difference between the previous and current version of this style. If you're happy with the changes, click **Publish**. Your style will now be available to share from a variety of tools and applications.
+编辑完地图样式后，单击屏幕右上角的 **Publish** 发布更改。当您点击发布按钮时，一个窗口将显示此样式的前一个版本和当前版本之间的差异。如果您对更改感到满意，请单击 **Publish** 。您的样式现在可以在各种工具和应用程序中共享。
 
-## Final product
+## 成品
 
-You've styled a single country with the help of an outside data source. Mapbox Studio provides a wide variety of ways to use your new map style. You can use this map directly on your website or in a web or mobile application. Take a look at the [Publish style section](https://docs.mapbox.com/studio-manual/overview/publish-your-style/) of the Mapbox Studio Manual to see all the ways you can use your style!
+您已经在外部数据的帮助下的制定了一个国家的样式。Mapbox Studio 提供了多种使用新地图样式的方法。您可以直接在您的网站、web或者移动应用程序中使用此地图。请查阅 Mapbox Studio 手册的 [Publish style section](https://docs.mapbox.com/studio-manual/overview/publish-your-style/) ，以了解所有使用您的样式的方法！
 
-## Next steps
+## 下一步骤
 
-Learn more about what you can do with the Mapbox Studio style editor in the [Mapbox Studio Manual](https://docs.mapbox.com/studio-manual/reference/styles/).
+请在 [Mapbox Studio Manual](https://docs.mapbox.com/studio-manual/reference/styles/) 了解更多关于如何使用 Mapbox Studio 样式编辑器的信息。
