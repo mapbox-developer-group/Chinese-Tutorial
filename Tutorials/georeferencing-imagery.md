@@ -1,6 +1,6 @@
 ---
-title: Georeference imagery
-description: Take your non-georeferenced aerial image or historical map and get it onto a Mapbox map with the help of QGIS.
+title: 图像的地理配准
+description: 在QGIS的帮助下，将非地理参考的航拍图像或历史地图放到Mapbox地图上。
 thumbnail: georeferencingImagery
 level: 3
 topics:
@@ -9,7 +9,7 @@ topics:
 - third party integration
 language:
 - No code
-prereq: Familiarity with QGIS.
+prereq: 熟悉QGIS。
 prependJs:
   - "import Icon from '@mapbox/mr-ui/icon';"
   - "import DemoIframe from '@mapbox/dr-ui/demo-iframe';"
@@ -17,22 +17,20 @@ prependJs:
 contentType: tutorial
 ---
 
-**Georeferencing** is the process of assigning geographic coordinates to a raster image to define its location in the world based on a map coordinate system. If you've ever used [Mapbox Satellite](/help/glossary/mapbox-satellite/) you've already worked with georeferenced images. This is because each raster tile in Mapbox Satellite is an image that's been assigned a particular location in the world.
+**地理配准**是将地理坐标分配给栅格图像，并根据地图坐标系统定义其在世界上的位置的过程。 如果您曾经使用过[Mapbox Satellite](/help/glossary/mapbox-satellite/)，那么您已经使用过图像的地理配准。这是因为Mapbox Satellite中的每一个栅格块都是一个被分配到世界上特定位置的图像。
 
-There are lots of reasons why you may want to georeference your own custom raster images. For example, you might receive satellite imagery in a non-spatial image format, you may need to compare historic maps to current maps, or you might be building an interactive map of a fictional place for a gaming app.
+有很多原因可以解释您为什么想要对自己的自定义栅格图像进行地理配准。 例如，您可能会收到非空间图像格式的卫星图像，也可能需要将历史地图与当前地图进行比较，或者您可能正在为游戏应用构建虚构地点的交互式地图。
 
-For this tutorial, you'll be georeferencing a JPEG image of historical downtown Portland, Oregon using [QGIS](http://qgis.org/), a free open-source Geospatial Information System (GIS). Once you've exported your image to [GeoTIFF](/help/glossary/tiff/) format in QGIS, you'll upload it to your Mapbox account as a [tileset](/help/glossary/tileset/). Mapbox does not provide built-in tools to georeference your imagery because there are free, open-source tools that do this, such as QGIS.
-
+在本教程中，您将使用[QGIS](http://qgis.org/)对俄勒冈州波特兰市中心的历史JPEG图像进行地理配准，这是一个免费的开源地理信息系统(GIS)。您在QGIS中将图像导出为[GeoTIFF](/help/glossary/tiff/)格式后，并将其作为[tileset](/help/glossary/tileset/)上传到Mapbox帐户。Mapbox不提供内置工具来对图像进行地理配准，因为有免费的开源工具可以执行此操作，例如QGIS。
 
 ![historical map of Multnomah county](/help/img/3rdparty/multnomah-county.png)
 
 
-## Getting started
+## 入门指南
+在本教程中，您将需要：
 
-For this tutorial you'll need:
-
-- **QGIS**. Follow the [download instructions](http://qgis.org/en/site/forusers/download.html) for more information and be sure you've installed the latest version.
-- **An image to georeference**. This tutorial uses a historical map of downtown Portland, Oregon in JP2 (a type of high resolution JPEG) format, which you'll need to download. This image is clipped from a [larger map of Multnomah County, Oregon](https://www.loc.gov/resource/g4293m.la000694/) provided by the [Library of Congress](https://www.loc.gov/).{{<sup className='text-sup txt-s'>1</sup>}}
+- **QGIS**.请按照[下载说明](http://qgis.org/en/site/forusers/download.html)获取更多信息，并确保已安装最新版本。
+- **地理配准的图像**.本教程使用JP2(一种高分辨率JPEG)格式的俄勒冈州波特兰市中心的历史地图，您需要下载该地图。这张图片是从[美国国会图书馆](https://www.loc.gov/)提供的[俄勒冈州穆尔特诺玛县的较大的地图](https://www.loc.gov/resource/g4293m.la000694/)上裁剪下来的。{{<sup className='text-sup txt-s'>1</sup>}}
 
 {{
 <Button href="/help/data/downtown-pdx.jp2" passthroughProps={{ download: "downtown-pdx" }} >
@@ -40,30 +38,30 @@ For this tutorial you'll need:
 </Button>
 }}
 
-## Georeference your image in QGIS
+## 在QGIS中对您的图像进行地理配准
 
-First you'll need to follow the instructions in the [Georeferencing Topo Sheets and Scanned Maps](http://www.qgistutorials.com/en/docs/georeferencing_basics.html) tutorial for QGIS. This introduction to georeferencing will guide you through the process using the most recent version of QGIS. Make sure you use the image you downloaded at the beginning of this tutorial rather than the image provided in the QGIS tutorial and `EPSG:900913` or `EPSG: 3857` (Web Mercator) as your coordinate reference system (CRS).
+首先，您需要按照QGIS的Georeferencing Topo Sheets和Scanned Maps教程中的说明进行操作。 它对地理配准的介绍将指导您使用最新版本的QGIS完成整个过程。 确保使用本教程开头下载的图像，而不是QGIS教程和EPSG：900913或EPSG：3857（Web Mercator）中提供的图像作为坐标参照系（CRS）。
 
-Once you've finished georeferencing your image, make sure to save your GeoTIFF file as **downtown-pdx.tif** in a convenient location for when you upload it to Mapbox.
+完成您的地理配准后，请确保将GeoTIFF文件保存为**downtown-pdx.tif**，方便您将它上传到Mapbox。
 
-## Upload to Mapbox as a tileset
+## 以tileset的形式上传到Mapbox
 
-You successfully transformed a JP2 image into a GeoTIFF and are ready to upload it to Mapbox as a tileset.
+您已成功将JP2图像转换为GeoTIFF，并准备将其作为tileset上传到Mapbox。
 
-You can upload your GeoTIFF in [Mapbox Studio](https://www.mapbox.com/studio) or programmatically using the [Mapbox Uploads API](https://docs.mapbox.com/api/maps/#uploads). For more information on uploading using Mapbox Studio, read the [Uploads](https://www.mapbox.com/studio-manual/overview/geospatial-data/) section of the [Mapbox Studio Manual](https://www.mapbox.com/studio-manual/). For more information on using the Uploads API, read the [Uploads API documentation](https://docs.mapbox.com/api/maps/#uploads).
+您可以在 [Mapbox Studio](https://www.mapbox.com/studio) 中上传GeoTIFF，也可以使用[Mapbox Uploads API](https://docs.mapbox.com/api/maps/#uploads)以编程方式上传。 有关使用Mapbox Studio上传的详细信息，请阅读[Mapbox Studio手册](https://www.mapbox.com/studio-manual/)的[Uploads](https://www.mapbox.com/studio-manual/overview/geospatial-data/)部分。有关使用Uploads API的更多信息，请阅读[Uploads API 文档](https://docs.mapbox.com/api/maps/#uploads)。
 
-## Finished product
+## 最终产物
 
-You georeferenced your custom imagery and uploaded it to your Mapbox account. Now that your imagery is in raster tile format, you can add it to any of your Mapbox projects as a raster tile source. Here's an example of adding your imagery to a map using Mapbox GL JS.
+您对自定义图像进行了地理配准并上传到了您的Mapbox帐户。 现在您可以将您的栅格瓦片格式的图像作为栅格瓦片源添加到任何Mapbox项目中。 这是使用Mapbox GL JS将图像添加到地图的示例。
 
 {{
   <DemoIframe src="/help/demos/georef/index.html" />
 }}
 
-## Next steps
+## 下一步
 
-To learn more about georeferencing, read QGIS's advanced [Georeferencing Aerial Imagery](http://www.qgistutorials.com/en/docs/advanced_georeferencing.html) guide to extend your georeferencing skills.
+要了解有关地理配准的更多信息，请阅读QGIS的高级 [航空图像地理配准](http://www.qgistutorials.com/en/docs/advanced_georeferencing.html) 指南，以提升您的地理配准技能。
 
 ---
 
-{{<span className='txt-s'><sup className='text-sup'>1</sup> Habersham, Robert A, and Julius Bien & Co. Map of Multnomah County, Oregon: compiled from county records, railroad surveys, and other official data. [New York: Julius Bien & Co Photo. Lith, 1889] Map. Retrieved from the Library of Congress, https://www.loc.gov/item/2012586242/. (Accessed April 18, 2017.)</span>}}
+{{<span className='txt-s'><sup className='text-sup'>1</sup> Habersham，Robert A和Julius Bien＆Co。俄勒冈州摩特诺玛县地图：根据县记录，铁路调查和其他官方数据编制。 [纽约：Julius Bien＆Co Photo。 Lith，1889]地图。 取自美国国会图书馆，https：//www.loc.gov/item/2012586242/。 （2017年4月18日访问。）</span>}}
