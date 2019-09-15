@@ -1,13 +1,13 @@
 ---
-title: Create interactive hover effects with Mapbox GL JS
-description: Use feature state and expressions with Mapbox GL JS to dynamically style individual features in a map that shows earthquakes from the past week.
+title: 使用 Mapbox GL JS 创建交互式悬停效果
+description: 结合 Mapbox GL JS 使用 feature state 和 expressions 来动态赋予一张地图上各要素不同的样式。该地图可视化了过去一周发生的地震。
 thumbnail: featureStateFinal
 topics:
 - web apps
 level: 2
 language:
 - JavaScript
-prereq: Familiarity with front-end development concepts.
+prereq: 熟悉前端开发概念。
 prependJs:
   - "import Note from '@mapbox/dr-ui/note';"
   - "import BookImage from '@mapbox/dr-ui/book-image';"
@@ -19,29 +19,29 @@ prependJs:
 contentType: tutorial
 ---
 <!--copyeditor ignore magnitude -->
-In this tutorial, you will create a map that shows the location of earthquakes that have happened in the last week. You will use [expressions](https://docs.mapbox.com/mapbox-gl-js/style-spec/#expressions) to set a style for the earthquake features according to the magnitude of the earthquake. Finally, you will use [feature state](https://docs.mapbox.com/mapbox-gl-js/style-spec/#expressions-feature-state) to apply these styles to the earthquake features when a user mouses over the feature and remove them when a user mouses away.  
+在本教程中，你会创建一张展示过去一周发生的地震位置分布的地图。你会使用 [expressions](https://docs.mapbox.com/mapbox-gl-js/style-spec/#expressions) 来根据地震强度设定地震要素的样式。最后，你会使用 [feature state](https://docs.mapbox.com/mapbox-gl-js/style-spec/#expressions-feature-state) 在用户的鼠标移至要素时赋予地震要素这些样式，并在用户鼠标移开后移除它们。
 
 {{
   <DemoIframe src="/help/demos/create-interactive-hover-effects-with-mapbox-gl-js/index.html" />
 }}
 
-Feature state is a set of user-defined attributes that can be dynamically assigned to a feature on the map. Feature state is used with [expressions](https://docs.mapbox.com/help/glossary/expression/) to style the [features](https://www.mapbox.com/help/define-features/) of a vector or GeoJSON source in either a dataset or tileset. Each feature in the source must have a unique numeric `id` in order for feature state to work correctly. If you are adding a GeoJSON source at runtime, which is what you will do in this tutorial, you can use the  `generateId` option in [`map.addSource()`](https://docs.mapbox.com/mapbox-gl-js/api/#map#addsource) to add an `id` to each feature. For vector sources or GeoJSON sources that are added before runtime, you must set a unique `id` for each feature before the source is added to the map.
+Feature state 是一组用户自定义的属性集合。这些属性能够被动态地赋予地图上的某要素。Feature State 会与 [expressions](https://docs.mapbox.com/help/glossary/expression/) 结合使用，来赋予在数据集或切片集中的矢量或 GeoJSON 数据源的 [features](https://www.mapbox.com/help/define-features/) 样式。每个在数据源中的要素都必须有一个唯一的数字 `id`，以使得 feature state 能够正确使用。正如你将会在本教程中所要学习的，如果你在运行时添加一个 GeoJSON 数据源，你可以使用在 [`map.addSource()`](https://docs.mapbox.com/mapbox-gl-js/api/#map#addsource) 的 `generateId` 选项来给每一个要素添加一个 `id`。对于在运行时前被加入的矢量数据源或 GeoJSON 数据源，你必须在数据源被添加到地图前给每一个要素设定一个唯一的 `id`。
 
-You can think of feature state as a switch that turns a fan on or off. You will use feature state to define what the switch is, and expressions to set the style. In this case, the trigger is a user mousing over or away from a feature, which will update the style of the feature based on the rules set by the expressions.
+你可以将 feature state 理解为一个打开或关闭风扇的开关。你会使用 feature state 来定义这个开关是什么，并使用 expressions 来设定样式。在本例中，触发事件是一个用户将鼠标移至或移开某一要素。这会根据 expressions 设定的规则来更新要素的样式。
 
 <!--copyeditor ignore magnitude -->
-Feature state allows you to update the styling of a map layer's individual features based on user interaction, without needing to re-render the underlying geometry and data after each interaction event. In this tutorial, the feature state trigger will be a user hovering over an earthquake feature, and you will use feature state to update the radius size and the color of the feature based on its magnitude value.  
+Feature state 使你能够根据用户交互行为来更新地图图层中的各要素的样式，而无需在每次交互事件发生后重新渲染根本的几何属性的数值。在本教程中，feature state触发事件将会是一个用户将鼠标悬停于一个地震要素之上。而你将会使用 feature state 来根据地震强度大小来更新该要素的半径大小及颜色。
 
-## Getting started
-To complete this tutorial, you will need:
+## 开始入门
+为了完成本教程，你会使用到：
 <!--copyeditor ignore magnitude -->
-- **A Mapbox access token.** Your Mapbox access tokens are on your [Account page](https://account.mapbox.com/).
-- **Mapbox GL JS.** [Mapbox GL JS](https://docs.mapbox.com/mapbox-gl-js/overview/) is a JavaScript API for building web maps.
-- **A text editor.** Use the text editor of your choice for writing HTML, CSS, and JavaScript.
-- **The USGS Earthquake Catalog API.** You will use the [USGS Earthquake Catalog API](https://earthquake.usgs.gov/fdsnws/event/1/) to retrieve information about all earthquakes with a magnitude of one or more that have happened within the past week.
+- **一个 Mapbox access token。** 你的 Mapbox access tokens 在你的 [用户主页](https://account.mapbox.com/) 中。
+- **Mapbox GL JS。** [Mapbox GL JS](https://docs.mapbox.com/mapbox-gl-js/overview/) 是一个用于创建网页地图的 JavaScript API。
+- **一个文本编辑器** 使用你喜爱的文本编辑器来编写 HTML，CSS 和 Javascript。
+- **USGS Earthquake Catalog API。** 你会使用 [USGS Earthquake Catalog API](https://earthquake.usgs.gov/fdsnws/event/1/) 来获取过去一周所有大于1度震级的地震的信息。
 
-## Create a map
-To get started, you will create a map using [Mapbox GL JS](https://docs.mapbox.com/mapbox-gl-js/api/). Open your text editor and create a new file named `index.html`. Set up this new HTML file by pasting the following code into your text editor:
+## 创建地图
+开始时，你会使用 [Mapbox GL JS](https://docs.mapbox.com/mapbox-gl-js/api/) 创建一张地图。打开你的文本编辑器并新建一个名为 `index.html` 的文件。将一下的代码输入你的文本编辑器中，来修改这个新建的 HTML 文件：
 
 ```html
 <!DOCTYPE html>
@@ -85,19 +85,20 @@ To get started, you will create a map using [Mapbox GL JS](https://docs.mapbox.c
 </html>        
 ```
 
-This code creates the structure of the page. It imports Mapbox GL JS in the `<head>` of the page, which allows you to use Mapbox GL JS functionality and style in your web app.
+这段代码创建了页面的结构。它在页面的 `<head>` 导入了 Mapbox GL JS，使得你能够在你的网页程序中使用 Mapbox GL JS 的功能和样式。
 
-This code contains a `<div>` element with the ID `map` in the `<body>` of the page. This `<div>` is the container in which the map will be displayed on the page.
+这段代码在页面的 `<body>` 中包含一个拥有 `map` ID 的 `<div>` 元素。`<div>` 是在页面上地图被显示所在的容器。
 
-Save your changes. Open the HTML file in your browser to see the rendered map, which is centered on the western United States.
+
+保存你的更改。在浏览器中打开这个 HTML 文档来看下渲染的地图，它的中心位于美国西部。
 
 {{
 <AppropriateImage imageId="featureStateBaseMap" alt="Basemap using the Mapbox Outdoors style" />
 }}
 
-## Add the sidebar
+## 添加侧边栏
 <!--copyeditor ignore magnitude -->
-In the `<body>` of your HTML, add a new `<div>`. This `<div>` will be used to display an individual earthquake's magnitude, location, and the time that it happened:
+在你的 HTML 的 `<body>` 中，添加一个新的 `<div>`。这个 `<div>` 会被用于显示各地震的强度，位置以及发生的时间：
 
 ```html
 <div class='quakeInfo'>
@@ -107,7 +108,7 @@ In the `<body>` of your HTML, add a new `<div>`. This `<div>` will be used to di
 </div>
 ```
 
-To style the new `<div>`, add the following CSS to the `<style>` section of your HTML:
+为了赋予这个新 `<div>` 样式，需添加一下 CSS 至你的 HTML 的 `<style>` 部分：
 
 ```css
 .quakeInfo {
@@ -125,7 +126,7 @@ To style the new `<div>`, add the following CSS to the `<style>` section of your
 }
 ```
 
-Finally, create three new variables that you will use to target the new `<span>`s using their IDs. Add the following code to your JavaScript, above the closing `</script>` tag:
+最后，添加3个新变量。你会使用它们来指向新的使用它们 ID 的 `<span>`。添加以下代码到你的 Javascript 中结束的 `</script>` 的标签上方：
 
 ```js
 var magDisplay = document.getElementById('mag');
@@ -133,18 +134,18 @@ var locDisplay = document.getElementById('loc');
 var dateDisplay = document.getElementById('date');
 ```
 <!--copyeditor ignore magnitude -->
-Save your work and refresh the page. The new sidebar will be on the left side of the page. In an upcoming step, you will use the `<span>`s that you created to display the magnitude, location, and time of the earthquakes in the sidebar.  
+保存你的修改并刷新页面。新的侧边狼会被显示在页面的左部。在下面的步骤中，你会使用你创建的 `<span>` 在侧边栏中显示地震的强度，位置和时间。
 
 {{
 <AppropriateImage imageId="featureStateSidebar" alt="Basemap using the Mapbox Outdoors style, with a styled sidebar with the words Magnitude, Location, and Date" />
 }}
 
-## Add the earthquake source
+## 添加地震数据源
 <!--copyeditor ignore magnitude -->
-The Mapbox GL JS [`addSource` instance](https://docs.mapbox.com/mapbox-gl-js/api/#map#addsource) lets you add a new data source to a map. In this case, you will use data from the [USGS Earthquake Catalog API](https://earthquake.usgs.gov/fdsnws/event/1/), which returns information about recent earthquakes, including the magnitude, location, and the time at which the earthquake happened.
+Mapbox GL JS [`addSource` 实例](https://docs.mapbox.com/mapbox-gl-js/api/#map#addsource) 使你能够添加一个新的数据源到地图上。在本例中，你会使用来自 [USGS Earthquake Catalog API](https://earthquake.usgs.gov/fdsnws/event/1/) 的数据。它会返回最近发生的地震的信息，包括强度，位置以及发生的时间。
 
-By default, the Earthquake Catalog API returns all events from the prior 30 days. But for this web app, you will instead return events from the past seven days using the optional `starttime` parameter. You will use the [JavaScript `Date` constructor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date) to get the date seven days ago as an [ISO 8601 timestamp](https://www.iso.org/iso-8601-date-and-time-format.html), as required by the USGS Earthquake Catalog API. Add the following JavaScript to your file:
-
+Earthquake Catalog API 默认返回过去30天所有事件。但对于这个网页程序，你则会利用可选择的 `starttime` 参数返回过去7天的所有事件。你会使用 [JavaScript `Date` constructor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date) 来获取 [ISO 8601 timestamp](https://www.iso.org/iso-8601-date-and-time-format.html) 形式的7天前的日期。这也正是 USGS Earthquake Catalog API 所要求的。
+将以下 Javascript 代码添加至你的文档中：
 ```js
 var today = new Date();
 // Use JavaScript to get the date a week ago
@@ -154,16 +155,17 @@ var priorDateTs = new Date(priorDate);
 var sevenDaysAgo = priorDateTs.toISOString();
 ```   
 
-You will use the `sevenDaysAgo` variable in a call to the Earthquake Catalog API. (If you use a time-specific JavaScript library like [Moment.js](https://momentjs.com/), getting the current date minus seven days will take fewer steps, but for the purposes of this tutorial the steps are shown in plain JavaScript.)
+你会在访问 Earthquake Catalog API 时使用 `sevenDaysAgo` 这个变量。（如果你使用的是如 [Moment.js](https://momentjs.com/) 的限定时间的 Javacript 库，将当前日期减去7天会使用更少的步骤。但由于本教程的需求，这些步骤会被一一显示在 Javacript代码中。）
 
-For this web app, you will use the Earthquake Catalog API's optional `format` parameter to return the data as GeoJSON. You will also restrict the results to earthquakes with a magnitude of one or higher by using the optional `eventtype` and `minmagnitude` parameters.
+对于本网页程序，你会使用 Earthquake Catalog API 的可选  `format` 参数以返回 GeoJSON 格式的数据。你同时也会利用可选参数 `eventtype` 和 `minmagnitude` 来限制查询结果为1级以上的地震。
 
-With these optional parameters, the USGS Earthquake Catalog API query will be:
+通过调整这些可选参数，USGS Earthquake Catalog API 查询语句为：
 ```
 "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&eventtype=earthquake&minmagnitude=1&starttime=" + sevenDaysAgo
 ```
 
-To add results from a call to the Earthquake Catalog API to your app as a source, you will wrap `addSource` inside a `map.on('load')` function so that the new source is not loaded before the map is rendered. Add the following code to your JavaScript:
+为了将向 Earthquake Catalog API 访问查询得到的结果作为一个数据源添加至你的程序中，你会将 `addSource` 嵌入在 `map.on('load')` 函数中，以使得新的数据源在地图被渲染前不会被导入。将下列代码添加至你的 Javacript 代码中：
+ 
 
 ```js
 map.on('load', function() {
@@ -178,19 +180,19 @@ map.on('load', function() {
 ```
 
 {{<Note title="Setting unique IDs for features" imageComponent={<BookImage />}>}}
-Feature state relies on each feature having a numeric `id` that is unique across the source or source layer.
+Feature state 要求每一个要素有一个在数据源或数据源图层中唯一的 `id`。 
 
-If you are using a GeoJSON source that is generated at runtime, as with the results from the Earthquake Catalog API in this tutorial, you can add an `id` to each feature by setting the `generateId` property in `map.addSource()` to `true`. This generates an `id` for each feature in the new source, based on the feature's index in the source data.
+正如本教程中的 Earthquake Catalog API，如果你正在使用一个在运行时生成的 GeoJSON 数据源，你可以通过设置 `map.addSource()` 中的 `generateId` 属性为 `true` 来为每一个要素添加一个 `id`。这个会根据要素在数据源中的索引来为每一个新数据源中的要素生成一个 `id` 。
 
-The `generateId` method only works for GeoJSON sources that are added at runtime. For tilesets, or for GeoJSON sources that are added before runtime, unique `id`s must be set for each feature before the source is added to the map.  
+`generateId` 方法不仅适合于在运行时被添加的 GeoJSON 数据源。对于切片集来说，或对于在运行时前被添加的 GeoJSON 数据源来说，在数据源被添加至地图前，每一个要素都必须赋予唯一的 `id`。
 {{</Note>}}
 
-In the next step, you will add a style layer that uses the source `earthquakes` to the map.  
+在下一步中，你会添加一个使用数据源 `earthquakes` 的样式图层至地图中。
 
-## Add the earthquake layer
-The Mapbox GL JS [`addLayer` instance](https://docs.mapbox.com/mapbox-gl-js/api/#map#addlayer) creates a new map layer, which defines styling for data from a specified source. In this case, the data is coming from the `earthquakes` source that you created in the last step.
+## 添加地震图层
+Mapbox GL JS [`addLayer` 实例](https://docs.mapbox.com/mapbox-gl-js/api/#map#addlayer) 创建一个新的地图图层，其定义了来自某一特定数据源的数据样式。在本例中，数据来自于你在上一步中创建的 `earthquakes` 数据源。
 
-Add the following `addLayer` function inside `map.on('load')`, below the `addSource` function you wrote in the last step:
+将以下 `addLayer` 功能添加到 `map.on('load')` 中的你在上一步所写的 `addSource` 函数下方。
 
 ```js
 map.addLayer({
@@ -205,20 +207,20 @@ map.addLayer({
 });
 ```
 <!--copyeditor ignore magnitude -->
-Save your work and refresh the page in your browser. You will see that the new `earthquake-viz` layer draws each earthquake as a black dot, as specified in the `paint` property. In the next step, you will use:
-- **`feature-state`** to change the style of an individual feature when the user hovers over it
-- **`interpolate`, `linear`, and `get` expressions** to determine what that new style should be, based on the magnitude of the earthquake
+保存你的修改并在浏览器中刷新页面。你会看到正如在 `paint` 属性所声明的一样，新的 `earthquake-viz` 图层以黑点的形式绘制各地震点。在下一步中，你会用到：
+- **`feature-state`** 来修改当用户鼠标悬停于某独立要素之上时它的样式
+- **`interpolate`, `linear`, 和 `get` expressions** 来根据地震震级大小来确定新的样式
 
 {{
 <AppropriateImage imageId="featureStateAddLayer" alt="Basemap with black circles representing the features in the new earthquake-viz layer" />
 }}
 
-## Style the earthquakes using feature state
-Feature state can be used to style any of the paint properties that support [data-driven styling](https://docs.mapbox.com/help/glossary/data-driven-styling/) with values from these attributes. Learn more about paint property support levels in the [Mapbox style specification](https://www.mapbox.com/mapbox-gl-js/style-spec/#layers). In feature state, features are identified by their `id` property, which must be unique across a source or source layer. When you used `addSource` to add the earthquake data as a source, you set `'generateId': true`, which ensures that all features have unique IDs.
+## 使用 feature state 赋予地震样式
+Feature state 能够被用来利用任何支持 [data-driven styling](https://docs.mapbox.com/help/glossary/data-driven-styling/) 的绘画属性样式的值来赋予它们样式。在 [Mapbox style specification](https://www.mapbox.com/mapbox-gl-js/style-spec/#layers) 中能了解更多关于绘画属性支持层级。在 feature state 中，要素可根据它们的 `id` 属性被识别。这些属性必须是在数据源或数据源图层中独一无二的。当你使用 `addSource` 来添加地震数据为数据源时，你会设置 `'generateId': true`，这会确保所有的要素都有唯一的ID。
 
-In this case, you will use feature state to change the color and radius size of the circle marking a feature based on an attribute (`hover`) with a boolean value. Then you will define the `hover` attribute using [`setFeatureState`](https://docs.mapbox.com/mapbox-gl-js/api/#map#setfeaturestate).
+在本例中，你会使用 feature state 来根据一个有布尔值的属性 (`hover`) 来改变代表要素的圆的颜色和半径大小。然后你会利用 [`setFeatureState`](https://docs.mapbox.com/mapbox-gl-js/api/#map#setfeaturestate) 来定义 `hover` 属性。
 <!--copyeditor ignore magnitude -->
-Update `addLayer` to use feature state for `circle-radius` and `circle-color`. The updated code also uses the expressions [`interpolate` operator](https://docs.mapbox.com/mapbox-gl-js/style-spec/#expressions-interpolate) to set the `circle-radius` and the `circle-color` according to the magnitude of the selected earthquake feature.
+更新 `addLayer` 来为 `circle-radius` 和 `circle-color`使用 feature state。更新的代码也使用 expressions [`interpolate` operator](https://docs.mapbox.com/mapbox-gl-js/style-spec/#expressions-interpolate) 来依据选中的地震要素的震级来设置 `circle-radius` 和 `circle-color` 。
 
 ```js
 map.addLayer({
@@ -282,18 +284,17 @@ map.addLayer({
 });
 ```
 
-## Define the hover attribute
+## 定义悬停属性
+接下来，你会用 [`setFeatureState`](https://docs.mapbox.com/mapbox-gl-js/api/#map#setfeaturestate) 来定义 `hover` 属性。为了触发当用户将鼠标移至某一地震要素时 feature state 的改变事件，你会将 `setFeatureState` 嵌入到 `map.on('mousemove')` 函数中。
 
-Next, you will use [`setFeatureState`](https://docs.mapbox.com/mapbox-gl-js/api/#map#setfeaturestate) to define the `hover` attribute. In order to trigger the feature state changes when a user mouses over an earthquake feature, you will wrap `setFeatureState` in a `map.on('mousemove')` function.
-
-The following code creates several new variables, each of which will be updated for every `map.on('mousemove')` event:
+以下代码创建了几个新变量，每一个变量都会因每一个 `map.on('mousemove')` 事件而被更新。
 <!--copyeditor ignore magnitude -->
-- `quakeID`: This variable will be set to the `id` of the current feature, which allows you to target each earthquake individually.
-- `quakeMagnitude`: The returned magnitude of the current feature.
-- `quakeLocation`: The returned location of the current feature.
-- `quakeDate`: The returned date of the current feature.
+- `quakeID`: 这个变量会被设置为当前要素的 `id` ，使你能够指向单独的每一个地震。
+- `quakeMagnitude`: 返回的当前要素的震级。
+- `quakeLocation`: 返回的当前要素的位置。
+- `quakeDate`: 返回的当前要素的日期。
 
-Paste the following code into your JavaScript, above the final `</script>` tag:
+粘贴以下代码至你的 Javacript 代码中，于最后的 `</script>` 标签上方。
 
 ```js
 var quakeID = null;
@@ -337,20 +338,20 @@ map.on('mousemove', 'earthquakes-viz', (e) => {
 });
 ```
 <!--copyeditor disable magnitude -->
-Save your work and refresh your browser page. Now, when you mouse over an earthquake feature, two things will happen:
-- The magnitude, location, and date of the earthquake will be displayed in the sidebar.
-- The styling of the circle that marks the feature will change based on the returned `mag` property.
+保存你的修改并刷新你的浏览器页面。现在，当你的鼠标移至某一地震要素，会发生两件事：
+- 地震的震级，位置和日期会在侧边栏显示。
+- 代表要素的圆圈的样式会根据返回的 `mag` 属性而被更改。
 
 {{
 <AppropriateImage imageId="featureStateFinal" alt="Screenshot showing the basemap that demonstrates how the feature state expression changes the styling of features" />
 }}
 
-When you move your mouse away from an earthquake feature, though, the circle will stay the same size and color, and the sidebar will continue displaying that feature's information, until you mouse over another feature. You will fix this in the next step.
+当你移动鼠标离开某一地震要素，尽管圆圈会依旧保有相同的大小和颜色，但是侧边栏会继续显示该要素的信息，直至你的鼠标移至另一个要素。你会在下一步中解决这一问题。
 
-## Reset the feature state
-The final step in creating this web app is to update the feature state of an earthquake feature when the user mouses away from it. You will also use this `map.on('mouseleave')` function to reset the sidebar display when the user mouses away.  
+## 重置 feature state
+创建该网页程序的最后一步是：当用户鼠标移动离开某一个地震要素时，更新其 feature state。你会使用 `map.on('mouseleave')` 函数来设置当用户鼠标移开时的侧边栏显示。
 
-Paste the following code into your JavaScript above the closing `</script>` tag:
+粘贴以下代码到你的 Javacript 代码中，于最后的 `</script>` 标签上方：
 
 ```js
 map.on("mouseleave", "earthquakes-viz", function() {
@@ -373,17 +374,17 @@ map.on("mouseleave", "earthquakes-viz", function() {
 });
 ```
 
-Save your work, then refresh the page in your browser. Now when you mouse over an earthquake feature and then move the mouse away from it, the sidebar will reset until you mouse over a new earthquake feature.
+保存你的修改，然后刷新在你浏览器中的页面。现在当你的鼠标移至某一地震要素再移开后，侧边栏会重置，直到你的鼠标移至另一个地震要素。
 
-## Final product
+## 最终成品
 <!--copyeditor ignore magnitude -->
-You have created a web app that uses feature state to dynamically style earthquake features on a map, based on the earthquake's magnitude.
+你已经创建了一个使用 feature state 来根据地震震级，动态赋予地图上的地震要素样式的网页程序了。
 
 {{
   <DemoIframe src="/help/demos/create-interactive-hover-effects-with-mapbox-gl-js/index.html" />
 }}
 
-The final HTML file will look like the following:
+最后的 HTML 文档会和以下一样：
 
 ```html
 <!DOCTYPE html>
@@ -591,9 +592,9 @@ The final HTML file will look like the following:
 </html>
 ```
 
-## Next steps
-To learn more about feature state expressions and how you can use them to dynamically style map features, explore the following resources:
-- Explore the Mapbox GL JS documentation for [`setFeatureState`](https://docs.mapbox.com/mapbox-gl-js/api/#map#setfeaturestate), [`removeFeatureState`](https://docs.mapbox.com/mapbox-gl-js/api/#map#removefeaturestate), and [`getFeatureState`](https://docs.mapbox.com/mapbox-gl-js/api/#map#getfeaturestate).
-- See how Mapbox used feature state to create a map using data from the 2016 presidential election in the [Live Electoral Maps: A Guide to Feature State](https://blog.mapbox.com/going-live-with-electoral-maps-a-guide-to-feature-state-b520e91a22d) blog post.
-- Learn more about using events and feature state to create a per-feature styling change in the [Create a hover effect example](https://docs.mapbox.com/mapbox-gl-js/example/hover-styles/).
-- Learn more about how to use Mapbox GL JS expressions in the [Get started with Mapbox GL JS expressions](/help/tutorials/mapbox-gl-js-expressions/) tutorial.
+## 下一步
+如果想要了解更多关于 feature state expression 和如何使用它们来动态赋予地图要素样式，你可以查看下列资源：
+- 探索 Mapbox GL JS 文档，查找 [`setFeatureState`](https://docs.mapbox.com/mapbox-gl-js/api/#map#setfeaturestate), [`removeFeatureState`](https://docs.mapbox.com/mapbox-gl-js/api/#map#removefeaturestate), 和 [`getFeatureState`](https://docs.mapbox.com/mapbox-gl-js/api/#map#getfeaturestate).
+- 查看 Mapbox 是如何使用 feature state 来创建一张使用2016年总统大选数据的地图。请见博客 [Live Electoral Maps: A Guide to Feature State](https://blog.mapbox.com/going-live-with-electoral-maps-a-guide-to-feature-state-b520e91a22d)。
+- 了解更多关于使用 event 和 feature state 来针对各要素创建不同的样式变化。请见 [Create a hover effect 示例](https://docs.mapbox.com/mapbox-gl-js/example/hover-styles/).
+- 了解更多关于如何使用 Mapbox GL JS expressions。请见 [Get started with Mapbox GL JS expressions](/help/tutorials/mapbox-gl-js-expressions/) 教程.
