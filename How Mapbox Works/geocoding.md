@@ -118,66 +118,101 @@ Results from geocoding queries are prioritized differently depending on whether 
 地理编码查询服务所返回的结果会根据查询请求是否为_forward geocode_ 或 _reverse geocode_ 来决定优先次序。
 
 #### Result prioritization in forward geocoding
+#### 正向地理编码中的结果优先次序
 
 When a forward geocoding query (human-readable text like “San Francisco”) is submitted to the Mapbox Geocoding API, the geocoder uses Carmen, a text search engine, to search our spatial indexes for features that match the user’s query. (For a more detailed description of how the Carmen text search engine works, read the [Carmen documentation](https://github.com/mapbox/carmen/blob/master/docs/how-carmen-works.md).) The geocoder applies filters on the backend to sort the results that match, or partially match, the searched text. These filters are _textual relevance_ and _prominence score_.
 
+当一个正向地理编码请求被提交至Mapbox Geocoding API （例如，人类可读的文字请求“旧金山”），地理编码器将使用Carmen， 一个文字搜索引擎，来搜索与用户请求相匹配的元素所对应的空间索引（了解更多相关Carmen文字搜索引擎如何工作的内容，请阅读[Carmen 文档](https://github.com/mapbox/carmen/blob/master/docs/how-carmen-works.md)）。地理编码器将在后端使用过滤器来将与搜索文本匹配的或部分匹配的结果进行排序。这些过滤器包括_textual relevance 文本相关性_ 和 _prominence score_。
+
 ##### Textual relevance
+##### 文本相关性
 
 When the geocoder sorts and prioritizes results, the first filter that is applied is `relevance`. `relevance` is a value that indicates how well a feature in our dataset matches the query. This property is surfaced in the Geocoding API response, and is a numerical score from `0` (the result does not match the queried text at all) to `1` (the result matches the queried text most completely). You can use the `relevance` property to remove results that don't fully match the query.
 
+当地理编码器对查询结果进行排序并决定显示的优先次序时，第一个使用的过滤器是 `relevance`，相关性。 `relevance` 是一个可以表示数据集中元素与查询文本匹配程度的数值。这一属性在Geocoding API的回复结果中就有所体现，它是一个介于 `0` (返回结果与查询文本完全不匹配) 和 `1` (返回结果与查询文本完全匹配) 之间的数值。您可以使用 `relevance` 属性来将不是很匹配的结果过滤移除。
+
 In this example query for the address “515 15th St NW, Washington, DC 20004”, the expected result is first in the response with a `relevance` of `0.875`. Other results in other cities, since they don’t match the search text as closely, have a `relevance` score of `0.2`.
+
+在这个查询示例中，查询请求的地址为 “515 15th St NW, Washington, DC 20004”，预期的结果将是回复中的第一条，它的 `relevance` 相关性数值为 `0.875`。而剩下的结果都位于其他城市，由于它们与搜索文本并不密切相关，所以 `relevance` 相关性数值显示为 `0.2`。????? 这个与实际查看的结果有出入！
 
 ```
 https://api.mapbox.com/geocoding/v5/mapbox.places/515%2015th%20St%20NW%2C%20Washington%2C%20DC%2020004.json?types=address&access_token={{ <UserAccessToken /> }}
 ```
 
 ##### Prominence score
+##### 显著性分数
 
 In the case that multiple features have the same `relevance` score, a second filter called `score` is applied. This is based on the popularity or prominence of a feature. For example, a search for “Paris” will equally match “Paris, France” and “Paris, Texas” — they’ll have the same `relevance` score. The `score` filter helps break this tie on the backend, and surfaces “Paris, France” first since it is a more popular feature:
+
+在多个元素获得相同 `relevance` 相关性数值的情况下，我们就要使用第二个过滤器 `score`。这是一个基于元素普遍性或显著性的分数。例如，一条关于 “巴黎” 的查询将会给 “巴黎，法国” 和 “巴黎，德克萨斯” 相同的 `relevance` 相关性分数。显著性 `score` 会在后端打破平衡僵局，将 “巴黎，法国” 这条结果置顶，因为这一地址特征元素更为普遍流行：
 
 ```
 https://api.mapbox.com/geocoding/v5/mapbox.places/paris.json?access_token={{ <UserAccessToken /> }}
 ```
 
 #### Result prioritization in reverse geocoding
+#### 反向地理编码中的结果优先次序
 
 For reverse geocodes, results at a given set of coordinates are sorted by order of **spatial hierarchy**. For example, a more granular feature such as an `address`, `poi`, or `postcode` will return first in the response before feature types like `region`  or `country`. The full spatial hierarchy, ordered from the most granular to the largest, is: _point of interest (POI)_, _address_, _neighborhood_, _locality_, _postcode_, _place_, _district_, _region_, and _country_. (For more details about these geographic information types, see the [Source data section](#source-data).)
 
+在反向地理编码中，那些由给定坐标点返回的查询结果都会根据 **空间层级** 来排序。例如，更接近于一个具体地点的，像是 `address`, `poi` 和 `postcode` 这样的元素，将会在那些范围更广的，类似于 `region` 或者 `country` 的元素前面被返回。一个完全的空间层级会将元素根据其覆盖面积由小到大的排列，如：_point of interest (POI)_, _address_, _neighborhood_, _locality_, _postcode_, _place_, _district_, _region_ 和 _country_。（更多有关这些地理信息类别的内容，请见 [源数据](#source-data)。）
+
 This reverse geocoding query example returns features closest to the query point (in the case of point features like `address` and `poi`) and features that contain the query point (in the case of polygon features like `place` or `region`), in order of hierarchy from the most granular (address or POI) to the largest feature (country):
+
+这一反向地理编码示例将查询结果元素的文本信息依照自小（address 或者 POI）至大（country）的空间层级显示返回，那些最接近于查询坐标点的元素（类似于 `address` 和 `poi`）显示在前，而那些包含着坐标点的元素（类似于`place` 或者 `region`）显示在后。
 
 ```
 https://api.mapbox.com/geocoding/v5/mapbox.places/-122.463%2C%2037.7648.json?access_token={{ <UserAccessToken /> }}
 ```
 
 ## Access Mapbox geocoding services
+## 获取 Mapbox Geocoding 服务
 
 You can access the [Mapbox Geocoding API](https://docs.mapbox.com/api/search/#geocoding) directly, through Mapbox Studio, or using one of several wrapper libraries integrate it into applications across platforms.
 
+您可以从 [Mapbox Geocoding API](https://docs.mapbox.com/api/search/#geocoding) 直接获取 Mapbox Geocoding API 服务。您也可以通过Mapbox工作室，或者选择将一个包装库添加到跨平台应用中来间接使用服务。
+
 ### Use the Mapbox Geocoding API
+### 使用Mapbox Geocoding API
 
 You can send requests to the Mapbox Geocoding API via many Mapbox mapping tools and plugins, but you can also make calls to the API directly using your preferred HTTP client. If you would like to make calls directly, read our full [API documentation](https://docs.mapbox.com/api/search/#geocoding). If you would prefer to use one of our other tools, read on!
 
+您可以通过Mapbox中的诸多工具和插件来向Mapbox Geocoding API发送请求，但是您也能使用自己偏好的HTTP client来直接调用API。如果您想要直接调用API，请参考我们完整的[API 文档](https://docs.mapbox.com/api/search/#geocoding)。如果您偏好使用我们提供的其他工具，请继续阅读下文！
+
 ### Test the Geocoding API
+### 测试Geocoding API服务
 
 If you would like to get a feel for how the Mapbox Geocoding API works without building a whole application, we also provide an [API Playground](https://www.mapbox.com/search-playground/) that works similarly to the live example at the beginning of this guide. Besides providing a convenient user interface to test queries, the API playground allows you to test the API's URL and query parameters, such as autocomplete, proximity, and mode.
+
+如果您有意在不构建一整个应用的情况下快速体验Mapbox Geocoding API，我们为您提供了与本篇指南开头所展示的实例类似的[API Playground](https://www.mapbox.com/search-playground/)。除了具备方便测试查询请求的用户界面以外，这个API Playground还允许您测试API的请求URL网址和查询参数，例如：是否自动完成，是否允许邻域偏差，以及查询模式等。
 
 {{
 <a className='link txt-ms txt-bold' href='https://www.mapbox.com/search-playground/'><ChevronousText text="Visit the Search Playground" /></a>
 }}
 
 ### Geocoding in Mapbox Studio
+### 在Mapbox工作室使用Geocoding服务
 
-The [Mapbox Studio dataset editor](https://www.mapbox.com/studio/datasets) allows you to [create your own custom datasets](/help/how-mapbox-works/creating-data/) by importing data, drawing it manually, or searching for it in the **Search places** toolbar. When you search for places in the toolbar, you're using the Mapbox Geocoding API to find data to add to your custom dataset. Note that within the dataset editor you can search for and add for countries, regions, districts, postcodes, places, localities, neighborhoods, and addresses, but not POIs.
+The [Mapbox Studio dataset editor](https://www.mapbox.com/studio/datasets) allows you to [create your own custom datasets](/help/how-mapbox-works/creating-data/) by importing data, drawing it manually, or searching for it in the **Search places** toolbar. When you search for places in the toolbar, you're using the Mapbox Geocoding API to find data to add to your custom dataset. Note that within the dataset editor you can search for and add for countries, regions, districts, postcodes, places, localities, neighborhoods, and addresses, but not POIs. 
+
+[Mapbox工作室 数据集编辑器](https://www.mapbox.com/studio/datasets)允许您通过导入数据，手动绘制，或者在注有 **搜索地点** 字样的工具栏搜索地点，来[创建您的自定义数据集](/help/how-mapbox-works/creating-data/)。当您在搜索栏搜寻不同地点，您既已开始使用Mapbox Geocoding API来搜索以添加至自定义数据集中的数据。注意在数据集编辑器中，您可以搜索并添加countries, regions, districts, postcodes, places, localities, neighborhoods 和 addresses到自定义数据集，但是不能添加POIs的数据。
 
 ### Libraries and plugins
+### 工具库和插件
 
 If you would like to add a search tool to your application to find addresses, POIs, or features near your user's location, we have several wrapper libraries that allow you to integrate the Mapbox Geocoding API into your existing application seamlessly:
+
+如果您有意在应用中添加一个搜索工具来查找您用户附近的地址，POIs，或者其他地理元素信息，我们可为您提供诸多包装库以便您将Mapbox Geocoding API无缝添加到现有应用中：
 
 - **Web**: [Mapbox GL Geocoder](https://www.mapbox.com/mapbox-gl-js/plugins/#mapbox-gl-geocoder) for Mapbox GL JS and both [geocoderControl](https://www.mapbox.com/mapbox.js/api/v3.0.1/l-mapbox-geocodercontrol/) and [geocoder](https://www.mapbox.com/mapbox.js/api/v3.0.1/l-mapbox-geocoder/) for Mapbox.js
 - **Android**: [Mapbox Java SDK](https://www.mapbox.com/android-docs/java/examples/)
 - **iOS**: [MapboxGeocoder.swift](https://www.github.com/mapbox/MapboxGeocoder.swift)
 
+- **网页**: 为使用 Mapbox GL JS，我们有 [Mapbox GL Geocoder](https://www.mapbox.com/mapbox-gl-js/plugins/#mapbox-gl-geocoder)；为使用 Mapbox.js，我们有 [geocoderControl](https://www.mapbox.com/mapbox.js/api/v3.0.1/l-mapbox-geocodercontrol/) 和 [geocoder](https://www.mapbox.com/mapbox.js/api/v3.0.1/l-mapbox-geocoder/)。
+
 In addition, we offer libraries for:
+
+此外，我们还为Python，JavaScript和React提供了以下工具库：
 
 - [Python](https://github.com/mapbox/mapbox-sdk-py)
 - [JavaScript](https://github.com/mapbox/mapbox-sdk-js)
