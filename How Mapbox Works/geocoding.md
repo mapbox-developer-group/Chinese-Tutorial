@@ -194,7 +194,7 @@ If you would like to get a feel for how the Mapbox Geocoding API works without b
 
 The [Mapbox Studio dataset editor](https://www.mapbox.com/studio/datasets) allows you to [create your own custom datasets](/help/how-mapbox-works/creating-data/) by importing data, drawing it manually, or searching for it in the **Search places** toolbar. When you search for places in the toolbar, you're using the Mapbox Geocoding API to find data to add to your custom dataset. Note that within the dataset editor you can search for and add for countries, regions, districts, postcodes, places, localities, neighborhoods, and addresses, but not POIs. 
 
-[Mapbox工作室 数据集编辑器](https://www.mapbox.com/studio/datasets) 允许您通过导入数据，手动绘制，或者在注有 **搜索地点** 字样的工具栏搜索地点，来 [创建您的自定义数据集](/help/how-mapbox-works/creating-data/)。当您在搜索栏搜寻不同地点，您既已开始使用Mapbox Geocoding API来搜索以添加至自定义数据集中的数据。注意在数据集编辑器中，您可以搜索并添加countries, regions, districts, postcodes, places, localities, neighborhoods 和 addresses到自定义数据集，但是不能添加POIs的数据。
+[Mapbox工作室 数据集编辑器](https://www.mapbox.com/studio/datasets) 允许您通过导入数据，手动绘制，或者在注有 **搜索地点** 字样的工具栏搜索地点，来 [创建您的自定义数据集](/help/how-mapbox-works/creating-data/)。当您在搜索栏搜寻不同地点，您即已开始使用Mapbox Geocoding API来搜索以添加至自定义数据集中的数据。注意在数据集编辑器中，您可以搜索并添加countries, regions, districts, postcodes, places, localities, neighborhoods 和 addresses到自定义数据集，但是不能添加POIs的数据。
 
 ### Libraries and plugins
 ### 工具库和插件
@@ -221,7 +221,7 @@ In addition, we offer libraries for:
 
 Here's an example of the [Mapbox GL Geocoder](https://www.mapbox.com/mapbox-gl-js/plugins/#mapbox-gl-geocoder) in action with the query parameter `autocomplete=true`:
 
-下面这一动态示例为您演示了 [Mapbox GL Geocoder](https://www.mapbox.com/mapbox-gl-js/plugins/#mapbox-gl-geocoder) 的自动完成功能，既 `autocomplete=true` 的时候：
+下面这一动态示例为您演示了 [Mapbox GL Geocoder](https://www.mapbox.com/mapbox-gl-js/plugins/#mapbox-gl-geocoder) 的自动完成功能，即 `autocomplete=true` 的时候：
 
 <p><img src="/help/img/api/geocode.gif" alt="geocode animation" /></p>
 
