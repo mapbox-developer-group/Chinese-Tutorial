@@ -1,4 +1,4 @@
----
+ ---
 title: Get started with the Map Matching API
 description: Create a web app that uses the Mapbox Map Matching API to allow users to specify their own driving route.
 thumbnail: mapMatchingGetStartedDirections
@@ -22,11 +22,11 @@ prependJs:
 contentType: tutorial
 ---
 
-Most turn-by-turn apps assume that users want to take the most efficient route to their destination. But sometimes, users care more about being able to choose a fun or scenic route than they do about getting to their destination quickly. For example: _Your user is visiting San Francisco. They visited the Maritime Museum, and now it’s time to get a slice of pizza in North Beach. On the way, they want to drive down Lombard Street, a stretch of road with eight tight hairpin turns that’s popularly known as the “crookedest street in the world”._
+大部分逐向导航应用假定用户希望通过最快路线到达目的地。但有时候相比于更快到达目的地，用户更想选择一条有趣或观光路线。例如：_用户在旧金山旅游。他们刚参观完海事博物馆，想去北滩吃批萨。他们希望沿途经过因拥有八个急转弯而被称为世界上最弯曲街道的九曲花街。_
 
-Taking Lombard Street isn't the fastest way to get to the user’s destination, but it does offer more photo opportunities than any other route! In most turn-by-turn apps, it’s difficult to pull up a route that includes this stretch of Lombard Street because it’s not the most efficient route. This means a user would be routed elsewhere, regardless of their wish to drive down Lombard Street. But the [Mapbox Map Matching API](https://docs.mapbox.com/api/navigation/#map-matching) makes it possible to plot custom routes, which opens up different routing possibilities.
+经过九曲花街不是最快到达北滩的路线，但这条路线的确能提供最多的拍照机会！在大部分导航应用中，很难选出一条包含九曲花街的路线，因为这条路线并不是最便捷的。 这意味着用户会被导航到其他地方，无法满足用户想去九曲花街的需求。而 Mapbox 的 [Mapbox Map Matching API](https://docs.mapbox.com/api/navigation/#map-matching) 可以让用户绘制自定义路线，能满足用户对不同路线的需求。
 
-In this tutorial, you will create a web application that allows your users to create their own travel routes, regardless of whether those routes are the most efficient routes or not. The app's users will draw their own route on the map using draw tools from the **Mapbox GL Draw plugin**, then the app will pass the drawn coordinates to the **Map Matching API** and generate turn-by-turn directions for the new driving route.
+在这个教程中，你会创建一个允许用户定制自己旅游路线的网页应用，不考虑定制路线是否是最高效的。应用用户会在地图上用 **Mapbox GL Draw plugin** 的画图工具绘制自己的路线，然后应用将绘制的坐标发送给 **Map Matching API** 生成新行车路线的逐向导航。
 
 {{
   <DemoIframe src="/help/demos/get-started-map-matching-api/index.html" />
@@ -34,26 +34,26 @@ In this tutorial, you will create a web application that allows your users to cr
 
 {{<Note title="The Map Matching API vs. the Directions API" imageComponent={<BookImage />}>}}
 
-The Mapbox Map Matching API has a lot of similarities to the [Directions API](https://docs.mapbox.com/api/navigation/#directions). The Map Matching API can be used to generate routes, route durations, and turn-by-turn directions, as the Directions API can. But the Directions API will specifically always generate an _optimal_ route, while the Map Matching API will generate a route on the OpenStreetMap road network that most closely follows the coordinates provided in the request.
+Mapbox Map Matching API 很像 [Directions API](https://docs.mapbox.com/api/navigation/#directions)。Mapbox Map Matching API 可以生成路线，路线时长，以及导航，和 Direction API 一样。但是 Direction API 生成_优化_过的路线，而 Map Matching API 会在 OPenStreetMap 路网上生成最接近请求坐标的路线。 
 
 {{</Note>}}
 
-## Getting started
-To complete this tutorial, you will need:
+## 开始
+为了完成教程，你需要：
 
-- **A Mapbox access token.** Your Mapbox access tokens are on your [Account page](https://account.mapbox.com/).
-- **Mapbox GL JS.** [Mapbox GL JS](https://docs.mapbox.com/mapbox-gl-js/overview/) is a JavaScript API for building web maps.
-- **Mapbox GL Draw plugin.** The [Mapbox GL Draw plugin](https://github.com/mapbox/mapbox-gl-draw) adds support for drawing and editing features on maps created with Mapbox GL JS.
-- **Mapbox Map Matching API.** The [Map Matching API](https://docs.mapbox.com/api/navigation/#map-matching) snaps coordinates onto the OpenStreetMap road network, and can return turn-by-turn directions for the routes it produces.   
-- **jQuery.** [jQuery](https://jquery.com/) is a JavaScript library you will use to add your API request to your application.
-- **A text editor.** Use the text editor of your choice for writing HTML, CSS, and JavaScript.
+- **一个 Mapbox access token。** 你的 Mapbox access tokens 可以在[账户](https://account.mapbox.com/)页面找到。
+- **Mapbox GL JS。** [Mapbox GL JS](https://docs.mapbox.com/mapbox-gl-js/overview/) 是一个用来构建网页地图的 JavaScript API。
+- **Mapbox GL Draw plugin.** [Mapbox GL Draw plugin](https://github.com/mapbox/mapbox-gl-draw) 用于在 Mapbox GL JS 创建的地图上添加绘制和编辑功能。
+- **Mapbox Map Matching API.** [Map Matching API](https://docs.mapbox.com/api/navigation/#map-matching) 将坐标嵌入 OpenStreetMap 路网，并返回路线产生的导航信息。 
+- **jQuery.** [jQuery](https://jquery.com/) 是你会用来给应用添加 API 请求的库。
+- **编辑器。** 自选一款可以编辑 HTML，CSS 和 JavaScript 的编辑器。
 
-## Create a map
-To start the app, you will create a map using [Mapbox GL JS](https://docs.mapbox.com/mapbox-gl-js/api/).
+## 创建地图
+开始编写应用，首先使用 [Mapbox GL JS](https://docs.mapbox.com/mapbox-gl-js/api/) 创建地图。
 
-Open your text editor and create a new file named `index.html`. Set up this new HTML file by pasting the following code into your text editor. This code creates the structure of the page. This code also imports Mapbox GL JS and jQuery in the `<head>` of the page. The Mapbox GL JS JavaScript and CSS files allow you to use Mapbox GL JS functionality and style, while jQuery will allow you to use [Ajax](https://api.jquery.com/jquery.ajax/) to parse your Map Matching API call.
+打开编辑器创建文件 `index.html`，粘贴下方代码到编辑器。这些代码创建了页面结构，并导入 Mapbox GL JS 和 jQuery 到页面的 `<head>`。Mapbox GL JS 的 JavaScript 和 CSS 文件使你可以使用 Mapbox GL JS 功能和样式，jQuery 使你能通过 [Ajax](https://api.jquery.com/jquery.ajax/) 解析 Map Matching API 调用。
 
-There is a `<div>` element with the ID `map` in the `<body>` of the page. This `<div>` is the container in which the map will be displayed on the page.
+在 `<body>` 的中有一个 ID 为 `map` 的 `<div>` 元素，包含页面中显示地图的容器。
 
 ```html
 <!DOCTYPE html>
@@ -63,10 +63,10 @@ There is a `<div>` element with the ID `map` in the `<body>` of the page. This `
   <meta charset='utf-8' />
   <title>Get started with the Map Matching API</title>
   <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
-  <!-- Import Mapbox GL JS  -->
+  <!-- 导入 Mapbox GL JS  -->
   <script src='https://api.tiles.mapbox.com/mapbox-gl-js/{{constants.VERSION_MAPBOXGLJS}}/mapbox-gl.js'></script>
   <link href='https://api.tiles.mapbox.com/mapbox-gl-js/{{constants.VERSION_MAPBOXGLJS}}/mapbox-gl.css' rel='stylesheet' />
-  <!-- Import jQuery -->
+  <!-- 导入 jQuery -->
   <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
 
   <style>
@@ -85,17 +85,17 @@ There is a `<div>` element with the ID `map` in the `<body>` of the page. This `
 </head>
 
 <body>
-  <!-- Create a container for the map -->
+  <!-- 创建地图容器 -->
   <div id='map'></div>
 
   <script>
-    // Add your Mapbox access token
+    // 添加你的 Mapbox access token
     mapboxgl.accessToken = '{{ <UserAccessToken /> }}';
     var map = new mapboxgl.Map({
-      container: 'map', // Specify the container ID
+      container: 'map', // 指定容器 ID 
       style: 'mapbox://styles/mapbox/streets-v{{constants.VERSION_STREETS_STYLE}}', // Specify which map style to use
-      center: [-122.42136449,37.80176523], // Specify the starting position
-      zoom: 14.5, // Specify the starting zoom
+      center: [-122.42136449,37.80176523], // 指定中心点 
+      zoom: 14.5, // 指定初始缩放等级
     });
   </script>
 </body>
@@ -103,37 +103,37 @@ There is a `<div>` element with the ID `map` in the `<body>` of the page. This `
 </html>
 ```
 
-This Mapbox GL JS code sets a style for the map, gives it coordinates on which to center, and sets a zoom level.
+上述代码设置了地图样式，地图中心点和缩放等级。
 
-Save your changes. Open the HTML file in your browser to see the rendered map, which is centered on the city of San Francisco.
+保存修改。在浏览器打开 HTML 文件会看到渲染出的地图，中心点为旧金山。
 
-## Add the Draw tools
+## 添加绘制工具
 
 {{<Note title="Options for passing coordinates to the Map Matching API" imageComponent={<BookImage />}>}}
 
-In this app created in this tutorial, the coordinates that the Map Matching API uses to generate a route are created by the user adding points directly to the map with the Mapbox GL Draw tools. Often, though, you would instead want to add the points used by the Map Matching API programmatically. For example, the Map Matching API could access a data set that contains landmark coordinates to create scenic routes, or a data set with the locations of known parking garages near the end of a route.
+在这个教程的应用里，Map Matching API 使用用户用 Mapbox GL Draw 工具直接在地图上添加的点生成路线。不过开发者通常希望通过代码添加 Map Matching API 所需的点。例如，Map matching API 可以访问包含地标坐标的数据集来创建风光游览路线，还可以访问有导航终点车库位置信息的数据集。
 
 {{</Note>}}
 
-The [Mapbox GL Draw plugin](https://github.com/mapbox/mapbox-gl-draw) adds support for drawing features on maps created with Mapbox GL JS. In this step, you will add the Mapbox GL Draw `line_tool` and `trash` tools to your app, which will allow your users to draw lines and delete them. To add the draw tools, first add the links to the Mapbox GL Draw plugin's JavaScript and CSS to the head of the HTML file:
+[Mapbox GL Draw plugin](https://github.com/mapbox/mapbox-gl-draw) 支持在 Mapbox GL JS 创建的地图上添加绘制功能。在这一节，你会添加 Mapbox GL Draw 的 `line_tool` 和 `trash` 工具到应用里，它们允许用户绘制线和删除线。首先，添加 Mapbox GL Draw plugin 的 JavaScript 和 CSS 链接到 HTML 文件 head 里：
 
 ```html
 <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.0.9/mapbox-gl-draw.js'></script>
 <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.0.9/mapbox-gl-draw.css' type='text/css' />
 ```
 
-Once these links have been added, you will be able to use the Draw plugin in your app. When you add the Draw plugin, you can also specify the style of the line that gets drawn on the map when a user uses the draw tool. Add the following code above the closing `</script>` tag in your HTML file.
+链接添加后，你就能在应用中使用 Draw plugin。添加 Draw plugin 时，你可以指定用户使用绘制工具在地图上绘制的线条样式。在 `</script>` 闭合标签上方位置添加以下代码。
 
 ```js
 var draw = new MapboxDraw({
-  // Instead of showing all the draw tools, show only the line string and delete tools
+  // 不显示所有地图工具，只显示画线工具和删除工具
   displayControlsDefault: false,
   controls: {
     line_string: true,
     trash: true
   },
   styles: [
-    // Set the line style for the user-input coordinates
+    // 设置用户输入坐标线条样式
     {
       "id": "gl-draw-line",
       "type": "line",
@@ -151,7 +151,7 @@ var draw = new MapboxDraw({
         "line-opacity": 0.7
       }
     },
-    // Style the vertex point halos
+    // 设置 halos 顶点样式
     {
       "id": "gl-draw-polygon-and-line-vertex-halo-active",
       "type": "circle",
@@ -164,7 +164,7 @@ var draw = new MapboxDraw({
         "circle-color": "#FFF"
       }
     },
-    // Style the vertex points
+    // 设置顶点样式
     {
       "id": "gl-draw-polygon-and-line-vertex-active",
       "type": "circle",
@@ -180,34 +180,35 @@ var draw = new MapboxDraw({
   ]
 });
 
-// Add the draw tool to the map
+// 给地图添加绘制工具
 map.addControl(draw);
 ```
 
-Save your file, then refresh the page in your browser. You will see icons for the specified Draw plugin controls, `line_tool` and `delete`, on the upper right side of the page. Click the `line_tool` icon. On the map, click once to start the line, then click one or more times to draw a path. When you're done drawing, click again on the last point to finish the path. The map will display a blue dashed line that follows the path you drew. For more information on how to style lines using this plugin, read the [Styling Draw section](https://github.com/mapbox/mapbox-gl-draw/blob/master/docs/API.md#styling-draw) of the Mapbox GL Draw documentation.
+保存文件刷新页面。你会看到设定的 Draw plugin 控制器，`line_tool` 和 `delete` 图标出现在页面右边。点击 `line_tool` 图标。在地图上点击一下开始绘制路径，再点击一次或多次来画线。当你完成绘制时，在终点点击一次结束路径。地图会显示蓝色虚线来表示你绘制的路径。关于更多线条样式的信息可以阅读 Mapbox GL Draw 文档的[绘制样式](https://github.com/mapbox/mapbox-gl-draw/blob/master/docs/API.md#styling-draw)一节。
 
-In a few steps, you will link the code you wrote in this step with a function that takes this drawn path and gathers the coordinates to use in the Map Matching API call.  
+在接下来到步骤中，你会将本节写的代码与一个获取绘制路径，收集坐标来使用 Map Matching API 的函数关联起来。
 
 {{
 <AppropriateImage imageId="mapMatchingGetStartedDrawTools" alt="Screenshot showing the Mapbox GL Draw plugin tools added to the right side of the map." />
 }}
 
-## Add the sidebar
+## 添加侧边栏
 
-Next, add a sidebar to the web app that will display instructions for users on how to use the app. This sidebar will also serve as a place to display turn-by-turn directions, which you will set up in a later step.
 
-In the `<body>` of your HTML, add a new `<div>`. This `<div>` will hold the app's instructions and, later, the directions.
+给网页应用添加侧边栏，显示如何使用应用的介绍。侧边栏也会作为显示逐向导航的地方，你会在后边的步骤里设置。
+
+在 HTML 的 `<body>` 里添加新 `<div>`。`<div>` 会包含应用介绍，以及后续的逐向导航。
 
 ```html
 <div class="info-box">
   <div id="info">
-    <p>Draw your route using the draw tools on the right. To get the most accurate route match, draw points at regular intervals.</p>
+    <p>在右边使用绘制工具绘制路线。为了得到最佳路线匹配，请每隔一定距离画点。</p>
   </div>
   <div id="directions"></div>
 </div>
 ```
 
-To style the new `<div>`, add the following CSS to the `<style>` section of your HTML:
+添加下边的 CSS 到 HTML  `<style>` 部分，设置新 `<div>` 样式：
 
 ```css
 .info-box {
@@ -230,49 +231,49 @@ To style the new `<div>`, add the following CSS to the `<style>` section of your
 }
 ```
 
-Save your work and refresh the page. The new information box will display on the left side of the page.
+保存文件并刷新页面。新介绍框会显示在页面左侧。 
 
 {{
 <AppropriateImage imageId="mapMatchingGetStartedSidebar" alt="Screenshot showing a sidebar added to the map." />
 }}
 
-## Add the Map Matching API
+## 添加 Map Matching API
 
-A Map Matching API requires two parameters: the `profile` the query should use, and the `coordinates` that need to be matched to the OpenStreetMap road and path network. The `profile` can be either `walking`, `cycling`, `driving`, or `driving-traffic`. The `coordinates` are a semicolon-separated list of `{longitude},{latitude}` coordinate pairs to visit in order, of which there can be anywhere between two and 100.
+Map Matching API 要求提供两个参数：查询应该使用的 `profile` 和要在 OpenStreetMap 路网中匹配的坐标 `coordinates`。`profile` 可以是 `walking`，`cycling`，`driving` 或 `driving-traffic` 中的一种。坐标是按顺序访问以分号隔开的 `{longitude},{latitude}` 坐标对，可以包含 2 到 100 个坐标。
 
 ```
 https://api.mapbox.com/matching/v5/mapbox/{profile}/{coordinates}.json?access_token=YOUR_MAPBOX_ACCESS_TOKEN
 ```
 
-The Map Matching API also accepts several optional parameters that can be used to customize the query. For this app, you will be using two optional parameters:
+Map Matching API 也接收几个自定义查询的可选参数。对于本应用，你需要两个可选参数：
 
-- `radiuses`: A semicolon-separated list that indicates the maximum distance a coordinate can be moved to snap to the road network in meters. Adding a radius tells the Map Matching API how precisely it must match the input coordinates, which may not always represent a location on the OpenStreetMap road network. The number of radiuses must be the same as the number of coordinates in the request.
-- `steps`: Set to `true` to return step-by-step instructions.
+- `radiuses`：分号隔开的列表，说明为了和路网匹配坐标可以被移动的最大距离。添加半径告诉 Map Matching API 必须和用户输入坐标匹配到的精确程度，用户坐标可能在 OpenStreetMap 路网上无法匹配已有位置。半径数量必须和请求坐标数量一致。
+- `steps`: 设置为 `true` 返回逐向导航。
 
-To learn more about the Map Matching API and its other optional parameters, explore the [Map Matching API documentation](https://docs.mapbox.com/api/navigation/#map-matching).
+如果想了解更多 Map Matching API 及其参数，可以浏览 [Map Matching API 文档](https://docs.mapbox.com/api/navigation/#map-matching)。
 
-This example query uses the `driving` profile, has two coordinate pairs and two `radiuses`, and has the `steps` parameter set to `true`:
+下边的查询样例使用 `driving` 配置，有两个坐标对和两个 `radiuses`，设置 `steps` 为 `true`：
 
 ```
 https://api.mapbox.com/matching/v5/mapbox/driving/-117.17282,32.71204;-117.17288,32.71225?steps=true&radiuses=25;25&access_token={{ <UserAccessToken /> }}
 ```
 
-A Map Matching API request that includes the `radiuses` and `steps` parameters returns a response that contains `matchings`, an array of match objects. A match object contains route leg objects, which give detailed information about each leg of the route, including the turn-by-turn directions. You will use the information returned by the Map Matching API to do two things: draw the matched route to the map, and return turn-by-turn directions.
+有 `radiuses` 和 `steps` 参数的 Map Matching API 请求返回包含 `matchings` 返回值，match 对象数组。match 对象包含路线段 route leg 对象，提供关于路线段的详细信息，包括逐向导航。你会使用 Map Matching API 返回信息做两件事情：将匹配路线绘制到地图上，返回逐向导航。
 
-To integrate the Map Matching API into your app, you will write two new functions, `updateRoute` and `getMatch`. `updateRoute` will take the coordinates from the user-generated line and format them so that they can be used in a Map Matching query. `getMatch` will construct the query string and will use Ajax to make the Map Matching API call. Used together, these two functions will make an API call using the coordinates drawn on the screen and will return the data necessary to complete the rest of the app. Add the following code to your JavaScript, before the closing `</script>` tag:
+为了使用 Map Matching API，你要写两个函数，`updateRoute` 和 `getMatch`。`updateRoute` 使用用户绘制线产生的坐标，并格式化后用于 Map Matching API 查询。`getMatch` 构建查询字串，并使用 Ajax 请求 Map Matching API。两者结合使用就会用绘制到地图上的坐标发起 API 请求，并返回完成剩下应用所需的数据。添加以下代码到 `</script>` 闭合标签上方：
 
 ```js
-// Use the coordinates you drew to make the Map Matching API request
+// 使用绘制的坐标发起 Map Matching API 请求
 function updateRoute() {
-  // Set the profile
+  // 设置 profile
   var profile = "driving";
-  // Get the coordinates that were drawn on the map
+  // 获取绘制到地图的坐标
   var data = draw.getAll();
   var lastFeature = data.features.length - 1;
   var coords = data.features[lastFeature].geometry.coordinates;
-  // Format the coordinates
+  // 格式化坐标
   var newCoords = coords.join(';')
-  // Set the radius for each coordinate pair to 25 meters
+  // 设置每个坐标匹配半径为 25 米
   var radius = [];
   coords.forEach(element => {
     radius.push(25);
@@ -280,51 +281,51 @@ function updateRoute() {
   getMatch(newCoords, radius, profile);
 }
 
-// Make a Map Matching request
+// 发起 Map Matching 请求
 function getMatch(coordinates, radius, profile) {
-  // Separate the radiuses with semicolons
+  // 用分号连接起半径数据
   var radiuses = radius.join(';')
-  // Create the query
+  // 创建查询
   var query = 'https://api.mapbox.com/matching/v5/mapbox/' + profile + '/' + coordinates + '?geometries=geojson&radiuses=' + radiuses + '&steps=true&access_token=' + mapboxgl.accessToken;
 
   $.ajax({
     method: 'GET',
     url: query
   }).done(function(data) {
-    // Get the coordinates from the response
+    // 从返回值中获取坐标
     var coords = data.matchings[0].geometry;
     console.log(coords);
-    // Code from the next step will go here
+    // 后续步骤代码
   });
 }
 ```
 
-By calling the `getMatch` function in `updateRoute`, you can access the user-drawn coordinates and use them as the coordinates in the Map Matching API call. In the next step you will add a new drawn line to show the matched route, but for now you can view the coordinate results using `console.log()`.
+通过在 `updateRoute` 中调用 `getMatch` 函数，你可以访问用户绘制坐标，并在 Map Matching API 请求中使用它们。在下一步中，你会添加新的线条显示匹配路线，但是现在你可以通过 `console.log()` 查看它们。
 
-To call `getMatch` when your user draws or updates a line on the map, add the following lines before the closing `</script>` tag:
+为了在用户绘制或更新地图线条时调用 `getMatch`，添加以下代码在 `</script>` 闭合标签前：
 
 ```js
 map.on('draw.create', updateRoute);
 map.on('draw.update', updateRoute);
 ```
 
-Save your work, then refresh your browser page and open the browser's developer tools. When you draw a route on the map, your app will print the coordinate data returned by the Map Matching API to the JavaScript console.
+保存文件，刷新页面并打开开发者工具。当你在地图上画线时，应用会打印出 Map Matching API 返回的坐标到 JavaScript 控制台。
 
 {{
 <AppropriateImage imageId="mapMatchingGetStartedConsole" alt="Screenshot showing the returned coordinates displayed in a browser's JavaScript console." />
 }}
 
-## Draw the Map Matching route
-Next, you will create an `addRoute` function that takes the coordinates returned by the Map Matching API and adds them on the map as a new layer. Paste the following code into your JavaScript, above the final `</script>` tag:
+## 绘制 Map Matching 路线
+接下来，你会创建 `addRoute` 函数，利用 Map Matching API 返回的坐标，通过新图层添加到地图上。在 `</script>` 闭合标签上添加以下代码：
 
 ```js
-// Draw the Map Matching route as a new layer on the map
+// 在地图上将 Map Matching 路线绘制为新图层
 function addRoute(coords) {
-  // If a route is already loaded, remove it
+  // 如果有已经载入的路线，先删除掉它
   if (map.getSource('route')) {
     map.removeLayer('route')
     map.removeSource('route')
-  } else { // Add a new layer to the map
+  } else { // 给地图添加新图层
     map.addLayer({
       "id": "route",
       "type": "line",
@@ -350,45 +351,45 @@ function addRoute(coords) {
 }
 ```
 
-Call `addRoute` within your `getRoute` function so that it can access the coordinates returned by the Map Matching API. `getRoute` will now look like this:
+在 getRoute 函数中调用 `addRoute` 以使用 Map Matching API 返回值。getRoute 现在如下所示：
 
 ```js
-// Make a Map Matching request
+// 发起 Map Matching 请求
 function getMatch(coordinates, radius, profile) {
-  // Separate the radiuses with semicolons
+  // 用分号连接起半径数据
   var radiuses = radius.join(';')
-  // Create the query
+  // 创建查询
   var query = 'https://api.mapbox.com/matching/v5/mapbox/' + profile + '/' + coordinates + '?geometries=geojson&radiuses=' + radiuses + '&steps=true&access_token=' + mapboxgl.accessToken;
   console.log(query)
   $.ajax({
     method: 'GET',
     url: query
   }).done(function(data) {
-    // Get the coordinates from the response
+    // 从返回值中获取坐标
     var coords = data.matchings[0].geometry;
-    // Draw the route on the map
+    // 在地图上绘制路线
     addRoute(coords);
   });
 }
 ```
 
-Save your changes and refresh the browser page. Now when you use the `line_draw` tool to trace a route, the route generated by the Map Matching API also shows on the map. As you can see, the line drawn by the user won't always match up directly with the route generated by the Map Matching API. This is because the Map Matching API takes the input coordinates, which may not be located directly on the road network, and snaps them to the nearest road within the 25 meter radius that you specified in the `radiuses` parameter.
+保存文件，刷新页面。当你用 `line_draw` 工具画路线时，生成的路线也会显示在地图上。正如你所看到的，用户绘制的线不总是和 Map Matching API 生成的路线匹配。这是由于 Map Matching API 使用用户提供的坐标时，部分坐标可能无法直接在路网上定位到，这种情况下 Map Matching API 根据你在 `radiuses` 参数中指定的 25 米半径计算最近路线坐标。
 
 {{
 <AppropriateImage imageId="mapMatchingGetStartedNewLayer" alt="Screenshot showing the coordinates returned by the Map Matching API as a new layer on the map." />
 }}
 
-## Display the turn-by-turn directions
-Now it's time to add the turn-by-turn instructions from the Map Matching API to the sidebar! Doing so requires writing a new function, `getInstructions`, that will allow you to dig down into the Map Matching API response object to get the information you need: the total time that the route will take, and the maneuver instructions for each step of the route. (Read more about what gets returned in the Map Matching API's route step object in the [Map Matching API documentation](https://docs.mapbox.com/api/navigation/#route-step-object).) Add the following code to the JavaScript, below the `getMatch` method:
+## 显示逐向导航
+现在可以添加 Map Matching API 的逐向导航到侧边栏了！为了实现这个功能，我们需要写一个新函数 `getInstructions`，这要求你深入 Map Matching API 返回值对象中获取所需信息：路线全程时长，路线每一步的行车指令。（浏览Map Matching API 文档(https://docs.mapbox.com/api/navigation/#route-step-object)了解更多关于 Map Matching API 逐向路线对象返回值的信息。）在 `getMatch`  方法下添加以下代码：
 
 ```js
 function getInstructions(data) {
-  // Target the sidebar to add the instructions
+  // 获取添加导航的侧边栏
   var directions = document.getElementById('directions');
 
   var legs = data.legs;
   var tripDirections = [];
-  // Output the instructions for each step of each leg in the response object
+  // 在返回对象中输出每个路线段导航指令
   for (var i = 0; i < legs.length; i++) {
     var steps = legs[i].steps;
     for (var j = 0; j < steps.length; j++) {
@@ -399,14 +400,14 @@ function getInstructions(data) {
 }
 ```
 
-Next, call `getInstructions` within your `getRoute` function so that it can access the data returned by the Map Matching API. `getRoute` will now look like this:
+下一步，在 `getRoute` 函数中调用 `getInstructions` 以使用 Map Matching API 返回值。`getRoute` 现在如下所示：
 
 ```js
-// Make a Map Matching request
+// 发起 Map Matching 请求
 function getMatch(coordinates, radius, profile) {
-  // Separate the radiuses with semicolons
+  // 用分号连接起半径数据
   var radiuses = radius.join(';')
-  // Create the query
+  // 创建查询
   var query = 'https://api.mapbox.com/matching/v5/mapbox/' + profile + '/' + coordinates + '?geometries=geojson&radiuses=' + radiuses + '&steps=true&access_token=' + mapboxgl.accessToken;
   console.log(query)
   $.ajax({
@@ -414,24 +415,24 @@ function getMatch(coordinates, radius, profile) {
     url: query
   }).done(function(data) {
     var coords = data.matchings[0].geometry;
-    // Draw the route on the map
+    // 在地图上绘制路线
     addRoute(coords);
     getInstructions(data.matchings[0]);
   });
 }
 ```
 
-Save your changes and refresh your browser page. Now when you draw a route on the map, you will see the trip duration and the turn-by-turn instructions in the sidebar.
+保存文件，刷新页面。当你在地图上画线时，你会在侧边栏看到路线时长和逐向导航指令。
 
 {{
 <AppropriateImage imageId="mapMatchingGetStartedDirections" alt="Screenshot showing turn-by-turn directions displayed in the sidebar of the map." />
 }}
 
-## Let users delete a route
-The last step is to add a function that allows your users to delete a route they have drawn on the map.
+## 允许用户删除路线
+最后一步，添加允许用户删除他们绘制在地图上的路线。 
 
 ```js
-// If the user clicks the delete draw button, remove the layer if it exists
+// 如果用户点击删除按钮，移除已存在的图层
 function removeRoute() {
   if (map.getSource('route')) {
     map.removeLayer('route');
@@ -442,23 +443,23 @@ function removeRoute() {
 }
 ```
 
-To connect the `removeRoute` function with the Mapbox GL Draw plugin's delete button, add the following line to your JavaScript:
+添加以下代码，将 `removeRoute` 与插件的删除按钮关联起来：
 
 ```js
   map.on('draw.delete', removeRoute);
 ```
 
-Save your work and refresh the browser page. When you draw a line and then click the Draw plugin's delete button, the line is removed from the page.
+保存文件，刷新页面。当你画条线，然后点击 Draw 插件的删除按钮后，路线会被移除页面。
 
-## Final product
+## 最终产品
 
-You have created an app that uses the Mapbox Map Matching API to snap user-provided coordinates to the road network, while at the same time displaying the route on a map and showing users the turn-by-turn instructions for the route.  
+你已经创建了一个使用 Mapbox Map Matching API 将用户自定义坐标嵌入路网的应用。同时可以在地图上显示路线，并为用户提供逐向导航。
 
 {{
   <DemoIframe src="/help/demos/get-started-map-matching-api/index.html" />
 }}
 
-The final HTML file will look like the following:
+最终的 HTML 文件如下所示：
 
 ```html
 <!DOCTYPE html>
@@ -466,14 +467,14 @@ The final HTML file will look like the following:
 
 <head>
   <meta charset='utf-8' />
-  <title>Get started with the Map Matching API</title>
+  <title>开始使用地图匹配 API</title>
   <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
-  <!-- Import Mapbox GL JS  -->
+  <!-- 导入 Mapbox GL JS  -->
   <script src='https://api.tiles.mapbox.com/mapbox-gl-js/{{constants.VERSION_MAPBOXGLJS}}/mapbox-gl.js'></script>
   <link href='https://api.tiles.mapbox.com/mapbox-gl-js/{{constants.VERSION_MAPBOXGLJS}}/mapbox-gl.css' rel='stylesheet' />
-  <!-- Import jQuery -->
+  <!-- 导入 jQuery -->
   <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
-  <!-- Import Mapbox GL Draw -->
+  <!-- 导入 Mapbox GL Draw -->
   <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.0.9/mapbox-gl-draw.js'></script>
   <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.0.9/mapbox-gl-draw.css' type='text/css' />
 
@@ -512,35 +513,35 @@ The final HTML file will look like the following:
 </head>
 
 <body>
-  <!-- Create a container for the map -->
+  <!-- 创建地图容器 -->
   <div id='map'></div>
 
   <div class="info-box">
     <div id="info">
-      <p>Draw your route using the draw tools on the right. To get the most accurate route match, draw points at regular intervals.</p>
+      <p>在右边使用绘制工具绘制路线。为了得到最佳路线匹配，请每隔一定距离画点。</p>
     </div>
     <div id="directions"></div>
   </div>
 
   <script>
-    // Add your Mapbox access token
+    // 添加你的 Mapbox access token
     mapboxgl.accessToken = '{{ <UserAccessToken/> }}';
     var map = new mapboxgl.Map({
-      container: 'map', // Specify the container ID
+      container: 'map', // 指定容器 ID 
       style: 'mapbox://styles/mapbox/streets-v{{constants.VERSION_STREETS_STYLE}}', // Specify which map style to use
-      center: [-122.42136449,37.80176523], // Specify the starting position
-      zoom: 14.5, // Specify the starting zoom
+      center: [-122.42136449,37.80176523], // 指定起始中心点
+      zoom: 14.5, // 指定初始缩放等级
     });
 
     var draw = new MapboxDraw({
-      // Instead of showing all the draw tools, show only the line string and delete tools
+      // 不显示所有地图工具，只显示画线工具和删除工具
       displayControlsDefault: false,
       controls: {
         line_string: true,
         trash: true
       },
       styles: [
-        // Set the line style for the user-input coordinates
+        // 设置用户输入坐标线条样式
         {
           "id": "gl-draw-line",
           "type": "line",
@@ -558,7 +559,7 @@ The final HTML file will look like the following:
             "line-opacity": 0.7
           }
         },
-        // Style the vertex point halos
+        // 设置 halos 顶点样式
         {
           "id": "gl-draw-polygon-and-line-vertex-halo-active",
           "type": "circle",
@@ -571,7 +572,7 @@ The final HTML file will look like the following:
             "circle-color": "#FFF"
           }
         },
-        // Style the vertex points
+        // 设置顶点样式
         {
           "id": "gl-draw-polygon-and-line-vertex-active",
           "type": "circle",
@@ -587,19 +588,19 @@ The final HTML file will look like the following:
       ]
     });
 
-    // Add the draw tool to the map
+    // 给地图添加绘制工具
     map.addControl(draw);
 
     function updateRoute() {
-      // Set the profile
+      // 设置 profile
       var profile = "driving";
-      // Get the coordinates that were drawn on the map
+      // 获取绘制到地图的坐标
       var data = draw.getAll();
       var lastFeature = data.features.length - 1;
       var coords = data.features[lastFeature].geometry.coordinates;
-      // Format the coordinates
+      // 格式化坐标
       var newCoords = coords.join(';')
-      // Set the radius for each coordinate pair to 25 meters
+      // 设置每个坐标匹配半径为 25 米
       var radius = [];
       coords.forEach(element => {
         radius.push(25);
@@ -607,28 +608,28 @@ The final HTML file will look like the following:
       getMatch(newCoords, radius, profile);
     }
 
-    // Make a Map Matching request
+    // 发起 Map Matching 请求
     function getMatch(coordinates, radius, profile) {
-      // Separate the radiuses with semicolons
+      // 获取绘制到地图的坐标
       var radiuses = radius.join(';')
-      // Create the query
+      // 创建查询
       var query = 'https://api.mapbox.com/matching/v5/mapbox/' + profile + '/' + coordinates + '?geometries=geojson&radiuses=' + radiuses + '&steps=true&access_token=' + mapboxgl.accessToken;
 
       $.ajax({
         method: 'GET',
         url: query
       }).done(function(data) {
-        // Get the coordinates from the response
+        // 从返回值中获取坐标
         var coords = data.matchings[0].geometry;
-        // Draw the route on the map
+        // 绘制路线到地图
         addRoute(coords);
         getInstructions(data.matchings[0]);
       });
     }
 
-    // Draw the Map Matching route as a new layer on the map
+    // 在地图上将 Map Matching 路线绘制为新图层
     function addRoute(coords) {
-      // If a route is already loaded, remove it
+      // 如果有已经载入的路线，先删除掉它
       if (map.getSource('route')) {
         map.removeLayer('route')
         map.removeSource('route')
@@ -658,12 +659,12 @@ The final HTML file will look like the following:
     }
 
     function getInstructions(data) {
-      // Target the sidebar to add the instructions
+      // 获取添加导航的侧边栏
       var directions = document.getElementById('directions');
 
       var legs = data.legs;
       var tripDirections = [];
-      // Output the instructions for each step of each leg in the response object
+      // 在返回对象中输出每个路线段导航指令
       for (var i = 0; i < legs.length; i++) {
         var steps = legs[i].steps;
         for (var j = 0; j < steps.length; j++) {
@@ -673,7 +674,7 @@ The final HTML file will look like the following:
       directions.innerHTML = '<br><h2>Trip duration: ' + Math.floor(data.duration / 60) + ' min.</h2>' + tripDirections;
     }
 
-    // If the user clicks the delete draw button, remove the layer if it exists
+    // 如果用户点击删除按钮，移除已存在的图层
     function removeRoute() {
       if (map.getSource('route')) {
         map.removeLayer('route');
@@ -693,8 +694,9 @@ The final HTML file will look like the following:
 
 ```
 
-## Next steps
-To build on top of the tools and techniques you used in this tutorial, explore the following resources:
-- Learn more about how you can use the Map Matching API's optional parameters to influence what gets returned in the response object in the [Map Matching API documentation](https://docs.mapbox.com/api/navigation/#map-matching).
-- Learn more about adding layers to a map using Mapbox GL JS in the [Add a GeoJSON line example](https://docs.mapbox.com/mapbox-gl-js/example/geojson-line/) and in the [`addLayer` documentation](https://docs.mapbox.com/mapbox-gl-js/api/#map#addlayer).
+## 下一步
+想基于本教程使用的工具和技术开发产品，查阅以下资料：
+- 在 [Map Matching API 文档](https://docs.mapbox.com/api/navigation/#map-matching)中学习如何利用可选参数控制响应结果中的返回内容。
+- 在 [添加 GeoJSON 线示例](https://docs.mapbox.com/mapbox-gl-js/example/geojson-line/)和 [`addLayer` 文档](https://docs.mapbox.com/mapbox-gl-js/api/#map#addlayer)中了解更多关于如何用 Mapbox GL JS 给地图添加新图层的知识。
 - Learn more about how to use the Mapbox GL Draw plugin in the [Show drawn polygon area example](https://docs.mapbox.com/mapbox-gl-js/example/mapbox-gl-draw/) and in the [Mapbox GL Draw plugin documentation](https://github.com/mapbox/mapbox-gl-draw/tree/master/docs).
+- 在[显示绘制的多边形区域示例](https://docs.mapbox.com/mapbox-gl-js/example/mapbox-gl-draw/)和 [Mapbox GL Draw plugin](https://github.com/mapbox/mapbox-gl-draw/tree/master/docs) 文档里了解更多关于如何使用 Mapbox GL Draw 插件的知识。
