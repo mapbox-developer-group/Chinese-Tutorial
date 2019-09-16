@@ -1,6 +1,6 @@
  ---
 title: 开始使用 Map Matching API
-description: 使用 Map Matching API 创建一个允许用户定制行车路线的网页应用。
+description: 使用 Map Matching API 创建允许用户定制行车路线的网页应用。
 thumbnail: mapMatchingGetStartedDirections
 topics:
 - navigation
