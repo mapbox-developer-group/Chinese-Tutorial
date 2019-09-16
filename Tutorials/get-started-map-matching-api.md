@@ -1,6 +1,6 @@
  ---
-title: Get started with the Map Matching API
-description: Create a web app that uses the Mapbox Map Matching API to allow users to specify their own driving route.
+title: 开始使用 Map Matching API
+description: 使用 Map Matching API 创建一个允许用户定制行车路线的网页应用。
 thumbnail: mapMatchingGetStartedDirections
 topics:
 - navigation
@@ -9,7 +9,7 @@ topics:
 level: 2
 language:
 - JavaScript
-prereq: Familiarity with front-end development concepts.
+prereq: 熟悉前端开发技术.
 prependJs:
   - "import Note from '@mapbox/dr-ui/note';"
   - "import BookImage from '@mapbox/dr-ui/book-image';"
