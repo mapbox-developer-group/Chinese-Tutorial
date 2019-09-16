@@ -25,12 +25,11 @@ Mapbox Map SDK (Android) 是Mapbox面向Android提供的矢量地图库。本节
 
 ## 新手入门
 
-Here's what you'll need to get started:
 开始之前，需要完成以下几个步骤：
 
 - **Mapbox账户和access token**. 在 [mapbox.com/signup](https://www.mapbox.com/signup/) 注册一个Mapbox账户，您可以在您的 [用户页面](https://www.mapbox.com/account/) 找到您的access token。
 - **Android Studio**. 您可以通过谷歌 [Android Studio](http://developer.android.com/sdk/index.html) 免费下载Android Studio。在开始安装Mapbox Map SDK (Android)之前，您需要下载Android Studio并创建一个空的工程。
-- **一台Android设备（实体或者模拟器）**. 您需要一台实体Android设备或者一台 [模拟Android设备](https://developer.android.com/studio/run/emulator.html) 来预览商店探测器。
+- **一台Android设备（实体或者模拟器）**. 您需要一台实体Android设备或者 [Android模拟器](https://developer.android.com/studio/run/emulator.html) 来预览商店探测器。
 to preview the store finder.
 - **Google Play开发者账户（可选）**. 如果您需要发布您的应用程序到Google Play，您将会需要一个 [Google Play开发者账户](https://play.google.com/apps/publish/signup/). 如果没有这个账户，您依然可以在Android模拟设备中预览您的应用程序或者在实体设备中安装它。
 
