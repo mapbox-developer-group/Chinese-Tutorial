@@ -1,6 +1,8 @@
+赵春亮已完成show-changes-over-time.md文件翻译
+@coffee-gh
 ---
-title: Show changes over time with Mapbox GL JS
-description: Build a map application with Mapbox GL JS to visualize changes in data over time.
+title: 使用Mapbox GL JS 显示数据随时间的变化
+description: 用MapBox GL JS 创建一个地图应用来显示数据随时间而变化。
 thumbnail: showDataChangeOverTime
 level: 3
 topics:
@@ -22,41 +24,41 @@ contentType: tutorial
 {{
   <Note
     imageComponent={<BookImage />}
-    title='Property functions vs. property expressions'
+    title='属性函数 vs. 属性表达式'
   >
-    <p>This tutorial uses property <em>expressions</em>. This new feature was introduced in <a href='https://github.com/mapbox/mapbox-gl-js/blob/master/CHANGELOG.md#0410-october-11-2017'>Mapbox GL JS v0.41.0</a>. Property <em>expressions</em> can help you achieve similar effects as property <em>functions</em>, but with much more flexibility and functionality. <strong>While <a href='https://www.mapbox.com/mapbox-gl-js/style-spec#other-function'>property functions</a> are available, they will ultimately be deprecated and replaced by property expressions.</strong></p>
-    <p>Read more about property expressions in the <a href='https://www.mapbox.com/mapbox-gl-js/style-spec/#expressions'>Mapbox Style Specification</a> and in the <a href='/help/tutorials/mapbox-gl-js-expressions/'>Get started with Mapbox GL JS expressions</a> guide.</p>
+    <p> 这个教程使用了属性<em>表达式</em>. 这个新特性是在 <a href='https://github.com/mapbox/mapbox-gl-js/blob/master/CHANGELOG.md#0410-october-11-2017'>Mapbox GL JS v0.41.0</a>引入的. 属性<em>表达式</em> 能帮你完成属性<em>函数</em>相似的效果, 但有更多的灵活性和功能. <strong>任何<a href='https://www.mapbox.com/mapbox-gl-js/style-spec#other-function'>属性函数</a> 出现的地方, 它们最终被弃用而由属性表达式所替代. </strong></p>
+    <p>在 <a href='https://www.mapbox.com/mapbox-gl-js/style-spec/#expressions'>Mapbox Style Specification</a> 和 <a href='/help/tutorials/mapbox-gl-js-expressions/'>Get started with Mapbox GL JS expressions</a> 读取更多关于表达式的内容.</p>
   </Note>
 }}
 
-This tutorial will show how to build a map that shows data change over time using [Mapbox GL JS](https://www.mapbox.com/mapbox-gl-js/). The source data you'll be working with in this guide is from [NYC OpenData](https://data.cityofnewyork.us/) and contains more than 15,000 motor vehicle collisions in New York City that occurred in January 2016.
+这个教程将展示 如何使用 [Mapbox GL JS](https://www.mapbox.com/mapbox-gl-js/)创建一个 显示数据随时间变化的地图. 在这个向导中你会用到的源数据来自 [NYC OpenData](https://data.cityofnewyork.us/), 它包含了2016年1月 纽约市 发生的15000起交通事故.
 
-If you're new to Mapbox GL JS you might want to read [Mapbox GL JS fundamentals](/help/how-mapbox-works/web-apps/) first.
+如果你刚开始接触 Mapbox GL JS 的话, 你可能想要先读读 [Mapbox GL JS fundamentals](/help/how-mapbox-works/web-apps/).
 
 {{
   <DemoIframe src="/help/demos/show-changes-over-time/step-final.html" />
 }}
 
-## Get started
+## 开始教程
 
-There are a few resources you'll need before getting started:
+开始之前 你需要一些资源:
 
-- [**An access token**](/help/glossary/access-token/) from your Mapbox account. The access token is used to associate a map with your account and you can find it on your [Account page](https://www.mapbox.com/account).
-- **Data**. This GeoJSON file contains 15,273 geocoded motor vehicle collision incidents from January 2016, pulled from [NYC OpenData](https://data.cityofnewyork.us/Public-Safety/NYPD-Motor-Vehicle-Collisions/h9gi-nx95).
+- [**访问口令**](/help/glossary/access-token/) 来自你的 Mapbox 账号. 这个访问口令是用来关联你的地图和你的账户, 你能在你的[Account page](https://www.mapbox.com/account)找到.
+- **数据**. 这个GeoJSon文件包含了 2016年1月份的15273起 含地理信息编码的 交通事件, 下载于 [NYC OpenData](https://data.cityofnewyork.us/Public-Safety/NYPD-Motor-Vehicle-Collisions/h9gi-nx95).
 {{
 <Button href="/help/data/collisions1601.geojson" passthroughProps={{ download: "collisions1601.geojson" }}>
-    <Icon name='arrow-down' inline={true} /> Download data
+    <Icon name='arrow-down' inline={true} /> 下载数据
 </Button>
 }}
-- **A text editor** for writing HTML, CSS, and JavaScript.
+- **文本编辑器** 用来写HTML, CSS 和 JavaScript.
 
-## Add a map
+## 增加地图
 
-Before you start adding your NYC collision data, you need to create a map to put it on. Start by creating an HTML file and then initialize the map object on the page. This guide will require several files, so we recommend creating a project folder on your computer to keep them together.
+在你开始增加NYC 交通事件数据前, 你需要先创建一个地图来放置它们. 首先创建一个HTML文件, 然后在这个页面初始化地图对象。这个教程将需要几个文件，因此我们推荐在你的电脑上创建一个工程文件夹来一起存放它们。
 
-### Create an HTML file
+### 创建 HTML 文件
 
-In your project folder, create an `index.html` file. Set up the document by adding Mapbox GL JS and CSS to your `head`.
+在你的工程文件夹下, 创建一个 `index.html` 文件. 增加 Mapbox GL JS and CSS 到HTML文档的 `head` 中.
 
 ```html
 <meta charset='utf-8' />
@@ -66,7 +68,7 @@ In your project folder, create an `index.html` file. Set up the document by addi
 <link href='https://api.mapbox.com/mapbox-gl-js/{{constants.VERSION_MAPBOXGLJS}}/mapbox-gl.css' rel='stylesheet' />
 ```
 
-Next, create a map container and a container for your legend and data interactivity elements in `body`.
+然后, 创建一个地图容器和一个用于图例和数据交互控件的容器， 添加它们到HTML文档的 `body` 中.
 
 ```html
 <div id='map'></div>
@@ -76,7 +78,7 @@ Next, create a map container and a container for your legend and data interactiv
 </div>
 ```
 
-Apply some CSS to create the page layout. Create a pair of `style` tags at the end of your `head`, then add:
+使用CSS 创建页面排版布局. 创建一对 `style` 标签到 HTM文档 `head`后, 再增加如下代码:
 
 ```css
 body {
@@ -117,11 +119,11 @@ a {
 }
 ```
 
-### Initialize the map
+### 初始化地图
 
-Once you have the structure done, you can initialize the map with Mapbox GL JS. Insert a pair of `script` tags at the end of `body` &mdash; you will write all the following code (JavaScript) between these tags.
+一旦你完成了页面结构, 你就能用 Mapbox GL JS 初始化一个地图了. 在 `body` 结尾处增加一对  `script` 标签 &mdash; 你将写所有下面的代码(JavaScript)到这两个`script` 标签之间.
 
-Start by creating a new `map` object using `new mapboxgl.Map()` and store it in a variable called `map`.
+首先用 `new mapboxgl.Map()` 创建一个新的 `map` 对象，然后将它存储到一个叫 `map` 的变量中.
 
 ```js
 mapboxgl.accessToken = '{{ <UserAccessToken /> }}';
@@ -134,34 +136,34 @@ var map = new mapboxgl.Map({
 });
 ```
 
-If you load the page, it should look like this:
+如果你启动了页面，它应该看起来这样:
 
 {{
   <DemoIframe src="/help/demos/show-changes-over-time/step-one.html" />
 }}
 
-## Load your data
+## 加载数据
 
-Once you get the page structure and map done and onto the page, it's time to load in your data, get it styled, and add a legend. Fortunately, Mapbox GL JS has some handy functions that can help! First, make sure that the `collisions1601.geojson` file you downloaded is in your project folder.
+一旦你的页面结构和地图完成并添加到页面后，接下来要加载你的数据了，样式化，增加图例。幸运地, Mapbox GL JS 有一些易用的函数可以帮助使用! 首先, 确保你下载的 `collisions1601.geojson` 文件在你的工程文件夹下.
 
-### Add a layer
+### 增加图层
 
-To add data to your map using Mapbox GL JS, you will need to add a [layer](/help/glossary/layer) that includes a [source](/help/glossary/source). In this example, you will use the GeoJSON file you downloaded above as your source.
+为了用Mapbox GL JS 增加数据到你的地图, 你需要创建一个包含  [source](/help/glossary/source) 的 [layer](/help/glossary/layer) . 在这个例子中,  你将使用你之前下载的 GeoJSON 文件作为你地图的数据源.
 
 {{
   <Note
     imageComponent={<BookImage />}
   >
-    <p>Be sure to save and store the GeoJSON file in the same domain as your project. You will also need to run this application from a local web server, otherwise you will receive a <a href='http://en.wikipedia.org/wiki/Cross-origin_resource_sharing'>Cross-origin Resource Sharing (CORS)</a> error. <a href='http://www.2ality.com/2014/06/simple-http-server.html'>Python's SimpleHTTPServer</a> is included on many computers and is a good choice if this is your first time running a local server.</p>
+    <p>确保存储和部署的 GeoJSON 文件和你的工程在同一个域内. 你也将需要从一个本地Web服务器下运行这个应用, 否则你将收到一个 <a href='http://en.wikipedia.org/wiki/Cross-origin_resource_sharing'>跨域资源共享 (CORS)</a> error. <a href='http://www.2ality.com/2014/06/simple-http-server.html'>Python's SimpleHTTPServer</a> 在很多计算机上都包含，如果这是你第一次运行本地服务器，用它就是一个不错的选择.</p>
   </Note>
 }}
 
-In this example, you'll use [expressions](https://www.mapbox.com/mapbox-gl-js/style-spec#expressions) to set the style of the points based on a property in the data. This kind of [data-driven styling](/help/glossary/data-driven-styling) allows you to add an extra dimension to you map visualization, helping convey a particular insight or message to your readers. In this case, you can make the map more informative by applying styles based on the `Casualty` property in the data, which is the total number of people injured or killed in the collision. The code below changes both the size and color of the points based on the `Casualty` field.
+在这个例子中， 你将使用[表达式](https://www.mapbox.com/mapbox-gl-js/style-spec#expressions) 根据数据中的属性设置点的样式。这种[数据驱动样式](/help/glossary/data-driven-styling)方式允许您为地图可视化添加额外的维度，帮助向读者传达特定的见解或信息。
+在这种情况下，可以通过应用基于数据中的`伤亡`财产（即碰撞中受伤或死亡的总人数）的样式，使地图更具信息性。下面的代码将根据`伤亡`区域更改点的大小和颜色。
 
-Both of the expressions used below are [`'interpolate'`](https://www.mapbox.com/mapbox-gl-js/style-spec#expressions-interpolate) expressions. This kind of expression interpolates continuously between pairs of input and output values. In this instance, 'linear' interpolation can be used for  `circle-radius` and `circle-color` to make sure that interpolation occurs smoothly and linearly between the pairs of stops.
+下面使用的两个表达式都是 [`'interpolate'`](https://www.mapbox.com/mapbox-gl-js/style-spec#expressions-interpolate)表达式。这种表达式在输入和输出值对之间连续插值。在这种情况下，“线性”插值可用于 `circle-radius` 和 `circle-color`，以确保插值在两个停止点之间平滑、线性地进行。
 
-Also, note the `map.on('load', function(){})` code below &mdash; this tells your browser to wait until the map is finished loading before trying to add new things to it. Any code that adds layers should be inside of this callback function.
-
+另外，注意 `map.on('load', function(){} )`下面的代码 — 它告诉你的浏览器 必须要要等你的地图加载完成后 才能添加新其他东西。任何关于增加图层的代码 都应该放到这个回调函数内部。
 
 ```js
 map.on('load', function() {
@@ -198,9 +200,9 @@ map.on('load', function() {
 
 ```
 
-### Create a legend
+### 创建图例
 
-To describe the data you added, create a legend to communicate what each color and size means. Begin by creating a new `div`  with class `session` inside the `console` `div` you added earlier.
+为了描述你增加的数据内容， 创建一个图例来说明每个颜色和大小表示的意义。首先用class `session` 创建一个新的`div`  添加到 在你之前加过的 `console` `div`  内。
 
 ```html
 <div class='session'>
@@ -218,7 +220,7 @@ To describe the data you added, create a legend to communicate what each color a
 </div>
 ```
 
-Next, apply some CSS to define how the new `session` class should be styled. Create a color gradient using the same colors as the stops of the `circle-color` values you defined in your layer. This should go inside the `style` tags you added earlier.
+接下来，应用一些css来定义新`session`类的样式。使用与在图层中定义的`circle-color` 值的停止点相同的颜色创建颜色渐变。这应该放在前面添加的`style`标记中。
 
 ```css
 .session {
@@ -242,29 +244,31 @@ Next, apply some CSS to define how the new `session` class should be styled. Cre
 }
 ```
 
-After adding the CSS and refreshing your browser, you should see the following:
+增加完CSS样式后，刷新你的浏览器， 你应该开到下面页面:
 
 {{
   <DemoIframe src="/help/demos/show-changes-over-time/step-two.html" />
 }}
 
-## Add a time slider
+## 增加时间滚动条
 
-With the data symbolized by casualty, your map is already telling a compelling story. To make it more compelling, you can add a time slider to allow your readers to filter the collision data by time of day.
+以伤亡为标志的数据，你的地图已经在讲述一个令人信服的故事。为了使其更有吸引力，您可以添加一个时间滚动条，以允许读者按时间过滤交通事故数据。
 
-### Add a map filter
+### 增加地图过滤器
 
-Besides providing the value of a paint or layout property, you can use expressions as filters. By adding a [`==`](https://www.mapbox.com/mapbox-gl-js/style-spec#expressions-==) expression as a [filter](https://www.mapbox.com/mapbox-gl-style-spec/#types-filter) with the structure `"filter": ['==', ['type',['get', 'key']],'value']`, you can single out all features where the 'key' is equal to the 'value' of the specified type. Add the following code to the end of the `addLayer()` options you wrote earlier:
+除了给渲染或排版属性提供值之外，你能用表达式作过滤器。 通过增加一个 [`==`](https://www.mapbox.com/mapbox-gl-js/style-spec#expressions-==)  表达式 作为过滤器，它结构如
+ `"filter": ['==', ['type',['get', 'key']],'value']`， 你能找出所有 那些 key 等于指定 value 的元素 。
+增加下面的代码 到你之前写的 `addLayer()` 部分的后面：
 
 ```
 filter: ['==', ['number', ['get', 'Hour']], 12]
 ```
 
-Refresh the map. You should see a lot fewer collisions!
+刷新地图。 你应该看到更少的事故 !
 
-### Create a slider bar
+### 创建一个滚动条
 
-You don't only want to show collisions that happened at noon, though &mdash; you want the user to be able to control what hour of the day the map shows. To do this, you can add a time slider in the `console` div by adding a new `session` div after `legend`. There are 24 hours in a day labeled by the integers 0-23 in the dataset, so you'll set the input's `min` and `max` attributes to `0` and `23`, respectively, and the initial value to 12, or 12PM. Add the following code below the other `session` div you added in a previous step:
+你如果不想仅仅显示中午时段发生的事故， 而是你想让你的用户可以控制什么时间的地图数据显示。要做这个，你可以通过增加一个新的  `session` 层 来实现增加 时间滚动条，添加到 `console`层中  在`legend` 之后。在数据里 有24个时刻 被标记为整数0-23， 你可以设置 输入 min 和 max属性 为. 初始化`0` 和 `23`之为 12或着12PM。 增加下面的代码 到你前一步添加 另一个`session`  层中。
 
 ```html
 <div class='session' id='sliderbar'>
@@ -273,11 +277,11 @@ You don't only want to show collisions that happened at noon, though &mdash; you
 </div>
 ```
 
-### Add interactivity
+### 添加交互性
 
-Now, add some code to connect the slider with the map. Begin by adding an event listener to the slider called `onInput`, which listens for any change in the slider's value. Next, use Mapbox GL JS's `setFilter(layer, filter)` method to change your layer's `filter` property whenever the `input` event fires. Finally, add a bit of math to add `PM` or `AM` to the time displayed next to your slider.
+现在 增加一些代码来关联滑动条和地图。 首先增加一个`onInput`事件监听器给滚动条，它将监听滚动条上数值的任何变化。然后， 任何时候 `input`事件被触发, 用Mapbox GL JS的 `setFilter(layer, filter)`方法 改变你的图层的`filter`属性。最后， 加一点运算 来增加`PM` 或 `AM`到贴着滑块的时间显示。
 
-Add this right after `addLayer()` in your script:
+增加这部分 到你Script 代码的`addLayer()`之后：
 
 ```js
 document.getElementById('slider').addEventListener('input', function(e) {
@@ -295,19 +299,19 @@ document.getElementById('slider').addEventListener('input', function(e) {
 
 ```
 
-Here's what it will look like:
+看起来应该这样:
 
 {{
   <DemoIframe src="/help/demos/show-changes-over-time/step-three.html" />
 }}
 
-## Filter by day of the week
+## 按照星期几筛选
 
-Another useful metric for gathering insights about collisions in NYC is the day of the week when accidents occur. With the following code, you can add radio buttons that filter on days of the week.
+另一个收集纽约市交通事故信息的有用指标是事故发生的星期几。使用下面的代码，您可以添加单选按钮来筛选一周中的几天。
 
-### Create a radio button group
+### 创建单选按钮组
 
-First, add the following radio button group in your HTML inside the `console` div.
+首先，在你的HTML页面的 `console`  层内， 增加下面的单选按钮组:
 
 ```html
 <div class='session'>
@@ -323,17 +327,18 @@ First, add the following radio button group in your HTML inside the `console` di
 </div>
 ```
 
-### Add interactivity
+### 添加交互性
 
-Create a new `change` event listener in your code, like you did for the slider, then place it after the slider event. To show collisions on all days, use a [`!=`](https://www.mapbox.com/mapbox-gl-js/style-spec#expressions-!=) expression that filters for the 'placeholder' value. This filter is added so that `filterDay` never evaluates to null. It will become clearer why this is necessary by the end of the tutorial.
+在代码中创建一个新的`change` 事件侦听器，就像对滑块所做的那样，然后将其放置在滑块事件之后。
+要显示所有天的碰撞，请使用 [`!=`](https://www.mapbox.com/mapbox-gl-js/style-spec#expressions-!=)筛选“占位符”值的表达式。添加此筛选器后，`filterDay`的计算结果永远不会为空。在本教程结束之前，我们将更加清楚为什么这是必要的。
 
-To filter for weekday and weekend values, use a `match` expression. Match expressions allow you to specify input and output values. The pattern that the expression below follows is:
+要筛选工作日和周末值，请使用`match` 表达式。匹配表达式允许您指定输入和输出值。以下表达式的模式如下：
 
 ```
 ['match', ['get', property], inputValue, outputValue if match, outputValue if not a match]
 ```
 
-Add the following code after the slider event you added in the previous step:
+增加下面的代码 到 你上一步添加的滚动事件的后面 :
 
 ```js
 document.getElementById('filters').addEventListener('change', function(e) {
@@ -352,39 +357,38 @@ document.getElementById('filters').addEventListener('change', function(e) {
 });
 ```
 
-Refresh your page and try the week of the day buttons.
+刷新你的页面，尝试按钮.
 
 {{
   <DemoIframe src="/help/demos/show-changes-over-time/step-four.html" />
 }}
 
-## Combine the filters
+## 组合过滤器 
 
-As you may have discovered, toggling between weekday and weekend will automatically override the hour filter. You can fix this by using a combining filter ([documentation](https://www.mapbox.com/mapbox-gl-style-spec/#types-filter)).
+正如您可能已经发现的，在工作日和周末之间切换将自动覆盖小时筛选器。你可以用组合过滤器 ([documentation](https://www.mapbox.com/mapbox-gl-style-spec/#types-filter))来解决这个问题。
 
-### Combining filters
+### 组合的过滤器
 
-To combine multiple filters, you will append them to a new [`'all'`](https://www.mapbox.com/mapbox-gl-js/style-spec#expressions-all) expression. Using this `'all'` expression makes sure that both filters result in true.
+若要组合多个筛选器，请将它们附加到新的表达 [`'all'`](https://www.mapbox.com/mapbox-gl-js/style-spec#expressions-all)式中。使用此`'all'`表达式可确保两个筛选器都为true。
 
-Add two variables at the beginning of the map `load` event handler to store the 'hour' and 'day of the week' filters and apply them independently. This way when you want to update one part of the filter, you can update that variable, then apply setFilter(`my layer`, `['all', filterHour, filterDay]`) to reset the filter.
+在map `load` 事件处理程序的开头添加两个变量，以存储“hour”和“day of the week”筛选器并独立应用它们。
+这样当你想更新过滤器的一部分时，你可以更新这个变量，然后应用setFilter(`my layer`, `['all', filterHour, filterDay]`)来重置过滤器。
 
-First, add two variables at the beginning of the map `load` event handler you created earlier. This is where the placeholder filter becomes necessary since you cannot have `null` in a combining filter.
+首先， 在你之前创建的地图 `load` 事件处理前 增加两个变量。这是需要占位符筛选器的地方，因为组合筛选器中不能有`null`。
 
 ```js
 var filterHour = ['==', ['number', ['get', 'Hour']], 12];
 var filterDay = ['!=', ['string', ['get', 'Day']], 'placeholder'];
 ```
+其次， 在 `addLayer` 里， 用 `['all', filterHour, filterDay]` 替换  `filter` 的值。
 
-Then, in `addLayer`, replace the value of `filter` with: `['all', filterHour, filterDay]`.
-
-Next, in the slider `onInput` event, replace `map.setFilter('collisions', ['==', ['number', ['get', 'Hour']], hour]);` with this code:
+再次    在滚动条的 `onInput`  事件， 用下面代码 替换`map.setFilter('collisions', ['==', ['number', ['get', 'Hour']], hour]);`：
 
 ```js
 filterHour = ['==', ['number', ['get', 'Hour']], hour];
 map.setFilter('collisions', ['all', filterHour, filterDay]);
 ```
-
-Lastly, polish the week of the day `onChange` event by replacing it with this code:
+最后， 用下面的代码，修改 星期按钮的 `onChange` 事件:
 
 ```js
 document.getElementById('filters').addEventListener('change', function(e) {
@@ -398,14 +402,15 @@ document.getElementById('filters').addEventListener('change', function(e) {
 });
 ```
 
-## Finished product
+## 最终产品
 
-You created a map showing NYC collision data from January 2016, complete with data-driven styles, a legend, a time slider, and a day of the week filter.
+你已经创建了一个展示 2016年1月份 纽约市交通事故数据的地图， 完全采用数据驱动样式， 有图利， 时间滚动条 并且能按照星期几筛选过滤.
 
 {{
   <DemoIframe src="/help/demos/show-changes-over-time/step-five.html" />
 }}
 
-## Next steps
+## 下一步
 
-With this guide, you have the tools to create your own interactive time series data visualizations with Mapbox GL JS. Explore more Mapbox GL JS resources on our Help page and see the full [Mapbox GL JS documentation](https://www.mapbox.com/mapbox-gl-js) and [examples](https://www.mapbox.com/mapbox-gl-js/examples) for more inspiration and guidance.
+通过本教程，您可以使用Mapbox GL JS创建自己的交互式时间序列数据可视化。在我们的帮助页面上探索更多的mapbox gl js资源，并查看完整的[Mapbox GL JS documentation](https://www.mapbox.com/mapbox-gl-js) 文档和 [examples](https://www.mapbox.com/mapbox-gl-js/examples) 示例以获得更多的灵感和指导。
+
