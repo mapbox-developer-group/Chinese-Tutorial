@@ -1,6 +1,6 @@
 ---
-title: Generate an optimized route
-description: Use the Mapbox Optimization API to generate a duration-optimized route between several points.
+title: 生成优化路线
+description: 使用 Mapbox Optimization API 在几个点之间生成持续时间优化的路线。
 thumbnail: optimizationApi
 level: 3
 platform: web
@@ -9,7 +9,7 @@ topics:
 - directions
 language:
 - JavaScript
-prereq: Advanced JavaScript required.
+prereq: 需要较高 JavaScript 技能.
 prependJs:
   - "import * as constants from '../../constants';"
   - "import Note from '@mapbox/dr-ui/note';"
@@ -20,27 +20,27 @@ prependJs:
 contentType: tutorial
 ---
 
-The Mapbox Optimization API returns a duration-optimized route between up to 12 coordinates. In this guide, you will build an application that allows you to click multiple points on a map and create an optimized delivery route using the Optimization API.
+Mapbox Optimization API 返回最多12个坐标之间的持续时间优化路线。在本指南中，您将构建一个应用程序，允许您单击地图上的多个点并使用Optimization API创建优化的交付路径。
 
 {{
   <DemoIframe src="/help/demos/optimization-api/step-five.html" />
 }}
 
-Throughout the guide you'll create a custom marker to represent a delivery vehicle, add a warehouse location to the map, add a marker icon when a user clicks on the map, and build an optimized route between those points in real time.
+在整个指南中，您将创建一个自定义标记来表示送货车辆，向地图添加仓库位置，在用户点击地图时添加标记图标，并在这些点之间实时构建优化路线。
 
-## Getting started
+## 开始着手
 
-Here are the resources that you'll use throughout this guide:
+以下是您将在本指南中使用的资源：
 
-- **Mapbox account and access token.** Sign up for an account at [mapbox.com/signup](https://www.mapbox.com/signup/). You can find your [access tokens](/help/how-mapbox-works/access-tokens/) on your [Account page](https://account.mapbox.com/).
-- **Mapbox GL JS.** [Mapbox GL JS](https://www.mapbox.com/mapbox-gl-js/) is our JavaScript library that uses WebGL to render interactive web maps from Mapbox GL styles.
-- **Turf.js.** [Turf](http://turfjs.org/) is a JavaScript library that allows you to add geospatial analysis to your map.
-- **Mapbox Optimization API.** Our [Optimization API](https://docs.mapbox.com/api/navigation/#optimization) will help you generate optimal delivery routes for multiple stops across an entire fleet.
-- **jQuery.** [jQuery](https://jquery.com/) is a JavaScript library you will use to add your API request to your application.
+- **Mapbox 账号及 access token** 在 [mapbox.com/signup](https://www.mapbox.com/signup/) 注册一个账户. 你可以在[Account page](https://account.mapbox.com/) 中找到你的 [access tokens](/help/how-mapbox-works/access-tokens/) 。
+- **Mapbox GL JS** [Mapbox GL JS](https://www.mapbox.com/mapbox-gl-js/) 是我们的 JavaScript 库，它使用WebGL基于Mapbox GL样式呈现交互式Web地图。
+- **Turf.js** [Turf](http://turfjs.org/) 是一个 JavaScript 库，这允许你向地图添加地理空间分析的功能。
+- **Mapbox Optimization API** 我们的 [Optimization API](https://docs.mapbox.com/api/navigation/#optimization) 将帮助您为整个车队的多个站点生成最佳的交付路线。
+- **jQuery** [jQuery](https://jquery.com/) 是一个 JavaScript 库，这允许你将您的API请求添加到您的应用程序。
 
-## Initialize the map
+## 初始化地图
 
-Start by initializing a map with Mapbox GL JS. Create a new HTML file and use the code below to initialize a map centered on Detroit, Michigan. This code also references a couple scripts in the `head` and declares a few JavaScript variables that you will need in later steps.
+首先使用Mapbox GL JS初始化地图。创建一个新的HTML文件，并使用下面的代码初始化以密歇根州底特律市为中心的地图。此代码还引用了`head`中的几个脚本，并声明了稍后步骤中需要的一些JavaScript变量。
 
 ```html
 <!DOCTYPE html>
@@ -98,21 +98,22 @@ Start by initializing a map with Mapbox GL JS. Create a new HTML file and use th
 </html>
 ```
 
-Open the file in your browser, and you will see a map centered on Detroit.
+在浏览器中打开文件，您将看到以底特律为中心的地图。
 
 {{
   <DemoIframe src="/help/demos/optimization-api/step-one.html" />
 }}
 
-## Set up the map
+## 设定地图
 
-Next, add the location of a delivery truck and the pick up location.
+接下来，添加送货卡车的位置和取货地点。
 
-### Add truck location
+### 添加卡车位置
 
-There are several ways to add point data using Mapbox GL JS. In this guide you'll create an HTML DOM element for each marker and bind it to a coordinate using the Mapbox GL JS [`Marker`](https://www.mapbox.com/mapbox-gl-js/api/#marker) method. When you add a marker using the Marker method, you are attaching an empty `div` to the point. You'll need to specify the style of the marker before adding it to the map.
 
-Start by adding the `truck` class between the `style` tags.
+有很多方法可以使用 Mapbox GL JS 添加点数据。在本指南中，您将为每个标记创建一个 HTML DOM 元素，并使用 Mapbox GL JS 的 [`Marker`](https://www.mapbox.com/mapbox-gl-js/api/#marker)方法将其绑定到一个坐标上。当使用 Marker 方法添加标记时，将附加一个空的`div`到该点。在将标记添加到地图之前，您需要指定标记的样式。
+
+首先在`style`标签之间添加`truck`类。
 
 ```css
 .truck {
@@ -126,28 +127,29 @@ Start by adding the `truck` class between the `style` tags.
 }
 ```
 
-Next, add a marker to the map using `mapboxgl.Marker`. To make sure the rest of the code can execute, it needs to live in a *callback function* that is executed when the map is finished loading.
+
+接下来，使用`mapboxgl.Marker`将标记添加到地图中。为了确保代码的其余部分可以执行，它需要存在于地图加载完成时执行的 *回调函数（callback function）* 。
 
 {{
   <Note
     imageComponent={<BookImage />}
-    title='What is a callback?'
+    title='什么是回调？'
   >
-    <p>Initializing the map on the page does more than create a container in the <code>map</code> div: it also tells the browser to request the Mapbox Studio style you created in part 1. This can take variable amounts of time depending on how quickly the Mapbox server can respond to that request, and everything else you're going to add in the code relies on that style being loaded onto the map. As such, it's important to make sure the style is loaded before any more code is executed.</p><p>Fortunately, the map object can tell your browser about certain events that occur when the map's state changes. One of these events is <code>load</code>, which is emitted when the style has been loaded onto the map. When you use the <code>map.on</code> method, you can make sure that the rest of your code is executed *only* after the map has finished loading by placing it in a <a href='https://github.com/maxogden/art-of-node#callbacks'>callback function</a> that is called when the <code>load</code> event occurs.</p>
+    <p>在页面上初始化地图不仅仅是在<code>map</code>div中创建容器，它还告诉浏览器请求您在第1部分中创建的 Mapbox Studio 样式。这可能需要不同的时间，具体取决于Mapbox服务器响应该请求的速度，以及代码中您要添加的其他所有内容都取决于上述样式是否已加载到地图上。因此，在执行更多代码之前确保加载样式非常重要。</p><p>幸运的是，地图对象可以告诉您的浏览器有关地图状态发生变化时发生的某些事件。其中一个事件是<code>load</code>，它在样式加载到地图时发出。当您使用<code>map.on</code>方法时，您可以确保*仅*在地图完成加载后执行其余代码，方法是将其置于<a href='https://github.com/maxogden/art-of-node#callbacks'>回调函数</a>中，该函数在<code>load</code>事件发生时被调用。</p>
   </Note>
 }}
 
-In the previous step, you declared a variable called `truckLocation` that contains an array of two numbers (longitude and latitude). Use `truckLocation` as the coordinate for the truck marker using `setLngLat`.
+在上一步中，您声明了一个名为`truckLocation`的变量，该变量是一组包含两个数字（经度和纬度）的数组。 通过`setLngLat`，使用`truckLocation`作为卡车标记的坐标。
 
 {{
   <Note
     imageComponent={<BookImage />}
   >
-    <p>In this guide you are using a static point as the location of the delivery truck. In your application, you could set the longitude and latitude using the location of physical devices such as the location of a phone or tablet, collecting pings from IoT devices, or GPS signals from vehicle locations.</p>
+    <p>在本指南中，您使用静态点作为送货卡车的位置。在您自己的应用程序中，您可以使用物理设备的位置设置经度和纬度，例如手机或平板电脑的位置，从物联网设备收集上报数据，或从车辆收集GPS信号。</p> 
   </Note>
 }}
 
-Use the code below to add a marker once the map has loaded.
+加载地图后，使用以下代码添加标记。
 
 ```js
 map.on('load', function() {
@@ -162,16 +164,16 @@ map.on('load', function() {
 ```
 
 
-### Add warehouse location
+### 添加仓库位置
 
-Now add the warehouse location to the map. This will be where the delivery truck has to go to pick up items to deliver. Start by creating a GeoJSON feature collection that includes a single point feature that describes where the warehouse is located. The [Turf.js](http://turfjs.org) `featureCollection` method is a convenient way to turn a coordinate, or series of coordinates, into a GeoJSON feature collection. Add the code below before your `map.on('load', function(){});` callback. Note that the `warehouseLocation` variable is a latitude, longitude pair that was declared in the first code block you copied when initializing your map.
+现在将仓库位置添加到地图中。这将是送货卡车必须去装货的地方。首先创建一个GeoJSON 要素集，其中包含描述仓库所在位置的单个点要素。[Turf.js](http://turfjs.org) 的 `featureCollection`方法是将坐标或一系列坐标转换为GeoJSON要素集的便捷方法。在你的`map.on('load', function(){});`回调之前添加下面的代码。请注意，`warehouseLocation`变量是你复制的第一个代码块中在初始化地图时声明的纬度，经度对。
 
 ```js
 // Create a GeoJSON feature collection for the warehouse
 var warehouse = turf.featureCollection([turf.point(warehouseLocation)]);
 ```
 
-Then, within the `map.on('load', function())` callback, create two new layers &mdash; a circle layer and a symbol layer. Both layers will use the `warehouse` GeoJSON feature collection as the data source.
+然后，在 `map.on('load', function())` 回调中，创建两个新图层 &mdash; 圆形图层和符号图层。两个层都将使用`warehouse` GeoJSON要素集作为数据源。
 
 ```js
 // Create a circle layer
@@ -208,34 +210,35 @@ map.addLayer({
 });
 ```
 
-Refresh your application and you'll see a map displaying the location of the delivery truck and the warehouse.
+刷新您的应用程序，您将看到一张显示送货卡车和仓库位置的地图。
 
 {{
   <DemoIframe src="/help/demos/optimization-api/step-two.html" />
 }}
 
-## Add drop-off locations on click
+## 添加送货位置（单击时）
 
-In an application that generates optimized routes between several points, there are many different ways you could generate the points: a user could input addresses, a user could select coordinates on the map, or you could pull data in from an external source. In this guide, you'll allow the user to select points by clicking on the map.
+在一个在多个点之间生成优化路径的应用程序中，有许多不同的方法可以生成点：用户可以输入地址，用户可以选择地图上的坐标，或者可以从外部源提取数据。在本指南中，您将允许用户通过单击地图来选择点。
 
-A request to the Optimization API must contain 2-12 coordinates. In this guide:
+对 Optimization API 的请求必须包含2-12个坐标。在本指南中：
 
-- You'll use the default `roundtrip=true`. This means that the first coordinate is both the start and end point of the trip. (This is helpful if the delivery truck needs to return to a depot.) Both the start and the end point will be counted toward the 12 coordinate limit.
-- The pick up location will also be counted toward the 12 coordinate limit.
-- As a result, the user can select up to 9 points &mdash; the 12 coordinate limit less the truck location as both the start and finish (2 coordinates) and the pick up location (1 coordinate).
+- 你将使用默认的`roundtrip=true`。这意味着第一个坐标是行程的起点和终点。（如果送货卡车需要返回车库，这将非常有用。）起点和终点都将计入12个坐标的总限制。
+- 取货位置也将计入12个坐标的总限制。
+- 因此，用户可以选择最多9个点 &mdash; 12个坐标限制减去卡车位置作为开始和结束（2个坐标）和取货位置（1个坐标）。
 
-### Add a new layer
 
-Start by creating a new layer that contains all the drop-off locations.
+### 建立新图层
 
-Create an empty GeoJSON feature collection. Later you'll store drop-off locations in this feature collection when the map is clicked. Add this directly after the `warehouse` variable you added above.
+首先创建一个包含所有送货位置的新图层。
+
+创建一个空的 GeoJSON 要素集。稍后，当您单击地图时，您将在此要素集中存储送货位置。可以直接在上面添加的`warehouse`变量之后添加它。
 
 ```js
 // Create an empty GeoJSON feature collection for drop-off locations
 var dropoffs = turf.featureCollection([]);
 ```
 
-Then, within `map.on('load', function())`, add a new layer called `dropoffs-symbol`, which will display all the drop-off locations. Layers in Mapbox GL JS require a `source`, but the user hasn't selected any drop-off locations yet, so you will need to provide an empty GeoJSON feature collection as a starting point. When the map is first initialized, the data source will be the empty `dropoffs` feature collection you defined above. Later, after the user clicks on the map, the points that are clicked will be added to the `dropoffs` feature collection and the data source for the layer will update.
+然后，在 `map.on('load', function())` 中添加一个名为 `dropoffs-symbol` 的新图层，它将显示所有的送货位置。Mapbox GL JS中的图层需要`source`，但用户尚未选择任何送货位置，因此您需要提供一个空的 GeoJSON 要素集作为起始数据。首次初始化地图时，数据源将是您在上面定义的空 `dropoffs` 要素集。随后，在用户单击地图后，单击的点将添加到 `dropoffs` 要素集中，并且图层的数据源将更新。
 
 ```js
 map.addLayer({
@@ -253,9 +256,9 @@ map.addLayer({
 });
 ```
 
-### Add click listener
+### 添加单击事件监听
 
-You'll need to listen for when a user clicks on the map. Add a click listener inside the `map.on('load', function())` callback. Inside the click listener, add a two new functions `newDropoff` and `updateDropoffs`, which will be called every time the map is clicked.
+您需要在监听用户对地图的单击操作。在 `map.on('load', function())` 回调中添加一个单击监听器。在单击监听器中，添加两个新函数`newDropoff`和`updateDropoffs`，每次单击地图时都会调用它们。
 
 ```js
 // Listen for a click on the map
@@ -267,9 +270,9 @@ map.on('click', function(e) {
 });
 ```
 
-Build out the `newDropoff` and `updateDropoffs` functions. When a user clicks on the map, you will make a new request for delivery. Two things will happen when a user makes a new request: you'll create a new drop-off up location and you'll update the data source for the `dropoffs-symbol` layer.
+构建 `newDropoff` 和 `updateDropoffs` 函数。当用户点击地图时，您将产生新的送货请求。当用户发出新请求时，会发生两件事：您将创建一个新的送货位置，并且您将更新`dropoffs-symbol`图层的数据源。
 
-Add the following code outside of your `map.on('load', function())` callback.
+在 `map.on('load', function())` 回调之外添加以下代码。
 
 ```js
 function newDropoff(coords) {
@@ -291,26 +294,26 @@ function updateDropoffs(geojson) {
 }
 ```
 
-Refresh your application. When you click on the map, a new marker symbol that is a drop-off location will be added to the map.
+刷新您的应用程序。单击地图时，作为送货位置的新标记符号将添加到地图中。
 
 {{
   <DemoIframe src="/help/demos/optimization-api/step-three.html" />
 }}
 
-## Generate and add a route
+## 生成并添加路线
 
-Next, you'll build a request for the Optimization API, add the route from the response to the map, and style the route.
+接下来，您将构建对 Optimization API 的请求，将响应中的路线添加到地图中，并为路线设置样式。
 
-### Create a layer with an empty source
+### 创建一个仅有空源的图层
 
-Like in the previous step, create an empty GeoJSON feature collection, which will later contain the route after the map is clicked and a route is generated. Add this line of code immediately after you declare the `dropoffs` variable.
+与上一步中一样，创建一个空的GeoJSON要素集，稍后将包含单击地图后生成的路线。在声明`dropoffs`变量后立即添加此行代码。
 
 ```js
 // Create an empty GeoJSON feature collection, which will be used as the data source for the route before users add any new data
 var nothing = turf.featureCollection([]);
 ```
 
-Within `map.on('load', function())`, directly after the code you wrote to add the location of the warehouse as a layer, add a new layer with an empty source. You will use this to display the route after you make the API request.
+在 `map.on('load', function())` 中，直接在您编写的仓库图层代码之后，添加一个有着空源的图层。在发出API请求后，您将使用它来显示路线。
 
 ```js
 map.addSource('route', {
@@ -339,15 +342,15 @@ map.addLayer({
 }, 'waterway-label');
 ```
 
-### Build the request
+### 构建请求
 
-Next, build the request to the Optimization API to generate a route. Your request will include several parameters:
+接下来，构建对 Optimization API 的请求以生成路线。您的请求将包含以下几个参数：
 
-- `profile`: This is the mode of transportation. You'll be using the `driving` profile.
-- `coordinates`: This is a semicolon-separated list of `{longitude},{latitude}` coordinates. There must be between 2 and 12 coordinates. In this guide, the list of coordinates includes the starting location of the truck, the warehouse, up to nine drop-off locations, and the location where the truck started.
-- `distributions`: This is a semicolon-separated list of number pairs that correspond with the coordinates list. The first number indicates the index to the coordinate of the pick-up location in the coordinates list, and the second number indicates the index to the coordinate of the drop-off location in the coordinates list. Each pair must contain exactly two numbers. Pick-up and drop-off locations in one pair cannot be the same. The returned solution will visit pick-up locations before visiting drop-off locations.
+- `profile`: 这是交通方式。你将使用`driving`。
+- `coordinates`: 这是一个以分号分隔的 `{longitude},{latitude}` 坐标列表。必须有2到12个坐标。在本指南中，坐标列表包括卡车的起始位置，仓库，最多九个送货位置以及卡车起动的位置。
+- `distributions`: 这是一个以分号分隔的数字对列表，与坐标列表对应。第一个数字表示坐标列表中取货位置坐标的索引，第二个数字表示坐标列表中送货位置坐标的索引。每对必须包含两个数字。一对中的取送位置不能相同。返回的解决方案将在访问送货地点之前访问取货地点。
 
-Add the following after the `updateDropoffs` function you added in the previous section.
+在上一节中添加的`updateDropoffs`函数后添加以下内容。
 
 ```js
 // Here you'll specify all the parameters necessary for requesting a response from the Optimization API
@@ -404,20 +407,21 @@ function objectToArray(obj) {
 }
 ```
 
-### Make the request
+### 发送请求
 
-Use [jQuery](https://api.jquery.com/jquery.ajax/) to make the request. There are several things going on in the code below:
+通过 [jQuery](https://api.jquery.com/jquery.ajax/) 发送请求。以下代码中完成了几件事情：
 
-- **Make the request**. Make a request to the Optimization API using the URL that you assembled in the `assembleQueryURL()` function in the previous step.
-- **Create a GeoJSON feature collection**. The API response will include an array of `trips`. Use the first trip in this array (`trip[0]`) to create a GeoJSON feature collection that contains the route.
-- **Update the route data**. Before the user interacts with the map, the `route` source is an empty GeoJSON feature collection. Update the `route` source from an empty feature collection to the `trip` returned in the API response. Then check if a trip exists:
-  - If there is no trip available, use the empty `nothing` source.
-  - If there is a trip, get the `route` source and set the data equal to `routeGeoJSON`.
-- **Display a warning message when reaching coordinate limit**. The user can select up to nine points on the map. When the user reaches that limit, display a warning message that they cannot add any more points to the route.
+- **生成请求**。 使用您在上一步中 `assembleQueryURL()` 函数生成的 URL 向 Optimization API 发出请求。
+- **生成 GeoJSON 要素集**。 API响应将包含一个`trips`数组。使用此数组中的第一个行程（`trips[0]`）创建包含路径的GeoJSON要素集。
+- **更新路线数据**。在用户与地图交互之前，`route` 源是一个空的GeoJSON要素集。将`route`源从空要素集更新为API响应中返回的`trip`。然后检查是否存在行程：
+  - 如果没有可用的行程，请使用空的 `nothing` 源。
+  - 如果有行程，请获取`route`源并将数据设置为`routeGeoJSON`。
+- **达到坐标限制时显示警告消息**。用户可以在地图上选择最多九个点。当用户达到该限制时，显示一条警告消息，表明他们无法再向路线添加任何点。
 
-All this will happen within the existing `newDropoff` function, meaning there will be a request to the Optimization API every time there is a new dropoff location specified &mdash; whenever a user clicks on the map.
 
-Update the existing `newDropoff` function and add the API request using the code below.
+所有这些都将在现有的`newDropoff`函数中发生，这意味着每次指定新的送货位置时都会向Optimization API发出请求 &mdash; 即用户每次点击地图时。
+
+更新现有的`newDropoff`函数，使用下面的代码添加API请求。
 
 ```js
 function newDropoff(coords) {
@@ -458,17 +462,17 @@ function newDropoff(coords) {
 }
 ```
 
-Refresh your app, select points on the map, and you will see a route drawn between all points.
+刷新您的应用程序，在地图上选择点，您将看到在所有点之间绘制的路线。
 
 {{
   <DemoIframe src="/help/demos/optimization-api/step-four.html" />
 }}
 
-### Add directionality to route line
+### 为路线添加方向性
 
-With the current style, it's a bit difficult to understand the directionality of the route line. Add another layer called `routearrows` to help the map viewer understand which way the truck will be traveling along the route. The `routearrows` layer will use the same data source as the `routeline-active` layer. Instead of a line layer, use a symbol layer with arrows indicating the directionality of routes along the line.
+对于当前的风格，理解路线的方向时会有点困难。添加另一个名为`routearrows`的图层，以帮助地图用户了解卡车是如何在路线上行驶的。`routearrows`层将使用与`routeline-active`层相同的数据源。使用带箭头的符号图层代替线图层，箭头指示沿线的路线的方向性。
 
-Add the following code inside the `map.on('load', function())` callback function.
+在 `map.on('load', function())` 回调函数中添加以下代码。
 
 ```js
 map.addLayer({
@@ -502,19 +506,19 @@ map.addLayer({
 }, 'waterway-label');
 ```
 
-Refresh your app, select points on the map, and you will see a route with arrows drawn between all points.
+刷新您的应用程序，在地图上选择点，您将看到在所有点之间绘制箭头的路线。
 
-## Final product
+## 最终成果
 
-You used the Optimization API to build a web application that allows a user to choose multiple points on a map, makes an API request, and displays an optimized route in real-time.
+您使用 Optimization API 构建了一个Web应用程序，允许用户在地图上选择多个点，发出API请求，并实时显示经过优化的路径。
 
 {{
   <DemoIframe src="/help/demos/optimization-api/step-five.html" />
 }}
 
-## Next steps
+## 了解更多
 
-Read the [Mapbox Optimization API documentation](https://docs.mapbox.com/api/navigation/#optimization) for more information or learn how to build a driver app for iOS and Android with our step-by-step tutorials:
+阅读 [Mapbox Optimization API documentation](https://docs.mapbox.com/api/navigation/#optimization) 来获取更多资讯，或通过我们的分步教程，学习如何为 iOS 和 Android 构建行车用的应用程序：
 
 - [Build a navigation app for iOS](/help/tutorials/ios-navigation-sdk)
 - [Build a navigation app for Android](/help/tutorials/android-navigation-sdk)
