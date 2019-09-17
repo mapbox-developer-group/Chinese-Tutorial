@@ -1,6 +1,6 @@
 ---
-title: First steps with the Mapbox Maps SDK for iOS
-description: Walk through installing the Mapbox Maps SDK for iOS, getting a map on the screen, and placing a pin on it.
+title: 新手入门：开始使用Mapbox Maps SDK（iOS）
+description: 学习如何安装Mapbox Maps SDK（iOS），在屏幕上显示地图，以及在地图上进行标记。
 thumbnail: firstStepsiOS
 level: 1
 topics:
@@ -8,7 +8,7 @@ topics:
 language:
 - Swift
 - Objective-C
-prereq: Familiarity with Xcode and either Swift or Objective-C, and completion of the Mapbox Maps SDK for iOS installation guide.
+prereq: 熟悉Xcode和Swift（或Objective-C），并完成Mapbox Maps SDK（iOS）的安装教程。
 prependJs:
   - "import * as constants from '../../constants';"
   - "import Note from '@mapbox/dr-ui/note';"
@@ -19,14 +19,14 @@ contentType: tutorial
 ---
 
 
-The [Mapbox Maps SDK for iOS](https://www.mapbox.com/ios-sdk) is our vector maps library for iOS. This guide will show you how to work with the Maps SDK for iOS, including how to customize your map, add markers with callouts, and display your user’s location on a map.
+[Mapbox Map SDK (iOS)](https://www.mapbox.com/ios-sdk) 是Mapbox面向iOS提供的矢量地图库。本节内容将展示如何使用Map SDK (iOS），具体内容包括如何制作自定义地图，如何添加地图标记和标注框，以及如何在地图上显示用户定位。
 
-## Getting started
 
-Before you begin, install the Mapbox Maps SDK for iOS by following our [installation guide](https://www.mapbox.com/install/ios/). You can integrate the Mapbox Maps SDK for iOS using a dependency manager such as Carthage or CocoaPods, or you can install the SDK manually.
+## 新手入门
 
-After you complete the installation flow, your view controller should look like the one below if you chose the **“Add with code”** option. If you selected the **“Add with Storyboard”** option during the installation process, you will need to connect your [`MGLMapView`](https://www.mapbox.com/ios-sdk/api/{{constants.VERSION_IOS_MAPS}}/Classes/MGLMapView.html) to an `IBOutlet` so it is accessible within your view controller to continue with this guide.
+首先，按照 [安装指南](https://www.mapbox.com/install/ios/) 安装面向iOS的Mapbox Maps SDK。您可以用依赖管理器（如Carthage或CocoaPods）或者手动安装SDK来完成Mapbox Maps SDK（iOS）的整合。
 
+完成安装流程后，当您选择 **“Add with code”** 选项时，您的视图控制器（view controller）应该如下所示一样。如果您在安装过程中选择了 **“Add with Storyboard”** 选项，为了继续完成本节教程，您需要将 [`MGLMapView`](https://www.mapbox.com/ios-sdk/api/{{constants.VERSION_IOS_MAPS}}/Classes/MGLMapView.html) 连接到一个 `IBOutlet`，使得它在您的视图控制器内都是可使用的。
 
 {{
   <IosCodeToggle
@@ -38,14 +38,13 @@ After you complete the installation flow, your view controller should look like 
   />
 }}
 
+### 改变地图样式
 
-### Change the map style
+通过设置 [`MGLMapView.styleURL`](https://www.mapbox.com/ios-sdk/api/{{constants.VERSION_IOS_MAPS}}/Classes/MGLMapView.html#/c:objc(cs)MGLMapView(py)styleURL) 的属性为一个[样式URL](/help/glossary/style-url) 来改变地图样式。这个样式URL可以是Mapbox提供的精美[模板](https://www.mapbox.com/maps/) 或者 [设计者样式](https://www.mapbox.com/designer-maps/)，您也可以在 [Mapbox Studio](https://www.mapbox.com/studio-manual/)创建完全自定义样式。
 
-To change your map style, set the [`MGLMapView.styleURL`](https://www.mapbox.com/ios-sdk/api/{{constants.VERSION_IOS_MAPS}}/Classes/MGLMapView.html#/c:objc(cs)MGLMapView(py)styleURL) property to a [style URL](/help/glossary/style-url). This style URL can be any one of our beautiful [template](https://www.mapbox.com/maps/) or [designer styles](https://www.mapbox.com/designer-maps/), or you can create your own completely custom style in [Mapbox Studio](https://www.mapbox.com/studio-manual/).
+类[`MGLStyle`](https://www.mapbox.com/ios-sdk/api/{{constants.VERSION_IOS_MAPS}}/Classes/MGLStyle.html)也提供了一系列返回 [Mapbox默认样式](https://www.mapbox.com/ios-sdk/api/{{constants.VERSION_IOS_MAPS}}/Classes/MGLStyle.html#/Accessing%20Default%20Styles)URL的函数。
 
-The [`MGLStyle`](https://www.mapbox.com/ios-sdk/api/{{constants.VERSION_IOS_MAPS}}/Classes/MGLStyle.html) class also provides a set of convenience methods that return the style URLs of [default Mapbox styles](https://www.mapbox.com/ios-sdk/api/{{constants.VERSION_IOS_MAPS}}/Classes/MGLStyle.html#/Accessing%20Default%20Styles).
-
-For this guide, you will be using the Mapbox Satellite Streets style. Set the [`MGLMapView.styleURL`](https://www.mapbox.com/ios-sdk/api/{{constants.VERSION_IOS_MAPS}}/Classes/MGLMapView.html#/c:objc(cs)MGLMapView(py)styleURL) property to the URL for this style using the provided convenience method, [`satelliteStreetsStyleURL`](https://www.mapbox.com/ios-sdk/api/{{constants.VERSION_IOS_MAPS}}/Classes/MGLStyle.html#/c:objc(cs)MGLStyle(cm)satelliteStreetsStyleURL).
+在本教程中，您将使用Mapbox卫星街景图样式。将 [`MGLMapView.styleURL`](https://www.mapbox.com/ios-sdk/api/{{constants.VERSION_IOS_MAPS}}/Classes/MGLMapView.html#/c:objc(cs)MGLMapView(py)styleURL) 的属性设置为 [`satelliteStreetsStyleURL`](https://www.mapbox.com/ios-sdk/api/{{constants.VERSION_IOS_MAPS}}/Classes/MGLStyle.html#/c:objc(cs)MGLStyle(cm)satelliteStreetsStyleURL) 。
 
 {{
   <IosCodeToggle
@@ -57,7 +56,7 @@ For this guide, you will be using the Mapbox Satellite Streets style. Set the [`
   />
 }}
 
-Then run your application to see the map's new style.
+然后运行您的应用程序就可以看到设置的地图新样式。
 
 {{
 <div className='my12 p2 clearfix align-center'>
@@ -65,11 +64,11 @@ Then run your application to see the map's new style.
 </div>
 }}
 
-## Add a marker to the map
+## 添加地图标记
 
-There are many ways to add a marker, also called an [annotation](/help/glossary/annotation/), to your map. `MGLPointAnnotation` provides the simplest way to add a predefined point style to your map.
+添加地图标记或者 [标注](/help/glossary/annotation/) 可以通过有多种方式来实现，其中`MGLPointAnnotation` 提供了最简单的方式在地图上添加预定义的点样式。
 
-Your `viewDidLoad` method should look like the code below to place a point annotation on Central Park within New York City.
+如下 `viewDidLoad` 函数中的代码显示了如何在纽约中央公园的位置上添加点标注。
 
 {{
   <IosCodeToggle
@@ -81,7 +80,7 @@ Your `viewDidLoad` method should look like the code below to place a point annot
   />
 }}
 
-Run your application and notice the new point annotation added.
+运行您的应用程序就可以看到新添加的点标注。
 
 {{
 <div className='my12 p2 clearfix align-center'>
@@ -89,15 +88,15 @@ Run your application and notice the new point annotation added.
 </div>
 }}
 
-`MGLPointAnnotation` is the base class of all point annotations and can be additionally configured to use views or static images in place of the default annotation style. Read the documentation for  [`MGLAnnotationView`](https://www.mapbox.com/ios-sdk/api/{{constants.VERSION_IOS_MAPS}}/Classes/MGLAnnotationView.html) and [`MGLAnnotationImage`](https://www.mapbox.com/ios-sdk/api/{{constants.VERSION_IOS_MAPS}}/Classes/MGLAnnotationImage.html) for more information about working with these types of annotations.
+`MGLPointAnnotation` 是所有点标注的基类，可以用视图或者静态图片对它进行设置，从而代替预定义的点标注样式。您可以阅读教程 [`MGLAnnotationView`](https://www.mapbox.com/ios-sdk/api/{{constants.VERSION_IOS_MAPS}}/Classes/MGLAnnotationView.html) 和 [`MGLAnnotationImage`](https://www.mapbox.com/ios-sdk/api/{{constants.VERSION_IOS_MAPS}}/Classes/MGLAnnotationImage.html)获取更多以上两种点标注样式的信息。  
 
-If you want to add a large number of points to a map, consider using runtime styling, which is another feature of the Mapbox Maps SDK for iOS geared towards creating rich data visualizations. For more information about the different ways to add points to a map and the differences between each approach, read our [Markers and annotations](https://www.mapbox.com/ios-sdk/maps/overview/markers-and-annotations/) guide.
+如果您需要在地图上添加大量的点，可以考虑使用运行时样式化（runtime styling），这也是致力于实现大数据可视化的Mapbox Maps SDK （iOS）的一大特色。您可以阅读教程 [Markers and annotations](https://www.mapbox.com/ios-sdk/maps/overview/markers-and-annotations/) 了解在地图上添加点的不同方式以及它们之间的区别。
 
-### Add a callout
+### 添加标注框
 
-To get the annotation to display a callout when a user taps on it, the view controller will need to conform to the [`MGLMapViewDelegate`](https://www.mapbox.com/ios-sdk/api/{{constants.VERSION_IOS_MAPS}}/Protocols/MGLMapViewDelegate.html) protocol to use the delegate methods `MGLMapViewDelegate` provides.
+当用户点击地图标注时，为了显示一个标注框，您的视图控制器需要使用 [`MGLMapViewDelegate`](https://www.mapbox.com/ios-sdk/api/{{constants.VERSION_IOS_MAPS}}/Protocols/MGLMapViewDelegate.html) 提供的符合 `MGLMapViewDelegate` 协议的委托函数（delegate methods）。
 
-Once the view controller conforms to the `MGLMapViewDelegate` protocol and the map view's delegate is set to the view controller itself, you can then implement the <code><a href="https://www.mapbox.com/ios-sdk/api/{{constants.VERSION_IOS_MAPS}}/Protocols/MGLMapViewDelegate.html#/c:objc(pl)MGLMapViewDelegate(im)mapView:annotationCanShowCallout:">-mapView:annotationCanShowCallout:</a></code> delegate method. This makes sure that the map view knows that an annotation should display a callout when tapped. The full implementation of this is shown below:
+当视图控制器符合 `MGLMapViewDelegate` 协议并且地图视图的委托（delegate）被设置为视图控制器时，您就可以实现 <code><a href="https://www.mapbox.com/ios-sdk/api/{{constants.VERSION_IOS_MAPS}}/Protocols/MGLMapViewDelegate.html#/c:objc(pl)MGLMapViewDelegate(im)mapView:annotationCanShowCallout:">-mapView:annotationCanShowCallout:</a></code> 委托函数。这就实现了地图视图在被点击时自动显示标注框的功能。完整的实现方法如下：
 
 {{
   <IosCodeToggle
@@ -109,8 +108,7 @@ Once the view controller conforms to the `MGLMapViewDelegate` protocol and the m
   />
 }}
 
-
-Run the application, and then try to tap the annotation &mdash; it now displays a callout with your annotation's `title` and `subtitle` when tapped!
+运行应用程序，然后点击地图标注––––点击后将出现一个带`标题`and`副标题`的标注框！
 
 {{
 <div className='my12 p2 clearfix align-center'>
@@ -118,9 +116,9 @@ Run the application, and then try to tap the annotation &mdash; it now displays 
 </div>
 }}
 
-### Zoom to a marker
+### 局部放大至地图标记
 
-To center the map on the tapped marker, start by implementing the [`-mapView:didSelectAnnotation:`](https://www.mapbox.com/ios-sdk/api/{{constants.VERSION_IOS_MAPS}}/Protocols/MGLMapViewDelegate.html#/c:objc(pl)MGLMapViewDelegate(im)mapView:didSelectAnnotation:) delegate method. When the delegate method is called, initialize a new [`MGLMapCamera`](https://www.mapbox.com/ios-sdk/api/{{constants.VERSION_IOS_MAPS}}/Classes/MGLMapCamera.html), which is the map's field of view. After creating the `MGLMapCamera`, call the [`-setCamera:animated:`](https://www.mapbox.com/ios-sdk/api/{{constants.VERSION_IOS_MAPS}}/Classes/MGLMapView.html#/c:objc(cs)MGLMapView(im)setCamera:animated:) method on the `MGLMapView` to set the map's viewport to the new camera, which will be centered on the annotation's coordinate at a specified distance above ground level.
+当标记被点击时，设置地图的中心点为该标记处。为了实现这个功能，首先要实现 [`-mapView:didSelectAnnotation:`](https://www.mapbox.com/ios-sdk/api/{{constants.VERSION_IOS_MAPS}}/Protocols/MGLMapViewDelegate.html#/c:objc(pl)MGLMapViewDelegate(im)mapView:didSelectAnnotation:) 委托函数。 当委托函数被调用时，定义并初始化一个新的地图视野–––– [`MGLMapCamera`](https://www.mapbox.com/ios-sdk/api/{{constants.VERSION_IOS_MAPS}}/Classes/MGLMapCamera.html) 。然后就可以在 `MGLMapView` 上调用 [`-setCamera:animated:`](https://www.mapbox.com/ios-sdk/api/{{constants.VERSION_IOS_MAPS}}/Classes/MGLMapView.html#/c:objc(cs)MGLMapView(im)setCamera:animated:) ，来设置新的地图视野。新的地图视角将以地图标记坐标处为中心，并可以设置视角离地面的距离。
 
 {{
   <IosCodeToggle
@@ -138,19 +136,20 @@ To center the map on the tapped marker, start by implementing the [`-mapView:did
 </div>
 }}
 
-## Display the user’s location
+## 显示用户位置
 
-If you haven't configured location permissions already, you will need to do so to use the device's location services. Before you can draw a user’s location on the map, you must ask for their permission and give a brief explanation of how your application will use their location data.
+首先，为了使用设备定位服务，您需要设置用户定位许可。在您在地图上绘制用户位置前，您需要获得用户的定位许可并给出您将如何使用用户位置信息的简短解释。
 
-Configure location permissions by setting the `NSLocationWhenInUseUsageDescription` key in the Info.plist file. We recommend setting the value to the following string which is the application's location usage description: `Shows your location on the map and helps improve OpenStreetMap`. Additionally, you may also choose to include the `NSLocationAlwaysAndWhenInUseUsageDescription` within your Info.plist file. We recommend providing a different string when using this key to help your users decide which level of permission they wish to grant to your application. When a user opens your application for the first time, they will be presented with an alert that asks them if they would like to allow your application to access their location.
+通过设置Info.plist文件中的 `NSLocationWhenInUseUsageDescription` 可以设置定位许可。我们推荐将其值设置为： `Shows your location on the map and helps improve OpenStreetMap` 。此外，您还可以选择是否将 `NSLocationAlwaysAndWhenInUseUsageDescription` 放入Info.plist文件。我们推荐将其设置成为一个不同的值，方便用户决定他们给予应用的定位许可等级。当用户第一次打开应用时，他们将会收到一个提醒来询问他们是否允许该应用获得他们的位置信息。
 
 {{
-<Note imageComponent={<BookImage />}>
-  <p>If your application targets iOS 10 or below, you may also include the `NSLocationAlwaysUsageDescription` key your application. Note that this key is ignored in iOS 11.</p>
+<注意 imageComponent={<BookImage />}>
+  <p>如果您的应用是以iOS 10或者更低版本为目标的，您可能需要在您的应用中包含 `NSLocationAlwaysUsageDescription` 。注意这个密钥已经不在iOS 11中使用了。
+  </p>
 </Note>
 }}
 
-Once you have configured your application's location permissions, display the device's current location on the map by setting the [`showsUserLocation`](https://www.mapbox.com/ios-sdk/api/{{constants.VERSION_IOS_MAPS}}/Classes/MGLMapView.html#/c:objc(cs)MGLMapView(py)showsUserLocation) property on the map view to `true`.
+一旦您设定好应用的定位许可，您就可以通过设置地图视图中的 [`showsUserLocation`](https://www.mapbox.com/ios-sdk/api/{{constants.VERSION_IOS_MAPS}}/Classes/MGLMapView.html#/c:objc(cs)MGLMapView(py)showsUserLocation) 的属性为 `true` 来显示设备的当前位置。
 
 {{
   <IosCodeToggle
@@ -162,9 +161,9 @@ Once you have configured your application's location permissions, display the de
   />
 }}
 
-### Simulating a location
+### 模拟定位
 
-When you run your app in Simulator, you’ll be presented with a dialog box asking for permission to use Location Services. Click **Allow**.
+当您在Simulator中运行应用程序时，询问是否使用定位服务的对话框将会弹出。点击 **Allow** 。
 
 {{
 <div className='my12 p2 clearfix align-center'>
@@ -172,7 +171,7 @@ When you run your app in Simulator, you’ll be presented with a dialog box aski
 </div>
 }}
 
-You won’t see your location on the map until you go to Simulator’s menu bar and select **Debug ‣ Location ‣ Custom Location**. Enter `40.74699` for latitude, `-73.98742` for longitude, and you’re right outside Central Park in New York City!
+您暂时将不会看到在地图傻姑娘看到您的定位。在Simulator的菜单中选择 **Debug ‣ Location ‣ Custom Location** ，在纬度处输入 `40.74699` ，在经度处输入 `-73.98742` ，然后您就可以看见您的定位在纽约中央公园外！
 
 {{
 <div className='my12 p2 clearfix align-center'>
@@ -180,7 +179,7 @@ You won’t see your location on the map until you go to Simulator’s menu bar 
 </div>
 }}
 
-## Finished product
+## 最后成品
 
 {{
   <IosCodeToggle
@@ -190,13 +189,13 @@ You won’t see your location on the map until you go to Simulator’s menu bar 
   />
 }}
 
-## Next steps
+## 下一步
 
-You built a small app with the Mapbox Maps SDK for iOS! You added a Mapbox map to an iOS application, changed the map style, placed an annotation on your map, _and_ displayed the user’s location on it. Way to go!
+您成功使用了Mapbox Maps SDK（iOS）开发了一个小型应用程序！您学会了在iOS应用中添加Mapbox地图，改变地图样式，添加地图标注，在地图上显示用户定位。做得好！
 
-As you continue to develop your Mapbox app, we recommend that you read the following:
+为了您继续开发您的Mapbox应用，我们推荐您阅读以下教程：
 
-* [Mapbox Maps SDK for iOS homepage](https://www.mapbox.com/ios-sdk) for general information about working with the Mapbox Maps SDK for iOS.
-* [Mapbox Maps SDK for iOS documentation](https://www.mapbox.com/ios-sdk) for a complete reference of all classes and methods available.
-* [Mapbox Maps SDK for iOS code examples](https://www.mapbox.com/ios-sdk) to see classes and methods in action.
-* [Mapbox GL Native on GitHub](https://github.com/mapbox/mapbox-gl-native) to read about the open source project behind the Mapbox Maps SDK for iOS.
+* [Mapbox Maps SDK for iOS homepage](https://www.mapbox.com/ios-sdk) ––––使用Mapbox Maps SDK（iOS）的基本信息。
+* [Mapbox Maps SDK for iOS documentation](https://www.mapbox.com/ios-sdk) ––––所有类和函数的完整参考。 
+* [Mapbox Maps SDK for iOS code examples](https://www.mapbox.com/ios-sdk) ––––类和函数的应用实例。 
+* [Mapbox GL Native on GitHub](https://github.com/mapbox/mapbox-gl-native) ––––使用Mapbox Maps SDK（iOS）的开源项目。

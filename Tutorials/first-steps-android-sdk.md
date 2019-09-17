@@ -1,13 +1,13 @@
 ---
-title: First steps with the Mapbox Maps SDK for Android
-description: Walk through installing the Mapbox Maps SDK for Android, getting a map on the screen, and changing the map style.
+title: 新手入门：开始使用Mapbox Maps SDK（Android）
+description: 学习如何安装Mapbox Maps SDK（Android），在屏幕上显示地图，以及在改变地图样式。
 thumbnail: firstStepsAndroid
 level: 1
 topics:
 - mobile apps
 language:
 - Java
-prereq: Completion of the Mapbox Maps SDK for Android installation process and familiarity with Android Studio and Java.
+prereq: 完成Mapbox Maps SDK（Android）的安装教程，熟悉Android Studio和Java。
 prependJs:
   - "import * as constants from '../../constants';"
   - "import Note from '@mapbox/dr-ui/note';"
@@ -17,49 +17,50 @@ prependJs:
 contentType: tutorial
 ---
 
-The [Mapbox Maps SDK for Android](https://www.mapbox.com/android-sdk/) is our vector maps library for Android. This guide will walk you through installing the Mapbox Maps SDK for Android with [Android Studio](https://developer.android.com/studio/index.html), loading a map, changing the map's style, and placing a pin on it.
+Mapbox Map SDK (Android) 是Mapbox面向Android提供的矢量地图库。本节内容将教您如何安装Mapbox Map SDK (Android)的全过程，加载地图，改变地图样式，以及在地图上添加标记。
 
 <div class='align-center'>
 <img src='/help/img/android/android-first-steps-intro.png' alt='map with marker on an Android device' class='inline wmax360' />
 </div>
 
-## Getting started
+## 新手入门
 
-Here's what you'll need to get started:
+开始之前，需要完成以下几个步骤：
 
-- **A Mapbox account and access token**. Sign up for an account at [mapbox.com/signup](https://www.mapbox.com/signup/). You can find your [access tokens](/help/how-mapbox-works/access-tokens/) on your [Account page](https://www.mapbox.com/account/).
-- **Android Studio**. You can download [Android Studio](http://developer.android.com/sdk/index.html) for free from Google. Before you can install the Mapbox Maps SDK for Android, you need to download Android Studio and create a project with an empty activity.
-- **An Android device (physical or virtual)**. You will need either a physical Android device or an [emulated Android device](https://developer.android.com/studio/run/emulator.html) to preview the store finder.
-- **Google Play Developer Account (optional)**. If you want to publish your app to Google Play, you'll need a [Google Play developer account](https://play.google.com/apps/publish/signup/). Without one, you'll still be able to preview the app on an Android Virtual Device (AVD) or install the app on a physical device.
+- **Mapbox账户和access token**. 在 [mapbox.com/signup](https://www.mapbox.com/signup/) 注册一个Mapbox账户，您可以在您的 [用户页面](https://www.mapbox.com/account/) 找到您的access token。
+- **Android Studio**. 您可以通过谷歌 [Android Studio](http://developer.android.com/sdk/index.html) 免费下载Android Studio。在开始安装Mapbox Map SDK (Android)之前，您需要下载Android Studio并创建一个空的工程。
+- **一台Android设备（实体或者模拟器）**. 您需要一台实体Android设备或者 [Android模拟器](https://developer.android.com/studio/run/emulator.html) 来预览商店探测器。
+to preview the store finder.
+- **Google Play开发者账户（可选）**. 如果您需要发布您的应用程序到Google Play，您将会需要一个 [Google Play开发者账户](https://play.google.com/apps/publish/signup/). 如果没有这个账户，您依然可以在Android模拟设备中预览您的应用程序或者在实体设备中安装它。
 
-### Create an Android Studio project
+### 创建Android Studio工程
 
-Familiarize yourself with Android Studio. You'll need to create a new project with an empty activity. Use the following options when creating a new Android Studio project:
+首先，请您熟悉Android Studio。您需要创建一个新的工程和一个空的activity，创建新工程时选择以下选项：
 
-- Under *Select the form factors your app will run on*, check "Phone and Tablet."
-- For minimum SDK, `select API 14: Android 4.0.0 (IceCreamSandwich)`. (This is the lowest API level supported by Mapbox Maps SDK for Android.)
-- Click **Next** to advance to the activity selection screen.
-- Select **Empty Activity** and click **Next**.
-- Accept the default `Activity Name` and `Layout Name` and click **Finish**.
+- 在选项 *Select the form factors your app will run on* 下, 选择"Phone and Tablet."
+- 对于最低SDK版本， `select API 14: Android 4.0.0 (IceCreamSandwich)` 。(这是Mapbox Maps SDK （Android）能够支持的最低API版本）
+- 点击 **Next** 跳转到activity选项页面.
+- 选择 **Empty Activity** 并点击 **Next**.
+- 直接选择默认的 `Activity Name` 和 `Layout Name` 并点击 **Finish**.
 
-If you need help installing Android Studio or creating your first project, see the [Android Studio documentation](https://developer.android.com/studio/intro/index.html).
+如果您需要在帮助下完成Android Studio的安装和创建第一个工程，可以参考 [Android Studio documentation](https://developer.android.com/studio/intro/index.html).
 
-### Set up a virtual device
+### 设置模拟器
 
-With Android Studio, you can set up virtual Android devices on your computer to test your app while you develop. To set up a virtual device, click on the Android Virtual Device (AVD) Manager icon <img src="/help/img/android/first-steps-avd.png" alt='icon for AVD in the Android Studio interface' />, then click the **Create Virtual Device** button. You can also get to the manager via `Tools` > `Android` > `AVD Manager` in the toolbar. From the **Phones** category, select **Nexus 5X** and click **Next**. Select the release you would like to test against (this guide uses API level 26).
+有了Android Studio, 您就可以在开发的同时在您的电脑上设置Android模拟器来测试您的应用。为了设置好模拟器，点击Android Virtual Device (AVD) Manager图标 <img src="/help/img/android/first-steps-avd.png" alt='icon for AVD in the Android Studio interface' />， 然后点击 **Create Virtual Device** 按钮。您也可以在工具栏通过 `Tools` > `Android` > `AVD Manager` 找到AVD Manager。在 **Phones** 类别下，选择 **Nexus 5X** 并点击 **Next** 。选择您想要测试的版本（本教程使用API级别26）。
 
-Learn more about setting up an AVD in the [Android Studio documentation](http://developer.android.com/tools/help/avd-manager.html).
+您可以通过 [Android Studio documentation](http://developer.android.com/tools/help/avd-manager.html) 学习更多设置AVD的方法。
 
-## Install the Mapbox Maps SDK for Android
+## 安装Mapbox Maps SDK（Android）
 
-Before you begin building your app, install the Mapbox Maps SDK for Android by following our [installation guide](https://www.mapbox.com/install/android/). The installation guide assumes that you have already downloaded Android Studio and created a new project. You'll make changes to four different files within your project to install the Mapbox Maps SDK for Android. The four files you'll be working with include:
+在您开始开发您的应用之前，参考 [安装教程](https://www.mapbox.com/install/android/) 安装Mapbox Maps SDK（Android）。安装教程默认您已经下载了Android Studio并创建了一个新的工程，为了成功安装好Mapbox Maps SDK（Android），您将会在您的工程中修改四个不同的文件。 这四个文件包括：
 
-- `build.gradle (Module:App)`: Android Studio uses a toolkit called Gradle to compile resources and source code into an APK. This plain text file is used to configure the build and list dependencies, including the Mapbox Maps SDK for Android.
-- `AndroidManifest.xml`: This is where you'll describe components of the application, including Mapbox-related permissions.
-- `MainActivity.java`: This is a Java file where you'll specify Mapbox classes and methods.
-- `activity_main.xml`: This is where you'll set the properties for your MapView and add a marker.
+- `build.gradle (Module:App)`: Android Studio使用Gradle来编译资源和源代码成为Android应用程序包文件（APK）。这个纯文档的文件被用来配置编译并列出所有依赖，其中包括Mapbox Maps SDK（Android）。
+- `AndroidManifest.xml`: 这是描述应用组成的地方，包括Mapbox相关的许可。
+- `MainActivity.java`: 这是一个Java文件，您将在这个文件中编些Mapbox类和函数。
+- `activity_main.xml`: 这是您将设置您的MapView属性以及添加标记的地方。
 
-Once you've completed all the steps in the [installation guide](https://www.mapbox.com/install/android/), the four files below should include the following:
+一旦您完成了 [安装指南](https://www.mapbox.com/install/android/) 的所有步骤，这四个文件应该包含如下：
 
 {{
   <div className="txt-s txt-fancy mb6" style={{ color: "#273d56" }}>build.gradle (Module:App)</div>
@@ -106,14 +107,14 @@ dependencies {
 }}
 
 {{
-    <Note title='Troubleshooting Android Studio errors' imageComponent={<BookImage />}>
-        <p>If you run into other Android Studio errors unrelated to Mapbox, we recommend referring to the <a href='https://developer.android.com/studio/intro/index.html'>Android Studio documentation</a> or searching for error messages on <a href='https://stackoverflow.com/questions/tagged/android-studio'>StackOverflow</a>.</p>
+    <Note title='解决Android Studio错误' imageComponent={<BookImage />}>
+        <p>如果您遇到了其它与Mapbox无关的Android Studio错误, 我们推荐您参考 <a href='https://developer.android.com/studio/intro/index.html'>Android Studio documentation</a> 或者在 <a href='https://stackoverflow.com/questions/tagged/android-studio'>StackOverflow</a> 上搜索错误信息。</p>
     </Note>
 }}
 
-### Configure your MapView
+### 设置MapView
 
-You can configure many of your map's characteristics, including starting camera position or the compass' location on the screen, in your activity's layout file. Replace the code you added to the `activity_main.xml` file in the installation flow with the following to recenter the map on Chicago, change the pitch, and increase the zoom level:
+您可以在activity的布局文件中设置多种地图特性，包括初始相机位置或者指南针的屏幕位置。用以下代码替换您在安装过程中在 `activity_main.xml` 文件中添加的代码，地图的中心将重新定位于芝加哥，改变地图间距，放大缩放比例：
 
 {{
   <AndroidTutorialCodeBlock
@@ -122,9 +123,9 @@ You can configure many of your map's characteristics, including starting camera 
   />
 }}
 
-The Mapbox Maps SDK for Android comes bundled with a handful of map styles. You can find a list of the current bundled styles with constants found in the Mapbox SDK's `Style` class.  In this example, you'll use the Mapbox Light style.
+Mapbox Maps SDK（Android）附带了一系列地图样式。您可以在Mapbox SDK的 `Style` 类中找到现有的附带样式及其常量。在本例中，您将使用Mapbox的Light样式。
 
-You _must_ the map style programmatically using the `MapboxMap` class' `setStyle();` method. Run `mapboxMap.setStyle()` within `onMapReady()`. The second parameter to pass through `setStyle()` is   the style loaded callback which is when the map is ready to receive map-related code:
+您 _必须_ 用 `MapboxMap` 类的 `setStyle();` 函数通过编程实现地图样式的设置。在 `onMapReady()` 中运行 `mapboxMap.setStyle()` ， `setStyle()` 函数的第二个参数是当地图准备好接收地图相关的代码时加载样式的回调函数：
 
 ```java
 mapView.getMapAsync(new OnMapReadyCallback() {
@@ -140,7 +141,7 @@ mapboxMap.setStyle(Style.MAPBOX_STREETS, new Style.OnStyleLoaded() {
 });
 ```
 
-You can also use `mapboxMap.setStyleUrl()` outside of the `onMapReady()` method:
+您也可以在 `onMapReady()` 函数外部使用 `mapboxMap.setStyleUrl()` ：
 
 ```java
 mapView.getMapAsync(new OnMapReadyCallback() {
@@ -151,11 +152,11 @@ mapView.getMapAsync(new OnMapReadyCallback() {
 });
 ```
 
-The `MapboxMap` object near the top of your `MainActivity` is equal to the `MapboxMap` object that's returned once the map in your XML layout is ready. Now you can run `mapboxMap.setStyle()` anywhere else in your `MainActivity`'s code.
+`MainActivity` 中接近最上面的对象 `MapboxMap` 与当XML布局中地图准备好时返回的对象 `MapboxMap` 是相同的。现在您可以在您的 `MainActivity` 代码中任意地方运行 `mapboxMap.setStyle()` 。
 
 {{ <Note title='Creating your own styles' imageComponent={<BookImage />}> }}
 
-<p>You can create custom styles with <a href='https://www.mapbox.com/mapbox-studio/'>Mapbox Studio</a> and then add them to your app. To programmatically add one of your custom styles to your <code>mapboxMap</code>, head to your <a href='https://www.mapbox.com/studio/styles/'>styles page</a>, copy your style's <a href='/help/glossary/style-url/'>style URL</a>, and then add it to your <code>mapboxMap</code> object with <code>setStyleUrl();</code>:</p>
+<p>您可以用 <a href='https://www.mapbox.com/mapbox-studio/'>Mapbox Studio</a> 创建自定义样式并将其添加到您的应用中。要用代码实现添加一个自定义样式到您的 <code>mapboxMap</code>, 找到您的 <a href='https://www.mapbox.com/studio/styles/'>样式页面</a>, 复制这个样式的 <a href='/help/glossary/style-url/'>样式URL</a>, 然后用 <code>setStyleUrl();</code> 将其添加到您的 <code>mapboxMap</code> 对象中:</p>
 
 ```java
 mapboxMap.setStyle(new Style.Builder().fromUrl("mapbox://styles/your-mapbox-username/your-style-ID"), new Style.OnStyleLoaded() {
@@ -168,13 +169,13 @@ mapboxMap.setStyle(new Style.Builder().fromUrl("mapbox://styles/your-mapbox-user
 
 {{</Note>}}
 
-See the [Mapbox Maps SDK for Android documentation](https://www.mapbox.com/android-docs/map-sdk/overview/#mapview-xml-attributes) to view all the XML attributes that you can set for a `MapView`. Customize your map to your heart's content!
+请参考 [Mapbox Maps SDK for Android documentation](https://www.mapbox.com/android-docs/map-sdk/overview/#mapview-xml-attributes) 了解可设置 `MapView`的所有XML属性。请随心定义您的地图吧！
 
-### Import classes
+### 导入类
 
-When you've finished entering the above code, you will likely see some red warning text from Android Studio. This is because you haven't yet imported some of the classes that you're referencing in `MainActivity.java`.
+当您完成上述代码后，您会发现一些Android Studio发出的红色警告。这是因为您还没有导入在 `MainActivity.java` 中引用的类。
 
-You can automatically import these classes by pressing <kbd class='txt-kbd'>Alt</kbd>+<kbd class='txt-kbd'>Enter</kbd> (<kbd class='txt-kbd'>Option</kbd>+<kbd class='txt-kbd'>Return</kbd> on a Mac computer). Alternatively, you can manually add the following to the top of your `MainActivity.java` file, anywhere above the line that reads `public class MainActivity extends AppCompatActivity`:
+您可以通过按 <kbd class='txt-kbd'>Alt</kbd>+<kbd class='txt-kbd'>Enter</kbd> (Mac电脑使用 <kbd class='txt-kbd'>Option</kbd>+<kbd class='txt-kbd'>Return</kbd>) 自动导入这些类。或者，您可以手动添加以下类到您的 `MainActivity.java` 文件，在 `public class MainActivity extends AppCompatActivity` 上面的任意位置添加即可：
 
 {{
   <AndroidTutorialCodeBlock
@@ -186,19 +187,20 @@ You can automatically import these classes by pressing <kbd class='txt-kbd'>Alt<
   />
 }}
 
-Click the **Run 'app'** button <img src="/help/img/android/first-steps-run.png" alt="icon for running the app in Android Studio" />(or <kbd class='txt-kbd'>Control</kbd>+<kbd class='txt-kbd'>R</kbd> on a Mac computer) to build your app.
+点击 **Run 'app'** 按钮 <img src="/help/img/android/first-steps-run.png" alt="icon for running the app in Android Studio" />(或者在Mac电脑上用 <kbd class='txt-kbd'>Control</kbd>+<kbd class='txt-kbd'>R</kbd>) 来运行您的应用。
 
-Android Studio will take a few seconds to build, and if it finishes without errors, you'll be able to test drive it in the emulated Android device that you set up earlier. Regardless of the approach you take, the result should be the same &mdash; you should see the initial map style replaced with the Mapbox Light style.
+
+如果没有错误，Android Studio将会花数秒来运行您的应用。您可以在您之前设置好的Android模拟器中测试它。不管您使用哪个方法，结果应该是一致的––––您应该可以看到初始地图样式被替代成了Mapbox Light样式。
 
 <div class='align-center'>
 <img src='/help/img/android/first-steps-change-style.png' alt='screenshot of a virtual Android device displaying a map using the Mapbox Light style' class='inline wmax360'>
 </div>
 
-## Add a marker
+## 添加地图标记
 
-Next, you'll add a marker to your map. In your `MainActivity.java` file, add the following code immediately after `mapView.onCreate(savedInstanceState);`, but still within `public void onStyleLoaded(@NonNull Style style) { ...});`. This will wait until the map has loaded, and then add a single marker displayed at the specified coordinate.
+接下来，您将会在地图上添加标记。在您的 `MainActivity.java` 文件中，在紧接着 `mapView.onCreate(savedInstanceState);` 后面但仍然在 `public void onStyleLoaded(@NonNull Style style) { ...});` 内添加以下代码。这样，等到地图加载完成后，一个地图标记将会被添加到特定位置。
 
-Once the style has been to set to Mapbox Light, you will add an icon image to the map and then use that icon when you add a `SymbolLayer` to the map.
+一旦样式被设置成Mapbox Light，您添加一个图标图片到地图中，然后在地图中添加 `SymbolLayer` 时用这个图标。
 
 {{
   <AndroidTutorialCodeBlock
@@ -210,13 +212,13 @@ Once the style has been to set to Mapbox Light, you will add an icon image to th
   />
 }}
 
-Rerun your application and a red marker should appear.
+重新运行您的应用，一个红色的标记应该会出现。
 
 <div class='align-center'>
 <img src='/help/img/android/android-first-steps-intro.png' alt='map with marker on an Android device' class='inline wmax360'>
 </div>
 
-## Final product
+## 最终成品
 
 {{
   <AndroidTutorialCodeBlock
@@ -225,12 +227,13 @@ Rerun your application and a red marker should appear.
   />
 }}
 
-## Next steps
+## 下一步
 
-You built a small Android app with Mapbox! You can now create an Android Studio project, install the Mapbox Maps SDK for Android, and change the map style. Here are a few resources to keep you up-to-date with Mapbox:
+您成功用Mapbox创建了一个小型Android应用了！您现在可以创建一个Android Studio工程，安装Mapbox Maps SDK（Android），改变地图样式。您可以通过以下资源了解Mapbox的最新信息：
 
 * [Mapbox Maps SDK for Android documentation](https://docs.mapbox.com/android/maps/overview)
 * [Mapbox Maps SDK for Android examples](https://docs.mapbox.com/android/maps/examples)
-* [Mapbox GL Native on GitHub](https://github.com/mapbox/mapbox-gl-native) to follow the open source project behind Mapbox Mobile
+* [Mapbox GL Native on GitHub](https://github.com/mapbox/mapbox-gl-native) ––––关注Mapbox移动端的开源项目。
 
-You can also [download and explore our Android demo app](https://play.google.com/store/apps/details?id=com.mapbox.mapboxandroiddemo&hl=en) to see all the ways that you can use Mapbox in your Android project.
+您也可以 [下载并探索我们的Android展示应用](https://play.google.com/store/apps/details?id=com.mapbox.mapboxandroiddemo&hl=en) 来学习在Android项目中可以使用的所有方法。
+
