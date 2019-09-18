@@ -1,6 +1,6 @@
 ---
-title: Runtime styling for Android
-description: Change various properties of a map based on user interaction and other "runtime" situations.
+title: 安卓开发中的实时样式更新
+description: 通过用户交互和其他“实时”设置更改地图的各种属性
 thumbnail: androidRuntimeStyling
 level: 2
 topics:
@@ -18,26 +18,26 @@ prependJs:
 contentType: tutorial
 ---
 
-[Runtime styling](/help/glossary/runtime-styling/) is a powerful feature within the Mapbox Maps SDK for Android, which enables you to change the map's properties in real time, allowing you to customize every aspect of the map’s appearance down to the smallest detail.
+[Runtime Styling](/help/glossary/runtime-styling/) 是安卓开发中Mapbox Maps SDK里的一个强大功能，它能帮助您实现地图属性的实时更新，改变地图样式中方方面面的细节。
 
-In this tutorial, you'll build a map for Android that changes the fill color of the earth's water and changes several text properties (size, color, halo blur, etc.) of marine labels.
+在本次教程中，您将会在指引下制作一幅安卓应用平台上的地图，并更改地图中水的填充颜色以及一些海洋标注的文本的样式（字号、颜色、光晕模糊等）。
 
 <div class='align-center'>
 <img src='/help/img/android/android-runtime-styling-dark-blue-water-adjusted-labels.png' alt='map with water fill color and marine label texts updated on an Android device' class='inline wmax360-mm wmax-full'>
 </div>
 
-## Getting started
+## 操作准备
 
-This guide assumes that you are familiar with Java and Android Studio. Here are the resources that you’ll need before getting started:
+完成这个教程需要您对Java语言有所熟悉并有使用Android Studio的经验。下面是一些在教程开始前您需要准备的材料：
 
-- **A Mapbox account and access token**. Sign up for an account at [mapbox.com/signup](https://www.mapbox.com/signup/). You can find your [access tokens](/help/how-mapbox-works/access-tokens/) on your [Account page](https://www.mapbox.com/account). You will add your access token to your strings.xml file.
+- **Mapbox账号和access token**登录您的Mapbox账号 [mapbox.com/signup](https://www.mapbox.com/signup/)。您可以在[Account page](https://www.mapbox.com/account)页面中找到您的[access tokens](/help/how-mapbox-works/access-tokens/)。请将access token添加到您的
+strings.xml文件中。
 
-- **An application including the Mapbox Maps SDK for Android.** This guide also assumes that you have already begun building an Android application that uses the Mapbox Maps SDK for Android. If you're new to the Maps SDK for Android, complete the [First steps with the Mapbox Maps SDK for Android](/help/tutorials/first-steps-android-sdk/) guide to set up a map view first.
+- **能加载Mapbox Maps SDK的安卓应用程序**本教程默认您已经开始开发能使用Mapbox Maps SDK的安卓应用程序。如果您还不熟悉如何使用安卓Maps SDK，请参考[使用配适安卓的Mapbox Maps SDK指南](/help/tutorials/first-steps-android-sdk/)设置地图视图。
 
+## 添加设计库
 
-## Adding design library
-
-Android Studio uses a toolkit called Gradle to compile resources and source code into an APK. The `build.gradle` file is used to configure the build and list dependencies, including the Mapbox Maps SDK for Android. In your `build.gradle` file, add the Android design support library as a dependency. This library isn't required to use runtime styling. It's being added to the app so that a floating action button can be used in this example.
+Android Studio使用Gradle工具包将资源和源代码编译到APK中。`build.gradle`文件用于配置构建和列表依赖项，包括Mapbox Maps SDK。向您的`build.gradle`文件中添加安卓设计支持库作为依赖项。这个库不需要使用实时样式，将它添加到应用程序中是为了在这次教程案例中可以使用浮动操作按钮。
 
 ```groovy
 // in addition to the rest of your build.gradle contents
@@ -53,7 +53,7 @@ dependencies {
 }
 ```
 
-The `activity_main.xml` file is where you'll set the properties for your MapView and where you'll add a button to the layout. Clicking this button will trigger the runtime styling changes. In `app` > `res` > `layout` > `activity_main.xml`, specify the center of the map view, the zoom level, and the map style used when the application is initialized:
+您需要在`activity_main.xml`文件中设置MapView的属性，以及在地图布局中添加按钮。在此之后点击此按钮将会实时改变样式。在`app` > `res` > `layout` > `activity_main.xml`文件中设置初始化应用程序时地图视图的中心，缩放级别和地图样式。
 
 {{
   <AndroidTutorialCodeBlock
@@ -62,7 +62,7 @@ The `activity_main.xml` file is where you'll set the properties for your MapView
   />
 }}
 
-You'll store your access token in the `strings.xml` file. In `app` > `res` > `values` > `strings.xml`:
+您需要在`strings.xml`文件中储存您的access token。文件路径为：`app` > `res` > `values` > `strings.xml`
 
 {{
   <div className="txt-s txt-fancy mb6" style={{ color: "#273d56" }}>strings.xml</div>
@@ -72,7 +72,7 @@ You'll store your access token in the `strings.xml` file. In `app` > `res` > `va
 <string name="access_token" translatable="false">{{ <UserAccessToken /> }}</string>
 ```
 
-`MainActivity.java` is a Java file where you'll specify Mapbox-specific interactions. In `app` > `java` > `yourcompany.yourproject` > `MainActivity.java` initialize your map:
+`MainActivity.java` 是一个Java文件，您可以在其中指定特定于Mapbox的交互。在`app` > `java` > `yourcompany.yourproject` > `MainActivity.java` 中初始化你的地图：
 
 {{
   <AndroidTutorialCodeBlock
@@ -86,22 +86,22 @@ You'll store your access token in the `strings.xml` file. In `app` > `res` > `va
   />
 }}
 
-You can learn how to set up an Android Studio project with the Maps SDK for Android in the [First steps with the Mapbox Maps SDK for Android](/help/tutorials/first-steps-android-sdk/) guide. Run your application, and you should see a map in the Mapbox Streets style centered on the Gulf of Mexico and Caribbean Sea.
+您可以在[使用配适安卓的Mapbox Maps SDK指南](/help/tutorials/first-steps-android-sdk/)中了解如何使用适用于安卓的Maps SDK设置Android Studio项目。打开应用程序后，您可以看到以墨西哥湾和加勒比海为中心的Mapbox Streets样式的地图。
 
 <div class='align-center'>
 <img src='/help/img/android/android-runtime-styling-before.png' alt='a map centered on the Caribbean with Mapbox Streets style an Android device' class='wmax360'>
 </div>
 
 
-## Retrieve layers
+## 获取图层
 
-Next, you'll use code from the Mapbox Maps SDK for Android to get the map's layers. Manipulating the layers is what leads to the visual changes.
+接下来您将使用Mapbox Maps SDK for Android中的代码来获取地图的图层。改变视觉效果的核心其实是控制图层。
 
-### Import classes
+### 导入要素类
 
-First, import the correct classes in the `MainActivity.java` file. The `Layer` class is for creating layer objects that will be manipulated later. The `PropertyFactory` class enables you to change the map layers' colors and label properties.
+首先，向`MainActivity.java`文件中加载正确的类。`Layer`类用装载稍后将被控制的图层对象。使用`PropertyFactory`类可以更改地图图层的颜色和标注的属性。
 
-Add the following code within the `public void onStyleLoaded(@NonNull final Style style) { ... }` method of the `MainActivity.java` file:
+添加在`MainActivity.java`文件里`public void onStyleLoaded(@NonNull final Style style) { ... }`方法中的代码如下：
 
 {{
   <AndroidTutorialCodeBlock
@@ -114,17 +114,17 @@ Add the following code within the `public void onStyleLoaded(@NonNull final Styl
   />
 }}
 
-## Style the layers
+## 更改图层样式
 
-Now you'll change the color of the water layer and several properties of marine labels text. In this tutorial, the changes will happen when the pink floating action button is clicked.
+接下来您将更改水图层的颜色和几个海洋标注文本的属性。在本教程中，您可以单击粉红色控制按钮来控制更改。
 
-### Import classes
+### 导入要素类
 
-First, import the correct classes in the `MainActivity.java` file. The `View` class is for the pink floating action button's click listener. The `Color` class lets you use hex color codes to set the new color of the map layers.
+在`MainActivity.java`文件中导入正确的类。`View`类用于粉红色控制按钮的点击监听器。您可以在`Color`类中使用十六进制颜色代码来设置地图图层的新颜色。
 
-### Change the water color
+### 更改水的颜色
 
-Start by adding the floating action button's click listener below the `waterLayer` Layer object. Then adjust the water color to a darker blue color inside of the `onClick()` method.
+首先在“water Layer”图层对象下添加控制按钮单击监听器，然后将`onClick（）`方法内的水色调整为深蓝色。
 
 {{
   <AndroidTutorialCodeBlock
@@ -138,23 +138,23 @@ Start by adding the floating action button's click listener below the `waterLaye
   />
 }}
 
-Rerun your application, click on the pink floating action button, and you will see all the earth's water turn to a darker blue color.
+请重新打开您的应用程序，单击粉红色控制按钮，您将看到所有地球水的颜色变成深蓝色。
 
 <div class='align-center'>
 <img src='/help/img/android/android-runtime-styling-dark-blue-water-only.png' alt='a map with dark blue colored water on an Android device' class='wmax360'>
 </div>
 
 
-### Change marine labels' text properties
+### 更改海洋标注的文字属性
 
-Now specify the new properties of the water label text. In the floating action button's `onClick()` method, add the following code to adjust the labels' halo blur, size, color, and opacity.
+现在需要您指定新的水标注文本属性。在控制按钮`onClick()`方法中，添加以下代码来调整标签的光晕模糊，大小，颜色和不透明度。
 
-The `for (Layer singleMapLayer : mapboxMap.getLayers())` line is used to tell the app to check each map layer for the text `water-`. This is because the Mapbox Streets style has several different water-related layer IDs:
+`for（Layer singleMapLayer：mapboxMap.getLayers（））`行用于控制应用程序检查每个地图图层的文本`water -`。这是因为Mapbox Streets样式有几个不同的与水相关的图层ID：
 
 - `water-point-label`
 - `water-line-label`
 
-Using the `for` loop allows you to retrieve these layers instead of creating a separate layer object for _each_ water label layer and then repeating the same text changes to each individual layer. With a `for` loop you can change the properties of several layers that have the same word in them. Examples of words that are commonly repeated in layer names are `building`, `water`, or `bridge`.
+您可以使用for循环检索这些图层，而不是先用_each_ 给每个水的标注图层创建单独的对象，在对每个单独图层的文本重复更改。您可以使用`for`循环更改包含相同单词的多个图层的属性，例如`building`, `water`，或者`bridge`等在层名称中通常重复的单词。
 
 {{
   <AndroidTutorialCodeBlock
@@ -168,9 +168,9 @@ Using the `for` loop allows you to retrieve these layers instead of creating a s
 
 {{<Note title='Layer IDs' imageComponent={<BookImage />}>}}
 
-You will need the name (i.e. ID) of a layer if you'd like to change the layer's style at runtime. You can find the layer IDs for any map style (including our Mapbox template styles) by opening the style in Mapbox Studio. Make sure that you're signed into your Mapbox account and then visit the <a href='https://www.mapbox.com/studio/styles/'>Styles page</a>. Find the style in your account's list of styles and click on its Edit button. In the Mapbox Studio style editor, you will see the map style's layers listed in the left-hand sidebar.
+您需要图层的名称（ID）来在运行时更改图层的样式。可以在Mapbox Studio中打开样式来查找地图样式（包括我们的Mapbox模板样式）的图层ID。确保您已登录到Mapbox帐户，然后访问<a href='https://www.mapbox.com/studio/styles/'>Styles page</a>页面。在帐户的样式列表中找到样式，然后单击其“Edit”按钮。您可以在Mapbox Studio样式编辑器中的左侧边栏中看到列出的地图样式图层。
 
-Alternatively, you can use the [`getLayers()` method](https://www.mapbox.com/android-docs/api/map-sdk/{{constants.VERSION_ANDROID_MAPS}}/com/mapbox/mapboxsdk/maps/MapboxMap.html#getLayers) that is part of the `MapboxMap` class, to print the ID of each layer in your Android Studio Logcat console. Add the following `for` loop code within the `onMapReady` method of your `mapView` object to print the IDs:
+或者您可以使用MapboxMap类中的 [`getLayers()` method](https://www.mapbox.com/android-docs/api/map-sdk/{{constants.VERSION_ANDROID_MAPS}}/com/mapbox/mapboxsdk/maps/MapboxMap.html#getLayers)方法来获得Android Studio Logcat控制台里每个图层的ID。在 `mapView` 对象的`onMapReady`方法中添加以下`for`循环代码来获得ID：
 
 ```java
 for (Layer singleMapLayer : mapboxMap.getLayers()) {
@@ -178,19 +178,19 @@ for (Layer singleMapLayer : mapboxMap.getLayers()) {
 }
 ```
 
-Now that you have the full list of layer IDs, you will know what layers you'll be able to style in runtime!
+现在您已获得图层ID的完整列表，您将知道在运行时可以设置哪些图层样式！
 
 {{ </Note> }}
 
-Rerun your application, click on the pink floating action button, and you will see the map's water layers' text become much larger, greener, less opaque, and have a blurrier halo.
+重新运行您的应用程序，单击粉红色控制按钮，您将看到地图的水图层文本变得更大，更绿，透明度更低，并且具有模糊的光晕。
 
 <div class='align-center'>
 <img src='/help/img/android/android-runtime-styling-dark-blue-water-adjusted-labels.png' alt='map with attribute styled in runtime on an Android device' class='inline wmax360'>
 </div>
 
-## Finished product
+## 完成项目
 
-You've created an app that changes the water layer's fill color and changes several text properties of multiple map layers. These changes didn't happen because of a particular data set, the map style, or any other factor. They happened in runtime and _on-the-fly_!
+恭喜您成功创建了一个地图应用程序，并且可以更改水图层的填充颜色与多个图层的文本属性。这些样式更新并不需要改变底层数据集、地图样式或者其他因素，而是在程序运行过程中实时更新！
 
 <div class='align-center'>
 <img src='/help/img/android/android-runtime-styling-final.gif' alt='map with attribute styled in runtime on an Android device' class='inline wmax360'>
@@ -203,9 +203,9 @@ You've created an app that changes the water layer's fill color and changes seve
   />
 }}
 
-## Next steps
+## 下一步
 
-There are many possibilities when using runtime styling to create beautiful and informative maps for Android applications. Read more about runtime styling more generally in our [Map design](/help/how-mapbox-works/map-design/) guide and dig into some runtime styling examples specifically for Android:
+使用实时样式更新能够为安卓应用程序创建漂亮且信息丰富的地图。您可以在我们的[Map design](/help/how-mapbox-works/map-design/)设计指南中了解更多关于实时样式更新的内容，深入研究一些专门针对安卓的实时样式更新示例：
 
-- [Switch map language](https://github.com/mapbox/mapbox-android-demo/blob/83a0b3c18f56cc549d68a28f23e3c2026e904e7c/MapboxAndroidDemo/src/main/java/com/mapbox/mapboxandroiddemo/examples/styles/LanguageSwitchActivity.java): change the language of the map's text with the press of a button.
-- [Update by zoom level](https://github.com/mapbox/mapbox-android-demo/blob/eadaf3a81c01f1390753dbe24b560f77d117ec27/MapboxAndroidDemo/src/main/java/com/mapbox/mapboxandroiddemo/examples/styles/ZoomDependentFillColorActivity.java): change the color of the map's water layer based on the map's zoom level.
+- [Switch map language](https://github.com/mapbox/mapbox-android-demo/blob/83a0b3c18f56cc549d68a28f23e3c2026e904e7c/MapboxAndroidDemo/src/main/java/com/mapbox/mapboxandroiddemo/examples/styles/LanguageSwitchActivity.java): 点击按钮即可更改地图文本的语言。
+- [Update by zoom level](https://github.com/mapbox/mapbox-android-demo/blob/eadaf3a81c01f1390753dbe24b560f77d117ec27/MapboxAndroidDemo/src/main/java/com/mapbox/mapboxandroiddemo/examples/styles/ZoomDependentFillColorActivity.java): 根据地图的缩放级别更改水图层的颜色。
