@@ -1,6 +1,3 @@
-刘年华 已完成 custom-markers-gl-js.md 翻译
-@coffee-gh
-
 ---
 title: Add custom markers in Mapbox GL JS
 description: Add custom HTML markers, style them, and add tooltips with Mapbox GL JS.
@@ -155,7 +152,7 @@ var geojson = {
 
 现在您已经加载了数据，添加代码并为每个标记创建 HTML DOM 元素。使用 Mapbox GL JS [Marker](https://www.mapbox.com/mapbox-gl-js/api/#marker) 将其绑定到 GeoJSON 中。您将使用在本教程开头下载的图像，该图像应保存在项目文件夹中。
 
-使用 Marker 方法添加标记时，会将空白 div 附加到 GeoJSON 的每个点。将标记添加到地图前，您需要指定标记的样式。
+使用 Marker 方法添加标记时，会将空白 `div` 附加到 GeoJSON 的每个点。将标记添加到地图前，您需要指定标记的样式。
 
 ### 样式标记
 background-image为名为的类marker。在同一个index.html文件中，将代码复制并粘贴style到#map声明下方的代码中。
