@@ -31,7 +31,7 @@ contentType: tutorial
 
 ## 决定 token 作用域
 
-Access token 是允许你访问 Mapbox API 的密钥。每个 token 有一个或多个 token 作用域，用于设置 token 权限，允许那个 access token 执行特定作业并与特定 API 进行交互。例如，如果你需要使用新 token 上传数据，则需要选择 `uploads:write`。或者，如果你需要新 token 能创建更多 access token，请选择 `tokens:write`。
+Access token 是允许你访问 Mapbox API 的密钥。每个 token 有一个或多个 token 作用域，用于设置它的权限，允许它执行特定作业并与特定 API 进行交互。例如，如果你需要使用新 token 上传数据，则需要选择 `uploads:write`。或者，如果你需要新 token 能创建更多 access token，请选择 `tokens:write`。
 
 如果你不确定新的 token 需要什么作用域，请查阅 [API documentation](https://docs.mapbox.com/api/)。 每个部分列出了与特定 Mapbox API 交互所需的作用域。
 
@@ -53,7 +53,7 @@ Access token 是允许你访问 Mapbox API 的密钥。每个 token 有一个或
 
 {{
 <Note imageComponent={<BookImage />}>
-  <p>每个请求的作用域都必需存在于用来允许请求的 access token 中。用一个 token 创建另一个更多作用域的 token，这是不可能的。</p>
+  <p>每个必要的作用域都必需存在于 access token，用它来通过请求。用一个 token 创建另一个更多作用域的 token，这是不可能的。</p>
 </Note>
 }}
 
@@ -90,7 +90,7 @@ Tokens API 提供了创建临时 tokens 的能力，使其在设定的时间失�
 要创建临时 token，你需要在 API 调用中包含 `expires` 和 `scopes` 这两个参数:
 
 - `expires`: `expires` 参数需要是 [Coordinated Universal Time (UTC)](https://www.timeanddate.com/worldclock/timezone/utc) ，并指定临时 token 何时过期。它不能是过去的时间，也不能是未来一小时以外的时间。如果授权 token 是临时的，新临时 token 的过期时间不能晚于授权 token 的过期时间。
-- `scopes`: `scopes` 参数指定新临时 token 将具有何种作用域。授权 token 的作用域要与新创建的临时 token 的作用域一致或更多。
+- `scopes`: `scopes` 参数指定新临时 token 将具有何种作用域。授权 token 的作用域要与新创建的临时 token 的作用域一致或比其更多。
 
 ### 创建临时 token
 
