@@ -21,7 +21,7 @@ prependJs:
 contentType: tutorial
 ---
 
-[数据驱动样式](/help/glossary/data-driven-styling/) 是 Mapbox Maps SDK for Android 的一个强大特性，其允许您使用属性数据来设计地图样式。通过数据驱动样式, 您可以全自动地定义基于各属性的地图要素样式。 在本教程中, 您将创建一张依据属性数据设计样式，包含圆形图层的Android地图。
+[数据驱动样式](/help/glossary/data-driven-styling/) 是 Mapbox Maps SDK for Android 的一个强大特性，其允许您使用属性数据来设计地图样式。通过数据驱动样式，您可以全自动地定义基于各属性的地图要素样式。 在本教程中，您将创建一张依据属性数据设计样式，包含圆形图层的Android地图。
 
 <div class='align-center'>
 <img src='/help/img/android/android-dds-style-by-attribute.png' alt='map with data styled by attribute on an Android device' class='inline wmax360-mm wmax-full'>
@@ -32,7 +32,7 @@ contentType: tutorial
 本教程假定您已经熟悉 Java 和 Android Studio。以下是您开始前需要的一些资料：
 
 - **一个包含 Mapbox Maps SDK for Android 的应用程序。** 本教程假定您已创建了一个基于 Mapbox Maps SDK for Android 的安卓应用程序。如果 Maps SDK for Android 对您来说还是陌生的，请先参考教程 [Mapbox Maps SDK for Android 起步](/help/tutorials/first-steps-android-sdk/) 来创建一个地图视图。
-- **数据。** 我们从哥伦比亚特区的 [Open Data DC](http://opendata.dc.gov/) 收集了其行道树的位置数据。每一棵树都有一个 `DBH` 属性，代表[树胸高直径](https://en.wikipedia.org/wiki/Diameter_at_breast_height), 用来衡量树的大小.
+- **数据。** 我们从哥伦比亚特区的 [Open Data DC](http://opendata.dc.gov/) 收集了其行道树的位置数据。每一棵树都有一个 `DBH` 属性，代表 [树胸高直径](https://en.wikipedia.org/wiki/Diameter_at_breast_height)，用来衡量树的大小。
 
 {{
 <Button href="/help/data/street-trees-DC.zip" passthroughProps={{ download: "street-trees-DC" }} >
@@ -42,14 +42,14 @@ contentType: tutorial
 
 ## 上传数据到 Mapbox
 
-在本教程中，您将使用[向量瓦片集](/help/glossary/tileset) 来在您的应用中展示数据。您可以通过上传 Open Data DC 的 Shapefile 到 Mapbox Studio 来创建向量瓦片集：
+在本教程中，您将使用 [向量瓦片集](/help/glossary/tileset) 来在您的应用中展示数据。您可以通过上传 Open Data DC 的 Shapefile 到 Mapbox Studio 来创建向量瓦片集：
 
 1. 登录 [Mapbox Studio](https://www.mapbox.com/studio)。
-1. 访问[瓦片集页面](https://www.mapbox.com/studio/tilesets)。
+1. 访问 [瓦片集页面](https://www.mapbox.com/studio/tilesets)。
 1. 点击 **新瓦片集**。
-1. 选择您之前下载好的 Shapefile 并点击**确认**。
+1. 选择您之前下载好的 Shapefile 并点击 **确认**。
 1. 右下角将出现一个弹出框，显示上传进度。
-1. 一旦上传 _完成_, 瓦片集即可使用。点击弹出框里的瓦片集名称，会打开该瓦片集的详情页面。
+1. 一旦上传 _完成_, 瓦片集即可使用！点击弹出框里的瓦片集名称，会打开该瓦片集的详情页面。
 1. 请记录该详情页面右侧的 **Tileset ID**。稍后，您将使用该ID来添加此瓦片集到您的应用程序。
 
 ## 初始化一个地图视图
@@ -58,9 +58,9 @@ contentType: tutorial
 
 - **build.gradle**: Android Studio 使用 Gradle 工具集将源文件和源代码编译成一个 APK 文件。`build.gradle` 文件被用来配置构建和管理包括Mapbox Maps SDK for Android 在内的依赖。
 - **AndroidManifest.xml**: 您可以在 `AndroidManifest.xml` 文件中描述应用程序的组件，比如与 Mapbox 相关的权限。
-- **activity_main.xml**: 您可以在 `activity_main.xml` 文件中设置地图视图的属性(例如地图视图的中心, 缩放级别以及地图样式)。
+- **activity_main.xml**: 您可以在 `activity_main.xml` 文件中设置地图视图的属性（例如地图视图的中心, 缩放级别以及地图样式）。
 - **strings.xml**: 您可以将 access token 存储在 `strings.xml` 文件中。
-- **MainActivity.java**: 您可以在 `MainActivity.java` 文件中指定 Mapbox 的各种交互.
+- **MainActivity.java**: 您可以在 `MainActivity.java` 文件中指定 Mapbox 的各种交互。
 
 {{
   <div className="txt-s txt-fancy mb6" style={{ color: "#273d56" }}>build.gradle (App module)</div>
@@ -116,7 +116,7 @@ dependencies {
   />
 }}
 
-您可以在 [Mapbox Maps SDK for Android起步](/help/tutorials/first-steps-android-sdk/) 教程中学习如何在 Android Studio 创建一个包含 Maps SDK for Android 的项目.
+您可以在 [Mapbox Maps SDK for Android 起步](/help/tutorials/first-steps-android-sdk/) 教程中学习如何在 Android Studio 创建一个包含 Maps SDK for Android 的项目。
 
 运行您的应用程序，您将会看到一张中心位于 Logan Circle 的 Mapbox Dark 样式地图。
 
@@ -222,5 +222,5 @@ dependencies {
 
 使用数据驱动样式，您可以为您的安卓应用程序创建许多美丽、丰富的数据可视化效果。了解更多有关数据驱动样式，请参考 [Map design](/help/how-mapbox-works/map-design/)，更多基于安卓的数据驱动样式案例，请参考：
 
-- [明确地定义圆形样式](https://github.com/mapbox/mapbox-android-demo/blob/master/MapboxAndroidDemo/src/main/java/com/mapbox/mapboxandroiddemo/examples/dds/StyleCirclesCategoricallyActivity.java): 基于数据属性改变圆形图层里圆的颜色
-- [通过缩放级别更新](https://github.com/mapbox/mapbox-android-demo/blob/master/MapboxAndroidDemo/src/main/java/com/mapbox/mapboxandroiddemo/examples/dds/ChoroplethZoomChangeActivity.java): 基于缩放级别显示州或者郡县的人口
+- [明确地定义圆形样式](https://github.com/mapbox/mapbox-android-demo/blob/master/MapboxAndroidDemo/src/main/java/com/mapbox/mapboxandroiddemo/examples/dds/StyleCirclesCategoricallyActivity.java): 基于数据属性改变圆形图层里圆的颜色。
+- [通过缩放级别更新](https://github.com/mapbox/mapbox-android-demo/blob/master/MapboxAndroidDemo/src/main/java/com/mapbox/mapboxandroiddemo/examples/dds/ChoroplethZoomChangeActivity.java): 基于缩放级别显示州或者郡县的人口。
