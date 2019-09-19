@@ -17,24 +17,25 @@ contentType: tutorial
 
 {{
 <Note
-  title="Access to Mapbox Boundaries"
+  title="使用Mapbox边界"
   imageComponent={<BookImage />}
->
-  <p>Access to the Mapbox Boundaries tilesets are controlled by Mapbox account access token. If you do not have access on your account, <a href='https://www.mapbox.com/contact/'>contact a Mapbox sales representative</a> to request access to Boundaries tilesets.</p>
+
+>  <p>对Mapbox Boundaries tilesets的使用权由Mapbox帐户令牌控制。如果您无法使用自己的帐户，请<a href='https://www.mapbox.com/contact/'>与Mapbox销售代表联系</a>，以请求使用Boundaries tilesets。</p>
+
 </Note>
 }}
 
-Mapbox Enterprise users can add global administrative, postal, and statistical boundaries to their maps and data visualizations. This guide covers how to use Mapbox Boundaries with the Mapbox Tilequery API to query points in polygons.
+Mapbox Enterprise 用户可以为其地图和数据可视化添administrative, postal, 或 statistical boundaries。本指南介绍了如何使用Mapbox边界和Mapbox Tilequery API来查询多边形中的点。
 
-## Getting started
+## 入门
 
-Mapbox Boundaries are available as a part of an Enterprise plan. If you do not have an Enterprise plan or if you do have an Enterprise plan and would like to add access to Mapbox Boundaries, <a href='https://www.mapbox.com/contact/'>contact a Mapbox sales representative</a> to request access. Access to the Boundaries tilesets are controlled by your Mapbox account access token.
+Mapbox Boundaries作为 Enterprise plan 的一部分提供。如果您没有 Enterprise plan，或者您有 Enterprise plan 并且想要添加对Mapbox Boundaries的使用权限，请 [联系Mapbox销售代表](https://www.mapbox.com/contact/) 以请求权限。对 Boundaries tilesets 的使用权限由您的 Mapbox 帐户令牌控制。
 
-## About the Tilequery API
+## 关于 Tilequery API
 
-The [Mapbox Tilequery API](https://docs.mapbox.com/api/maps/#tilequery) allows you to get data from a tileset without necessarily  rendering a map. You can use the Tilequery API to match points to polygons, in other words, you can provide the coordinates for a point and determine which (if any) polygons in a specified tileset exist at that point.
+[Mapbox Tilequery API](https://docs.mapbox.com/api/maps/#tilequery) 允许你从 tileset 中获取数据，而不必渲染地图。您可以使用 Tilequery API 将点与多边形匹配，换句话说，您可以提供点的坐标并确定指定 tileset 中存在哪些（如果有的）多边形。
 
-Here's what a Tilequery API request using a Boundaries tileset would look like:
+以下是使用 Boundaries tileset 的 Tilequery API 请求的可能形式：
 
 ```
 https://api.mapbox.com/v4/mapbox.enterprise-boundaries-a0-v2/tilequery/{longitude,latitude}.json?access_token={{ <UserAccessToken /> }}
@@ -42,17 +43,17 @@ https://api.mapbox.com/v4/mapbox.enterprise-boundaries-a0-v2/tilequery/{longitud
 
 {{
   <Note imageComponent={<BookImage />}>
-    <p>Be sure to use an access token from an account that has access to Mapbox Boundaries.</p>
+    <p>请务必使用有权使用 Mapbox Boundaries 的帐户令牌。</p>
   </Note>
 }}
 
-If the specified point is within a polygon, the Tilequery API response will include a GeoJSON-format body with all features in the tileset. The `id` property value of the first feature returned is the ID of the Boundaries feature that contains the queried point.
+如果指定的点在多边形内，则 Tilequery API 响应将包含一个 GeoJSON 格式的 body，其中包含 tileset 中的所有要素。`id` 返回的第一个要素的属性值是包含查询点的 Boundaries 要素的ID。
 
-Since the feature lookup table contains all Mapbox Boundaries parent features, only one API request is required per point to find all matching parent boundaries. For example, you can query the admin-2 boundary of a point in Italy, and use the lookup table to find the parent features at admin-1 and admin-0.
+由于要素查找表包含所有 Mapbox Boundaries 父要素，因此每个点只需要一个 API 请求来查找所有匹配的父边界。例如，您可以查询意大利某个点的 admin-2 级别 boundary，并使用查找表在 admin-1 和 admin-0 中查找父级要素。
 
 ## Query Mapbox Boundaries
 
-Below is an example API response from a sample query to admin-2 in Italy. The query URL is:
+以下是从意大利的示例查询到 admin-2 的示例 API 响应。查询URL是：
 
 ```
 https://api.mapbox.com/v4/mapbox.enterprise-boundaries-a2-v2/tilequery/12.87,43.100.json?access_token={{ <UserAccessToken /> }}
@@ -60,11 +61,13 @@ https://api.mapbox.com/v4/mapbox.enterprise-boundaries-a2-v2/tilequery/12.87,43.
 
 {{
   <Note imageComponent={<BookImage />}>
-    <p>Be sure to use an access token from an account that has access to Mapbox Boundaries.</p>
+
+请务必使用有权使用 Mapbox Boundaries 的帐户令牌。
+
   </Note>
 }}
 
-The `id` returned is the identifier of the Boundaries feature containing the point at admin-2.
+所述`id`返回是含有点要素的 admin-2 的 Boundaries 的标识符。
 
 ```json
 {
@@ -95,7 +98,7 @@ The `id` returned is the identifier of the Boundaries feature containing the poi
 
 ### Query multiple tilesets
 
-You can query multiple admin levels in one API call using tile compositing. The query below will return the `id`s at a location for admin-1, admin-2, and admin-3:
+您可以使用 tile compositing  在一个 API 调用中查询多个管理级别。下面的查询将位置的 admin-1，admin-2 和 admin-3  的`id`s 返回：
 
 ```
 https://api.mapbox.com/v4/mapbox.enterprise-boundaries-a3-v2,mapbox.enterprise-boundaries-a2-v2,mapbox.enterprise-boundaries-a1-v2/tilequery/12.87,43.100.json?access_token={{ <UserAccessToken /> }}
@@ -104,28 +107,29 @@ https://api.mapbox.com/v4/mapbox.enterprise-boundaries-a3-v2,mapbox.enterprise-b
 {{
 <Note
   imageComponent={<BookImage />}
->
-  <p>Find the complete list of Boundaries tilesets in the <a href="https://www.mapbox.com/vector-tiles/enterprise-boundaries-v2">reference documentation</a>.</p>
+
+>  <p>在<a href="https://www.mapbox.com/vector-tiles/enterprise-boundaries-v2">参考文档</a>中找到Boundaries tilesets的完整列表。</p>
+
 </Note>
 }}
 
-This technique allows for aggregating and visualizing points at any admin level or multiple admin levels, down to individual points, as an API service.
+此技术允许在任何  admin 级别或多个 admin 级别聚合和可视化点，直至各个点，作为API服务。
 
 ## Next steps
 
-### Learn more about the Tilequery API
+### 关于 Tilequery API 了解更多
 
-Build an application that determines which timezone you are in using the Mapbox Tilequery API and the native HTML geolocation API with our [Create a timezone finder](/help/tutorials/create-a-timezone-finder-with-mapbox-tilequery-api/) tutorial.
+使用我们的 [创建时区查找器](https://docs.mapbox.com/help/tutorials/create-a-timezone-finder-with-mapbox-tilequery-api/) 教程构建一个应用程序，用于确定您使用 Mapbox Tilequery API 和本机 HTML 地理位置 API [的时区](https://docs.mapbox.com/help/tutorials/create-a-timezone-finder-with-mapbox-tilequery-api/)。
 
-### Learn more about Mapbox Boundaries
+### 关于Mapbox Boundaries 了解更多
 
-Learn more about how you can use Mapbox Boundaries.
+详细了解如何使用Mapbox Boundaries。
 
-- [Data-joins with Mapbox Boundaries](/help/tutorials/data-joins-with-enterprise-boundaries/): The data-join technique involves inner joins between local data, such as the unemployment rate by US state, to vector tile features, such as admin boundaries in Mapbox Boundaries, using data-driven style notation.
-- [Extend Mapbox Boundaries](/help/tutorials/extend-enterprise-boundaries/): You can extend Mapbox Boundaries with any custom data you need for your application. This could mean adding school district, city, market, or property boundaries to your application &mdash; all with the same performance and API features of the native product.
+- [Data-joins with Mapbox Boundaries](/help/tutorials/data-joins-with-enterprise-boundaries/): 数据连接技术涉及本地数据(如美国各州的失业率)和矢量切片要素(如 Mapbox Boundaries 中 admin boundaries )，并使用数据驱动的样式表示。
+- [Extend Mapbox Boundaries](/help/tutorials/extend-enterprise-boundaries/): 您可以使用应用程序所需的任何自定义数据扩展 Mapbox Boundaries。这可能意味着为您的应用程序添加学区，城市，市场或属性边界 - 所有这些都具有与本机产品相同的性能和API功能。
 
-### Advanced use cases
+### 高级用例
 
-You can also explore this [end to end example](https://www.mapbox.com/labs-sandbox-demos/vt_polygons/), which uses the concepts outlined in both this point-in-polygon query tutorial and the [data-join](/help/tutorials/data-joins-with-enterprise-boundaries/) tutorial to create an application featuring an interactive choropleth map.
+您还可以探索此 [端到端示例](https://www.mapbox.com/labs-sandbox-demos/vt_polygons/) ，该 [示例](https://www.mapbox.com/labs-sandbox-demos/vt_polygons/) 使用此多边形点查询教程和 [数据连接](https://docs.mapbox.com/help/tutorials/data-joins-with-enterprise-boundaries/) 教程中概述的概念来创建交互式等值图的应用程序。
 
 ![an end to end example using the data-join technique and Tilequery API](/help/img/data/enterprise-boundaries-choropleth-demo.gif)
