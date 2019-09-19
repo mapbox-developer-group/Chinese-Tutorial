@@ -430,4 +430,4 @@ Matrix API将无一例外地为您返回记录有最高效路线估算出的行�
 
 ## 为方向导航服务提供反馈意见
 
-如果您发现了任何有关路径及方向导航服务的问题，您可以将意见提交反馈给 [方向导航服务反馈页面](https://www.mapbox.com/feedback/)。如果您正在使用API服务，您可以打开 [API Playground](https://www.mapbox.com/api-playground/#/directions?_k=8qemr9) 来测试您的服务请求，查看服务返回信息，以及指定任何其他想要包含在服务请求中的参数值。
+如果您发现了任何有关路径及方向导航服务的问题，您可以将意见提交反馈给 [方向导航服务反馈页面](https://www.mapbox.com/feedback/)。如果您想直接体验API服务，您可以打开 [API Playground](https://www.mapbox.com/api-playground/#/directions?_k=8qemr9) 来测试您的服务请求，查看服务返回信息，以及指定任何其他想要包含在服务请求中的参数值。
