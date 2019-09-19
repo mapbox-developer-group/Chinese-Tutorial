@@ -36,15 +36,6 @@ Mapbox Directions API返回的JSON对象包含了所选路径以及有关此路�
 
 {{
   <Note
-    title='Ways'
-    imageComponent={<BookImage />}
-  >
-    <p>A <em>way</em> is an OpenStreetMap term used to describe an ordered list of nodes (points) which normally also has at least one tag, or description. For directions, ways can be roads, foot paths, or bicycle lanes.</p>
-  </Note>
-}}
-
-{{
-  <Note
     title='Ways 道路'
     imageComponent={<BookImage />}
   >
