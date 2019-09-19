@@ -12,7 +12,7 @@ prependJs:
 文章类别: 指南教程
 ---
 
-Mapbox提供诸多API（应用程序编程接口）以便添加方向导航相关服务到您的应用中。例如，使用[Mapbox Directions API](https://docs.mapbox.com/api/navigation/#directions)来生成一条路径并配有行程时间，估计距离以及逐向道路导航指示相关信息，使用[Mapbox Matrix API](https://docs.mapbox.com/api/navigation/#matrix)来获取不同地点间的旅途时间，使用[Mapbox Optimization API](https://docs.mapbox.com/api/navigation/#optimization)来获得地点间行程时间最短的路径，使用[Mapbox Map Matching API](https://docs.mapbox.com/api/navigation/#map-matching)来将模糊路径校准至可行合理的道路网路上。从交付高效行程路径安排，到提供具体导航步骤指示，Mapbox准备了许多必要的工具以帮助您将方向导航服务添加到应用中。
+Mapbox提供诸多API（应用程序编程接口）以便添加方向导航相关服务到您的应用中。例如，使用 [Mapbox Directions API](https://docs.mapbox.com/api/navigation/#directions) 来生成一条路径并配有行程时间，估计距离以及逐向道路导航指示相关信息，使用 [Mapbox Matrix API](https://docs.mapbox.com/api/navigation/#matrix) 来获取不同地点间的旅途时间，使用 [Mapbox Optimization API](https://docs.mapbox.com/api/navigation/#optimization) 来获得地点间行程时间最短的路径，使用 [Mapbox Map Matching API](https://docs.mapbox.com/api/navigation/#map-matching) 来将模糊路径校准至可行合理的道路网路上。从交付高效行程路径安排，到提供具体导航步骤指示，Mapbox准备了许多必要的工具以帮助您将方向导航服务添加到应用中。
 
 
 本篇指南将为您介绍：路径网络是如何建立的，如何将方向导航服务添加到跨平台应用中，以及如何给方向导航服务提供反馈意见。您可以参考本篇指南最后的相关文档来开始使用Mapbox方向导航服务。
@@ -32,7 +32,7 @@ Mapbox Directions API返回的JSON对象包含了所选路径以及有关此路�
 
 ### 路径网络
 
-一个可以创建并优化路径的方向导航服务需要一个强大的交通网络。这个交通网络不仅需要有路径位置信息，还需要包含如速度和转弯限制，出行方式（例如，公路，步行道，骑行道）等的路径属性信息。Mapbox的方向导航服务使用了[OpenStreetMap](http://learnosm.org/)提供的公路和小路网络信息，或者说是 *道路* 网络信息。OpenStreetMap是一个开源合作项目，它可以创建以供免费使用和编辑的世界地图。
+一个可以创建并优化路径的方向导航服务需要一个强大的交通网络。这个交通网络不仅需要有路径位置信息，还需要包含如速度和转弯限制，出行方式（例如，公路，步行道，骑行道）等的路径属性信息。Mapbox的方向导航服务使用了 [OpenStreetMap](http://learnosm.org/) 提供的公路和小路网络信息，或者说是 *道路* 网络信息。OpenStreetMap是一个开源合作项目，它可以创建以供免费使用和编辑的世界地图。
 
 {{
   <Note
@@ -61,12 +61,12 @@ OpenStreetMap项目的贡献者们已经为大家搭建好了一个巨大且可�
 Mapbox Directions API，Matrix API和Optimization API都可以为您提供预估行程时间。地点位置间的行程时间由很多因素决定，其中包括：
 
 - 使用profile的类型，例如，出行方式（步行，骑行或驾驶）。
-- OpenStreetMap的[`maxspeed`（最大速度）标签](http://wiki.openstreetmap.org/wiki/Key:maxspeed)中储存的速度。
+- OpenStreetMap的 [`maxspeed`（最大速度）标签](http://wiki.openstreetmap.org/wiki/Key:maxspeed) 中储存的速度。
 - 来自实时遥测数据的交通流量（当使用交通流量profile进行分析时）。
 
 ### 交通流量/路况数据
 
-您可以通过使用 [Mapbox Directions API](https://docs.mapbox.com/api/navigation/#directions), [Map Matching API](https://docs.mapbox.com/api/navigation/#map-matching) 或者 [Matrix API](https://docs.mapbox.com/api/navigation/#matrix)中的`mapbox/driving-traffic` profile来将实时路况信息纳入路径选择分析中并生成相应的ETA（预计到达时间）。您也可以将一个交通路况图层添加到可视地图的道路几何中去。若您想了解更多交通路况图块集的相关内容，请阅读 [我们的地图数据](/help/how-mapbox-works/mapbox-data/#mapbox-traffic) 这一章节。
+您可以通过使用 [Mapbox Directions API](https://docs.mapbox.com/api/navigation/#directions), [Map Matching API](https://docs.mapbox.com/api/navigation/#map-matching) 或者 [Matrix API](https://docs.mapbox.com/api/navigation/#matrix) 中的`mapbox/driving-traffic` profile来将实时路况信息纳入路径选择分析中并生成相应的ETA（预计到达时间）。您也可以将一个交通路况图层添加到可视地图的道路几何中去。若您想了解更多交通路况图块集的相关内容，请阅读 [我们的地图数据](/help/how-mapbox-works/mapbox-data/#mapbox-traffic) 这一章节。
 
 请注意尽管 `mapbox/driving-traffic` profile 有来自世界范围内的路况信息，但是各个国家或地区据此估算出的行程时间的准确度不尽相同。
 
@@ -296,9 +296,9 @@ Mapbox有四种方向导航相关服务API供您选择使用：
 
 #### Mapbox Directions API
 
-从[Mapbox Directions API](https://docs.mapbox.com/api/navigation/#directions)请求方向导航服务需要至少两个航路点 &mdash; 一个起点和一个终点 &mdash; 但是也可以在起点与终点间额外包含最多23个航路点（换言之，总共最多25个航路点）。当要发出一个服务请求，您可以设定更多参数值，例如，将要使用哪一种 **profile**（步行，骑行，驾驶，或考虑到路况的驾驶），是否在API返回信息中包含替换路线。您还可以在服务请求中添加自选注释，包括预估行程时间，距离，速度和交通拥堵状况。我们会通过对比夜间和实时行车速度来计算交通拥堵状况，并根据他们的差异百分比为实时交通状况指定一个交通拥堵等级。
+从 [Mapbox Directions API](https://docs.mapbox.com/api/navigation/#directions) 请求方向导航服务需要至少两个航路点 &mdash; 一个起点和一个终点 &mdash; 但是也可以在起点与终点间额外包含最多23个航路点（换言之，总共最多25个航路点）。当要发出一个服务请求，您可以设定更多参数值，例如，将要使用哪一种 **profile**（步行，骑行，驾驶，或考虑到路况的驾驶），是否在API返回信息中包含替换路线。您还可以在服务请求中添加自选注释，包括预估行程时间，距离，速度和交通拥堵状况。我们会通过对比夜间和实时行车速度来计算交通拥堵状况，并根据他们的差异百分比为实时交通状况指定一个交通拥堵等级。
 
-您可以通过阅读我们的[API Documentation](https://docs.mapbox.com/api/navigation/#directions-response-object)来了解更多方向导航服务返回对象相关的内容。
+您可以通过阅读我们的 [API Documentation](https://docs.mapbox.com/api/navigation/#directions-response-object) 来了解更多方向导航服务返回对象相关的内容。
 
 {{
   <DemoIframe src="https://www.mapbox.com/bites/00321/#14.48/38.9101/-77.0373" />
