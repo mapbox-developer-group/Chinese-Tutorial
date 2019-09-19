@@ -149,9 +149,9 @@ var map = new mapboxgl.Map({
   <Note
     imageComponent={<BookImage />}
   >
-  >    <p>确保存储和部署的 GeoJSON 文件和你的工程在同一个域内。你也将需要从一个本地Web服务器下运行这个应用，否则你将收到一个 <a href='http://en.wikipedia.org/wiki/Cross-origin_resource_sharing'>跨域资源共享 (CORS)</a>错误。 <a href='http://www.2ality.com/2014/06/simple-http-server.html'>Python's SimpleHTTPServer</a> 在很多计算机上都包含，如果这是你第一次运行本地服务器，用它就是一个不错的选择。</p>
-  >  </Note>
-  >}}
+    <p>确保存储和部署的 GeoJSON 文件和你的工程在同一个域内。你也将需要从一个本地Web服务器下运行这个应用，否则你将收到一个 <a href='http://en.wikipedia.org/wiki/Cross-origin_resource_sharing'>跨域资源共享 (CORS)</a>错误。 <a href='http://www.2ality.com/2014/06/simple-http-server.html'>Python's SimpleHTTPServer</a> 在很多计算机上都包含，如果这是你第一次运行本地服务器，用它就是一个不错的选择。</p>
+   </Note>
+  }}
 
 在这个例子中，你将使用 [expressions](https://www.mapbox.com/mapbox-gl-js/style-spec#expressions) 根据数据中的属性设置点的样式。这种 [data-driven styling](/help/glossary/data-driven-styling) 方式允许您为地图可视化添加额外的维度，帮助向读者传达特定的见解或信息。
 在这种情况下，可以通过应用基于数据中的 `Casualty` 财产（即碰撞中受伤或死亡的总人数）的样式，使地图更具信息性。下面的代码将根据 `Casualty` 区域更改点的大小和颜色。
