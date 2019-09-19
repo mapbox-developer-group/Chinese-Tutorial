@@ -18,6 +18,7 @@ prependJs:
   - "import UserAccessToken from '../../components/user-access-token';"
   - "import Button from '@mapbox/mr-ui/button';"
 contentType: tutorial
+
 ---
 
 [Mapbox Core Libraries for Android](https://docs.mapbox.com/android/core/overview/) 负责处理安卓项目中的系统权限、设备位置以及网络连接等事宜，例如:
@@ -35,22 +36,24 @@ contentType: tutorial
 </div>
 
 
+
 ## 开始
 
-首先在 Android Studio 中创建一个新项目并初始化一个地图视图。为了使用 Android Studio 项目创建一个 Mapbox 地图，并添加定制化数据来使用数据驱动样式，您需要以下5个文件：
+首先在 Android Studio 中创建一个新项目并初始化一个 `MapView`。为了使用 Android Studio 项目创建一个 Mapbox 地图，并添加定制化数据来使用数据驱动样式，您需要以下5个文件：
 
-- **build.gradle**: Android Studio 使用 Gradle 工具集将源文件和源代码编译成一个 APK 文件。build.gradle 文件被用来配置构建和管理包括 Mapbox Maps SDK for Android 在内的依赖。
-- **AndroidManifest.xml**: 您可以在 `AndroidManifest.xml` 文件中描述应用程序的组件，比如与 Mapbox 相关的权限。
-- **activity_main.xml**: 您可以在 `activity_main.xml` 文件中设置 `MapView` 的属性(例如 MapView 的中心, 缩放级别以及地图样式)。
-- **strings.xml**: 您可以将 access token 存储在 `strings.xml` 文件中。
-- **MainActivity.java**: 您可以在 `MainActivity.java` 文件中指定 Mapbox 的各种交互。
+- **build.gradle**：Android Studio 使用 Gradle 工具集将源文件和源代码编译成一个 APK 文件。`build.gradle` 文件被用来配置构建和管理包括 Mapbox Maps SDK for Android 在内的依赖。
+- **AndroidManifest.xml**：您可以在 `AndroidManifest.xml` 文件中描述应用程序的组件，比如与 Mapbox 相关的权限。
+- **activity_main.xml**：您可以在 `activity_main.xml` 文件中设置 `MapView` 的属性（例如 MapView 的中心, 缩放级别以及地图样式）。
+- **strings.xml**：您可以将 access token 存储在 `strings.xml` 文件中。
+- **MainActivity.java**：您可以在 `MainActivity.java` 文件中指定 Mapbox 的各种交互。
 
 {{
+
   <div className="txt-s txt-fancy mb6" style={{ color: "#273d56" }}>build.gradle (App module)</div>
+
 }}
 
 ```groovy
-
 // in addition to the rest of your build.gradle contents
 // you should include the following repository and dependency
 
@@ -66,7 +69,9 @@ dependencies {
 ```
 
 {{
+
   <div className="txt-s txt-fancy mb6" style={{ color: "#273d56" }}>Manifest.xml</div>
+
 }}
 
 ```xml
@@ -81,7 +86,9 @@ dependencies {
 }}
 
 {{
+
   <div className="txt-s txt-fancy mb6" style={{ color: "#273d56" }}>strings.xml</div>
+
 }}
 
 ```xml
@@ -103,7 +110,7 @@ dependencies {
   />
 }}
 
-您可以在教程 [First steps with the Mapbox Maps SDK for Android](/help/tutorials/first-steps-android-sdk/) 中学习如何在 Android Studio 创建一个包含 Maps SDK for Android 的项目.
+您可以在教程 [First steps with the Mapbox Maps SDK for Android](/help/tutorials/first-steps-android-sdk/) 中学习如何在 Android Studio 创建一个包含 Maps SDK for Android 的项目。
 
 运行您的应用程序，您将看到一幅以美国田纳西州纳什维尔市为中心的 Mapbox Traffic Night 样式地图。
 
@@ -154,7 +161,6 @@ dependencies {
   />
 }}
 
-
 方法 `onPermissionResult()` 也需要重写，其返回的布尔值表示用户接受或拒绝了应用程序的位置权限获取请求。获取位置权限后，则需初始化 Maps SDK 的 `LocationComponent` 组件。
 
 {{
@@ -181,7 +187,6 @@ dependencies {
   />
 }}
 
-
 ## 初始化 `LocationEngine`
 
 现在位置权限已经处理好了，我们需要创建一个 `LocationEngine` 对象。
@@ -190,7 +195,7 @@ dependencies {
 
 - 位置更新的间隔（毫秒）。
 - 位置更新的精度。
-- 位置更新的最长等待时间（毫秒）。 在更新间隔测定位置，并根据等待时间的长短分批传递返回，但只有部分引擎支持分批这一特性。
+- 位置更新的最长等待时间（毫秒）。在更新间隔测定位置，并根据等待时间的长短分批传递返回，但只有部分引擎支持分批这一特性。
 
 {{
   <AndroidTutorialCodeBlock
@@ -216,7 +221,6 @@ dependencies {
   />
 }}
 
-
 ## 启用 `LocationComponent` 组件
 
 {{<Note imageComponent={<BookImage />}>}}
@@ -225,7 +229,7 @@ dependencies {
 
 通过 `PermissionsManager.areLocationPermissionsGranted(this)` 的布尔检查， 您已知晓应用程序已经获取了位置权限，同时 `LocationEngine` 也已经初始化。现在您可以安心地初始化 [Maps SDK 的 `LocationComponent` 组件](https://docs.mapbox.com/android/maps/overview/location-component/)。该组件可在地图上显示设备位置图标，但您**并非必须**显示该图标，因为其并不影响您继续阅读本教程。_因此，如您无意在地图上显示位置图标，可跳过本节_。
 
-当 `LocationComponent` 组件的 `RenderMode` 选项是 `COMPASS` 时，位置图标的外部将显示一个箭头表征罗盘方位。该箭头指向设备的朝向。[有关其他 `RenderMode` 选项，请参考本链接](https://docs.mapbox.com/android/maps/overview/location-component/#rendermode)。
+当 `LocationComponent` 组件的 `RenderMode` 选项是 `COMPASS` 时，位置图标的外部将显示一个箭头表征罗盘方位。该箭头指向设备的朝向。[如果您不想要 `COMPASS`，还有其他 `RenderMode` 选项，请参考本链接](https://docs.mapbox.com/android/maps/overview/location-component/#rendermode)。
 
 <div class='align-center'>
 <img src='/help/img/android/android-location-tracking-compass-arrow.png' alt='map with location tracked and showing LocationComponent' class='inline wmax360-mm wmax-full'>
@@ -267,7 +271,6 @@ dependencies {
 
 每当 Mapbox Core Libraries 发现设备位置变化时，就会调用 `OnSuccess()` 方法。其中，`result.getLastLocation()` 方法返回一个包含经、纬度值的 `Location` 对象。现在，您可以通过您喜欢的方式使用该设备位置信息了，例如显示在应用程序的 UI 里 ，保存于内存中，或者发送到后端服务器。
 
-
 ## 完结
 
 至此，您已配置好用来获得设备位置更新的代码。下方截图显示位于纳什维尔市，但实际上，如果 `LocationComponent` 组件的 `CameraMode` 选项仍是 `TRACKING`，地图视野将移动到任何您设备所在的位置。
@@ -285,4 +288,4 @@ dependencies {
 
 ## 下一步
 
-`LocationComponent` 组件提供了很多可能性。 请参考 [Android 演示应用程序中的位置相关案例](https://github.com/mapbox/mapbox-android-demo/blob/master/MapboxAndroidDemo/src/main/java/com/mapbox/mapboxandroiddemo/examples/location/)， 了解如何在 Android Fragment 中显示设备位置，定制 `LocationComponent` 组件图标等等。
+`LocationComponent` 组件提供了很多可能性。请参考 [Android 演示应用程序中的位置相关案例](https://github.com/mapbox/mapbox-android-demo/blob/master/MapboxAndroidDemo/src/main/java/com/mapbox/mapboxandroiddemo/examples/location/)，了解如何在 Android Fragment 中显示设备位置，定制 `LocationComponent` 组件图标等等。
