@@ -23,12 +23,11 @@ contentType: tutorial
   <Note
     imageComponent={<BookImage />}
     title='属性函数 vs. 属性表达式'
-
   >
-  >    <p>这个教程使用了属性<em>表达式</em>。这个新特性是在 <a href='https://github.com/mapbox/mapbox-gl-js/blob/master/CHANGELOG.md#0410-october-11-2017'>Mapbox GL JS v0.41.0</a>引入的。属性<em>表达式</em>能帮你完成属性<em>函数</em>相似的效果，但有更多的灵活性和功能。<strong>任何<a href='https://www.mapbox.com/mapbox-gl-js/style-spec#other-function'>属性函数</a>出现的地方，它们最终被弃用而由属性表达式所替代，</strong></p>
-  >    <p>在 <a href='https://www.mapbox.com/mapbox-gl-js/style-spec/#expressions'>Mapbox Style Specification</a> 和 <a href='/help/tutorials/mapbox-gl-js-expressions/'>Get started with Mapbox GL JS expressions</a> 读取更多关于表达式的内容。</p>
-  >  </Note>
-  >}}
+     <p>这个教程使用了属性<em>表达式</em>。这个新特性是在 <a href='https://github.com/mapbox/mapbox-gl-js/blob/master/CHANGELOG.md#0410-october-11-2017'> Mapbox GL JS v0.41.0</a> 引入的。属性<em>表达式</em>能帮你完成属性<em>函数</em>相似的效果，但有更多的灵活性和功能。<strong>任何<a href='https://www.mapbox.com/mapbox-gl-js/style-spec#other-function'>属性函数</a>出现的地方，它们最终被弃用而由属性表达式所替代。</strong></p>
+     <p>在 <a href='https://www.mapbox.com/mapbox-gl-js/style-spec/#expressions'>Mapbox Style Specification</a> 和 <a href='/help/tutorials/mapbox-gl-js-expressions/'>Get started with Mapbox GL JS expressions</a> 读取更多关于表达式的内容。</p>
+ </Note>
+}}
 
 这个教程将展示如何使用 [Mapbox GL JS](https://www.mapbox.com/mapbox-gl-js/) 创建一个显示数据随时间变化的地图。在这个向导中你会用到的源数据来自 [NYC OpenData](https://data.cityofnewyork.us/)，它包含了2016年1月纽约市发生的15000起交通事故。
 
@@ -42,7 +41,7 @@ contentType: tutorial
 
 开始之前你需要一些资源：
 
-- [**An access token**](/help/glossary/access-token/) 来自你的 Mapbox 账号。这个访问口令是用来关联你的地图和你的账户，你能在你的[Account page](https://www.mapbox.com/account)找到。
+- [**An access token**](/help/glossary/access-token/) 来自你的 Mapbox 账号。这个访问口令是用来关联你的地图和你的账户，你能在你的 [Account page](https://www.mapbox.com/account) 找到。
 - **Data**。这个GeoJSON文件包含了2016年1月份的15273起含地理信息编码的交通事件，下载于 [NYC OpenData](https://data.cityofnewyork.us/Public-Safety/NYPD-Motor-Vehicle-Collisions/h9gi-nx95) 。
 {{<Button href="/help/data/collisions1601.geojson" passthroughProps={{ download: "collisions1601.geojson" }}>
     <Icon name='arrow-down' inline={true} />下载数据</Button>}}
