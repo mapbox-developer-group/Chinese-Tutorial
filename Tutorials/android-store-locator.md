@@ -387,7 +387,7 @@ private static final LatLng MOCK_DEVICE_LOCATION_LAT_LNG = new LatLng(40, -83);
 
 ## 添加自定义标记
 
-您可以将任何图像用作标记-您可以使用emoji（如入门工具包文件中），自己创建的图标，公司的logo或者多个来自开源资源的图标。建议查找使用以下图标资源用于标记：
+您可以将任何图像用作标记——您可以使用emoji（如入门工具包文件中），自己创建的图标，公司的logo或者多个来自开源资源的图标。建议查找使用以下图标资源用于标记：
 
 - Mapbox 的 [Maki icons](https://www.mapbox.com/maki/) 
 - [Flat Icon](http://flaticon.com)
@@ -407,7 +407,7 @@ private static final LatLng MOCK_DEVICE_LOCATION_LAT_LNG = new LatLng(40, -83);
 
 在打开的窗口中，单击 **+** 并选择您的文件。另一个窗口将打开。在这个窗口中，记下分配给图像的 *Target-name*。对于指南，请使用名称 `new_ice_cream_icon` 并单击**Ok**。在第一个窗口中，您也可以单击**Ok**。
 
-请注意，`drawable` 文件夹中添加了一个新文件夹。来自刚才的导入程序的*Target-name* ，名称是*new_ice_cream_icon*，它包含多个文件 - 针对各种屏幕大小进行优化的新图像。
+请注意，`drawable` 文件夹中添加了一个新文件夹。来自刚才的导入程序的*Target-name* ，名称是*new_ice_cream_icon*，它包含多个文件——针对各种屏幕大小进行优化的新图像。
 
 ![screenshot of the folder for your new image and the files it contains](/help/img/android/android-store-locator-batch-image.png)
 
