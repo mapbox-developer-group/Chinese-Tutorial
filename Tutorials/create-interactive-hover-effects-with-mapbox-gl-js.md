@@ -35,10 +35,10 @@ Feature state 使你能够根据用户交互行为来更新地图图层中的各
 ## 开始入门
 为了完成本教程，你会使用到：
 <!--copyeditor ignore magnitude -->
-- **一个 Mapbox access token。** 你的 Mapbox access tokens 在你的 [用户主页](https://account.mapbox.com/) 中。
+- **A Mapbox access token。** 你的 Mapbox access tokens 在你的 [用户主页](https://account.mapbox.com/) 中。
 - **Mapbox GL JS。** [Mapbox GL JS](https://docs.mapbox.com/mapbox-gl-js/overview/) 是一个用于创建网页地图的 JavaScript API。
-- **一个文本编辑器** 使用你喜爱的文本编辑器来编写 HTML，CSS 和 Javascript。
-- **USGS Earthquake Catalog API。** 你会使用 [USGS Earthquake Catalog API](https://earthquake.usgs.gov/fdsnws/event/1/) 来获取过去一周所有大于1度震级的地震的信息。
+- **A text editor。** 使用你喜爱的文本编辑器来编写 HTML，CSS 和 Javascript。
+- **The USGS Earthquake Catalog API。** 你会使用 [USGS Earthquake Catalog API](https://earthquake.usgs.gov/fdsnws/event/1/) 来获取过去一周内发生的一次或多次地震的信息。
 
 ## 创建地图
 开始时，你会使用 [Mapbox GL JS](https://docs.mapbox.com/mapbox-gl-js/api/) 创建一张地图。打开你的文本编辑器并新建一个名为 `index.html` 的文件。将一下的代码输入你的文本编辑器中，来修改这个新建的 HTML 文件：
@@ -155,7 +155,7 @@ var priorDateTs = new Date(priorDate);
 var sevenDaysAgo = priorDateTs.toISOString();
 ```   
 
-你会在访问 Earthquake Catalog API 时使用 `sevenDaysAgo` 这个变量。（如果你使用的是如 [Moment.js](https://momentjs.com/) 的限定时间的 Javacript 库，将当前日期减去7天会使用更少的步骤。但由于本教程的需求，这些步骤会被一一显示在 Javacript代码中。）
+你会在访问 Earthquake Catalog API 时使用 `sevenDaysAgo` 这个变量。（如果你使用的是如 [Moment.js](https://momentjs.com/)  JavaScript 日期处理类库，将当前日期减去7天会使用更少的步骤。但由于本教程的需求，这些步骤是用纯原生 Javascript 显示的。）
 
 对于本网页程序，你会使用 Earthquake Catalog API 的可选  `format` 参数以返回 GeoJSON 格式的数据。你同时也会利用可选参数 `eventtype` 和 `minmagnitude` 来限制查询结果为1级以上的地震。
 
@@ -287,7 +287,7 @@ map.addLayer({
 ## 定义悬停属性
 接下来，你会用 [`setFeatureState`](https://docs.mapbox.com/mapbox-gl-js/api/#map#setfeaturestate) 来定义 `hover` 属性。为了触发当用户将鼠标移至某一地震要素时 feature state 的改变事件，你会将 `setFeatureState` 嵌入到 `map.on('mousemove')` 函数中。
 
-以下代码创建了几个新变量，每一个变量都会因每一个 `map.on('mousemove')` 事件而被更新。
+以下代码创建了几个新变量，每一个变量都会因每一个 `map.on('mousemove')` 事件而被更新：
 <!--copyeditor ignore magnitude -->
 - `quakeID`: 这个变量会被设置为当前要素的 `id` ，使你能够指向单独的每一个地震。
 - `quakeMagnitude`: 返回的当前要素的震级。
@@ -593,8 +593,8 @@ map.on("mouseleave", "earthquakes-viz", function() {
 ```
 
 ## 下一步
-如果想要了解更多关于 feature state expression 和如何使用它们来动态赋予地图要素样式，你可以查看下列资源：
-- 探索 Mapbox GL JS 文档，查找 [`setFeatureState`](https://docs.mapbox.com/mapbox-gl-js/api/#map#setfeaturestate), [`removeFeatureState`](https://docs.mapbox.com/mapbox-gl-js/api/#map#removefeaturestate), 和 [`getFeatureState`](https://docs.mapbox.com/mapbox-gl-js/api/#map#getfeaturestate).
+如果想要了解更多关于 feature state expressions 和如何使用它们来动态赋予地图要素样式，你可以查看下列资源：
+- 浏览 Mapbox GL JS 文档，了解 [`setFeatureState`](https://docs.mapbox.com/mapbox-gl-js/api/#map#setfeaturestate)， [`removeFeatureState`](https://docs.mapbox.com/mapbox-gl-js/api/#map#removefeaturestate)， 和 [`getFeatureState`](https://docs.mapbox.com/mapbox-gl-js/api/#map#getfeaturestate)。
 - 查看 Mapbox 是如何使用 feature state 来创建一张使用2016年总统大选数据的地图。请见博客 [Live Electoral Maps: A Guide to Feature State](https://blog.mapbox.com/going-live-with-electoral-maps-a-guide-to-feature-state-b520e91a22d)。
-- 了解更多关于使用 event 和 feature state 来针对各要素创建不同的样式变化。请见 [Create a hover effect 示例](https://docs.mapbox.com/mapbox-gl-js/example/hover-styles/).
-- 了解更多关于如何使用 Mapbox GL JS expressions。请见 [Get started with Mapbox GL JS expressions](/help/tutorials/mapbox-gl-js-expressions/) 教程.
+- 了解更多关于使用 event 和 feature state 来针对各要素创建不同的样式变化。请见 [Create a hover effect example](https://docs.mapbox.com/mapbox-gl-js/example/hover-styles/)。
+- 了解更多关于如何使用 Mapbox GL JS expressions。请见 [Get started with Mapbox GL JS expressions](/help/tutorials/mapbox-gl-js-expressions/) 教程。
