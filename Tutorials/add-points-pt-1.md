@@ -1,5 +1,5 @@
 ---
-title: "Add points to a web map, Part 1: create a dataset"
+title: "向网页地图添加点，第一部分：创建数据集"
 description: Create a new dataset containing points.
 thumbnail: addPointsPt1
 level: 1
@@ -19,24 +19,24 @@ prependJs:
 contentType: tutorial
 ---
 
-This tutorial is the first in a [series of tutorials](https://www.mapbox.com/studio-manual/help/#add-points-to-a-map) that will teach you how to add points to a map using the Mapbox Studio dataset editor, the Mapbox Studio style editor, and Mapbox GL JS.
+本教程是[系列教程](https://www.mapbox.com/studio-manual/help/#add-points-to-a-map) 的第一部，它将教会你如何使用Mapbox studio 编辑器，Mapbox Studio style编辑器和Mapbox GLJS在地图上添加点。
 
-*Part 1* of the series focuses on the Mapbox Studio dataset editor. In this tutorial, you will learn how to:
+*本系列的第一部分*  重点介绍Mapbox Studiodataset编辑器，在教程里，你将会学习到如何：
 
-- Upload geospatial data as a dataset
-- Draw additional data in the dataset editor
-- Save and export your dataset as a tileset
+- 上传地理空间数据作为dataset
+- 在数据集编辑器中绘制附加数据
+- 作为tileset保存和导出dataset
 
 {{
   <DemoIframe src="/help/demos/add-points-to-a-map/index.html" />
 }}
 
-## Getting started
+## 开始
 
-There are a few resources you will need to follow along with this guide:
+以下是一些在指导中需要跟随的资源:
 
-- **Mapbox account**. Sign up for a free account on [Mapbox](https://account.mapbox.com/auth/signup/).
-- **Data**. Download this GeoJSON file, which includes the coordinates and feature properties for nine different Chicago Parks.
+- **Mapbox 账户**. 在[Mapbox](https://account.mapbox.com/auth/signup/)中注册一个免费帐户。
+- **数据**.下载下面的GeoJSON 文件，其中包含九个不同芝加哥公园的坐标和功能属性。
 
 {{
 <Button href="/help/data/chicago-parks.geojson" passthroughProps={{ download: "chicago-parks.geojson" }}>
@@ -44,68 +44,70 @@ There are a few resources you will need to follow along with this guide:
 </Button>
 }}
 
-## Upload a new dataset
+## 上传新的dataset
 
-You can store an editable version of your data in your Mapbox account by uploading it to Mapbox Studio as a _dataset_. Having an editable version of your data means that you can add, remove, and edit features (points, lines, and polygons) and properties for each feature.
+通过将数据作为dataset上传到Mapbox Studio，您可以在Mapbox帐户中存储数据的可编辑版本。拥有数据的可编辑版本意味着可以为每个特性添加、删除和编辑特性(点、线和多边形)和属性。
 
 {{
 <Note
   imageComponent={<BookImage />}
 >
-  <p>If you don't need to edit or draw data from scratch, you can upload data to Mapbox as a <em>tileset</em> instead of a <em>dataset</em>. For more information on the difference between tilesets and datasets, see the <a href='https://www.mapbox.com/studio-manual/overview/geospatial-data/'>Uploads section</a> of the <a href='https://www.mapbox.com/studio-manual/'>Mapbox Studio Manual</a>.</p>
+  <p>如果您不需要从头开始编辑或绘制数据，您可以将数据作为<em>tileset</em>而不是<em>dataset</em>上传到Mapbox。了解有关tileset和数据集之间的区别的更多信息，请参见Mapbox Studio手册的上传部分。 <a href='https://www.mapbox.com/studio-manual/overview/geospatial-data/'>Uploads section</a> of the <a href='https://www.mapbox.com/studio-manual/'>Mapbox Studio Manual</a>.</p>
 </Note>
 }}
 
-### Create a dataset
+### 创建一个Datasets
 
-1. Log into [Mapbox Studio](https://www.mapbox.com/studio) and navigate to the [Datasets page](https://www.mapbox.com/studio/datasets).
-1. Click the **New dataset** button.
-1. Select the **Upload** option in the upper right corner of the _New Dataset_ modal.
-1. Select the GeoJSON file you downloaded. Click **Confirm**, then click **Create**.
+1. 登入 [Mapbox Studio](https://www.mapbox.com/studio) 并导航至[Datasets 页面](https://www.mapbox.com/studio/datasets)。
+1. 点击 **New dataset** 按钮。
+1. 选择 the _New Dataset_ modal右上角的**Upload** 选项。
+1. 选择下载的GeoJSON 文件，点击 **Confirm**,然后点击**Create**。
 <img src='/help/img/studio/point-tutorial-dataset-upload.png' alt='Screenshot illustrating how to create a dataset in Mapbox Studio' class='block wmax600 pt18 mx-auto'>
-1. Once your file has completed uploading, click **Start editing**. The dataset editor automatically opens, and the data is displayed on a dark base map to help visualize the features.
+1. 当你的文件上传完成, 点击 **Start editing**. dataset编辑器自动打开, 数据会显示在一个黑色的基础地图上，使得功能可视化。
 
-![Screenshot showing the Mapbox Studio dataset editor](/help/img/studio/point-tutorial-dataset-editor.png)
+![显示Mapbox Studio数据集编辑器的屏幕截图](/help/img/studio/point-tutorial-dataset-editor.png)
 
-### About datasets
+### 关于 datasets
 
-You can edit both dataset features and properties in the dataset editor:
+您可以在datasets编辑器中编辑datasets特性和属性:
 
-- **Features** are the points, lines, and polygons on your map. You can add new features using the draw tools, edit the placement or shape of features using by clicking and dragging features on the map, or remove features all together by clicking on them and hitting the delete key. You can also click on each feature in the dataset editor to view its properties.
-- **Properties** can be strings, numbers, or boolean. In the sample dataset you uploaded, there are `title` and `description` properties for each point with a unique text string. You can edit properties, add new properties, or delete properties in the dataset editor. *Make sure any content that you want to display in popups in your final product is included as a property while you are working in the dataset editor.*
+- **特性** 是地图上的点、线和多边形。 您可以使用绘图工具添加新功能，通过单击和拖动地图上的功能来编辑功能的位置或形状，或者通过全选+delete键将所有功能一起删除。您还可以单击dataset 编辑器中的每个特性来查看其属性。
 
-## Draw data
+- **属性** 可以是字符串、数字或布尔值。在您上传的示例datasets中，每个点都有“标题”和“描述”属性，它们都有一个惟一的文本字符串。您可以在dataset编辑器中编辑属性、添加新属性或删除属性。*确保在dataset编辑器中工作时，想要在最终产品的弹出窗口中显示的所有内容都包含在属性中。* 
 
-You can use the draw tools in the dataset editor to add a new point to your dataset. You can also change the geometry, placement, and properties of existing features with the dataset editor’s draw tools. Read more about draw tools in the [Mapbox Studio manual](https://www.mapbox.com/studio-manual/).
+## 绘制数据
 
-### Draw a new feature
+可以使用dataset编辑器中的绘图工具向dataset添加新点。也可以使用数据集编辑器的绘图工具更改现有特性的几何形状、位置和属性。有关绘图工具的更多信息，请参阅[Mapbox Studio手册](https://www.mapbox.com/studio-manual/).
 
-1. Click inside the **Search places** field in the upper right side of the editor and search for `Garfield Park Chicago`.
-1. Use the {{<Icon name='marker' inline={true} />}} draw tool to create a new point on the map at that location.
-1. Next, click the **Add Property** button. Use the properties list on the left side of the screen to add the following field name and description:
-  - Add the field name `title` and give it the value `Garfield Park`. Click **Confirm**.
-  - Add the field name `description` and give it the value `Home of the Garfield Park Conservatory`. Click **Confirm**.
+### 绘制新特性
+
+1.单击编辑器右上角的**Search places**字段，搜索`Garfield Park Chicago`。 
+1. 使用 {{<Icon name='marker' inline={true} />}} 绘图工具 在该位置的地图上创建一个新点。
+1. 接下来, 点击 **Add Property** 按钮。使用屏幕左侧的属性列表添加以下域名和描述:
+  - 添加域名 `title`并赋值为`Garfield Park`。点击**Confirm**。
+  - 添加域名 `description` 并赋值为 `Home of the Garfield Park Conservatory`.点击 **Confirm**.
 
 ![animated GIF illustrating how to draw a new feature](/help/img/studio/point-tutorial-dataset-edit.gif)
 
-## Export the dataset as a tileset
+## 将dataset导出为tileset
 
-Next, you will save and export the dataset as a tileset so that you can add it to a Mapbox style.
+接下来，你要将数据集保存并导出为tileset，以便将其添加到Mapbox样式中。
+
 
 ### Create a tileset
 
-1. Click the **Save** button in the upper right corner of the editor to save your changes.
-1. Click the **Export** button, then select _Export to a new tileset_.
-1. Name your tileset `chicago-parks` and click **Export**.
+1. 单击编辑器右上角的**Save**保存更改。
+1. 单击**Export** ，然后选择 _导出为新 tileset_.
+1. 命名您的tileset `chicago-parks`并单击 **Export**.
 <img src='/help/img/studio/point-tutorial-export-to-tileset.png' alt='Screenshot illustrating how to export a dataset to a tileset in Mapbox Studio' class='block wmax600 pt18 mx-auto'>
-1. After your tileset has successfully uploaded, click the tileset's name in the _Notifications_ pane to open it.
+1.在您的tileset成功上传之后，单击 _Notifications_窗格中tileset的名称打开它。
 
 <img src='/help/img/studio/point-tutorial-tileset-upload.png' alt='Screenshot illustrating a successful tileset upload in Mapbox Studio' class='block wmax600 mx-auto'>
 
-### About tilesets
+### 关于tileset
 
-Web maps are comprised of [map tiles](/help/how-mapbox-works/web-apps/). A collection of tiles is called a tileset. Mapbox cuts up data into tiles that are then added to a web map and displayed at various zoom levels. To make Mapbox maps more performant, a dataset's features are simplified when it is converted into a tileset.
+Web地图由 [地图块](/help/how-mapbox-works/web-apps/)组成。一组tile称为tileset。Mapbox将数据分割成小块，然后将这些小块添加到web地图中，并以不同的缩放级别显示。为了使Mapbox的地图性能更优异，数据集的特性在转换为tileset时得到了简化。
 
-## Next steps
+## 下一步
 
-Next, start [part 2](/help/tutorials/add-points-pt-2/) of this tutorial series to learn how to add your tileset to a map style in the Mapbox Studio style editor.
+接下来，开始本教程系列的[第2部分](/help/tutorials/add-points-pt-2/)，学习如何在Mapbox Studio样式编辑器中将tileset添加到地图样式中。
