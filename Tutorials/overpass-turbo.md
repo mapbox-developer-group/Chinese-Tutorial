@@ -12,39 +12,39 @@ prereq: Learn to navigate the OpenStreetMap tagging system.
 contentType: tutorial
 ---
 
-If you're looking to use [OpenStreetMap](https://www.osm.org) data in Mapbox Studio, look no further! In this guide you'll learn how to use [Overpass Turbo](https://overpass-turbo.eu/) to query OpenStreetMap data and extract specific features in a given area. You'll be exporting ski lifts and trails at [Mt. Bachelor](https://en.wikipedia.org/wiki/Mount_Bachelor), a popular ski resort in central Oregon. If you'd like to extract OpenStreetMap features programmatically rather than with a user interface, read the [Overpass API](https://wiki.openstreetmap.org/wiki/Overpass_API) documentation for more information.
+如果您希望在 Mapbox Studio 中使用 [OpenStreetMap](https://www.osm.org/) 数据，请不要再犹豫了！在本指南中，您将学习如何使用 [Overpass Turbo](https://overpass-turbo.eu/) 获取 OpenStreetMap 数据并提取给定区域中的特定要素。您将可以导出[Mt. Bachelor](https://en.wikipedia.org/wiki/Mount_Bachelor) (俄勒冈州中部一个受欢迎的滑雪胜地)的雪地缆车和滑雪路线。如果您想以编程方式而不是用户界面提取 OpenStreetMap 功能，请阅读 [Overpass API](https://wiki.openstreetmap.org/wiki/Overpass_API) 文档以获取更多信息。
 
-## Getting started
+## 入门
 
-If this is your first time working with OpenStreetMap we recommend reading about OpenStreetMap and Mapbox in the [Our map data](/help/how-mapbox-works/mapbox-data/) guide before you get started.
+如果这是您第一次使用OpenStreetMap，我们建议您在开始之前阅读 [我们的地图数据](https://docs.mapbox.com/help/how-mapbox-works/mapbox-data/) 指南中的OpenStreetMap和Mapbox 。
 
-### OpenStreetMap features
+### OpenStreetMap 功能
 
-In OpenStreetMap, contributors can tag physical features like buildings or roads to help describe them. For example, to add a `building` tag to a feature, the key for the feature would be `building` and the value would be `yes`.
+在OpenStreetMap中，贡献者可以标记建筑物或道路等物理特征以帮助描述它们。例如，要向 `building` 要素添加标记，该要素的关键将是 `building` ，值将是`yes`。
 
 ![example of adding a building tag in OpenStreetMap](/help/img/3rdparty/overpass-tag.jpg)
 
-If we want to be more specific about what type of building it is, for example a hotel, we can change the tag to `building=hotel`. Now others who access the data will know that the feature is a building _and_ that it's a hotel. This is especially helpful for someone who is trying to query all hotels in a particular area.
+如果我们想要更具体地说明它是什么类型的建筑物，例如酒店，我们可以将标签更改为`building=hotel`。现在，访问数据的其他人将知道该功能是一个建筑物*，*而且它是一个酒店。这对于试图查询特定区域内所有酒店的人尤其有用。
 
-You can find the list of all keys and values on the [OpenStreetMap Features wiki](http://wiki.openstreetmap.org/wiki/Map_Features).
+您可以在 [OpenStreetMap Features wiki](http://wiki.openstreetmap.org/wiki/Map_Features) 上找到所有键和值的列表。
 
-### OpenStreetMap data and Mapbox Streets
+### OpenStreetMap 数据 and Mapbox Streets
 
-[Mapbox Streets](https://www.mapbox.com/developers/vector-tiles/mapbox-streets-v7/) uses OpenStreetMap as its main data source. Mapbox Streets is a vector [tileset](/help/glossary/tileset) that is available to all Mapbox users and is used in almost all Mapbox template styles. If you create a new style based on a Mapbox template in the Mapbox Studio style editor, odds are the style includes the Mapbox Streets tileset.
+[Mapbox Streets](https://www.mapbox.com/developers/vector-tiles/mapbox-streets-v7/) 使用OpenStreetMap作为其主要数据源。Mapbox Streets 是一个矢量 [tileset](https://docs.mapbox.com/help/glossary/tileset) ，可供所有 Mapbox 用户使用，几乎可用于所有 Mapbox 模板样式。如果您在 Mapbox Studio 样式编辑器中基于 Mapbox 模板创建新样式，则样式包括 Mapbox Streets tileset。
 
-If you want to use OpenStreetMap data in Mapbox Studio, the quickest way is to use Mapbox Streets as a source in your style. Mapbox Streets is a curated tileset created from OpenStreetMap data, and it is updated continuously as OpenStreetMap is edited. To see which OpenStreetMap features are included in your version of Mapbox Streets, visit the [Mapbox Streets documentation](https://www.mapbox.com/vector-tiles/mapbox-streets-v7/). If you want to add features to your map that are not included in Mapbox Streets, you'll need to use other tools such as Overpass Turbo to extract OpenStreetMap data.
+如果您想在 Mapbox Studio 中使用 OpenStreetMap 数据，最快捷的方法是使用Mapbox Streets作为您样式的源。Mapbox Streets 是根据 OpenStreetMap 数据创建的tileset，随着 OpenStreetMap 的编辑，它会不断更新。要查看您的 Mapbox Streets 版本中包含哪些OpenStreetMap 功能，请访问 [Mapbox Streets文档](https://www.mapbox.com/vector-tiles/mapbox-streets-v7/)。如果要向地图中添加未包含在 Mapbox Streets 中的要素，则需要使用其他工具（如Overpass Turbo）来提取OpenStreetMap数据。
 
-## Use the OpenStreetMap Wiki
+## 使用 OpenStreetMap Wiki
 
-In this exercise, you need to find some of the features at the Mt. Bachelor Ski Resort:
+在这个练习中，你将需要找到 Mt. Bachelor Ski Resort 中的一些要素：
 
 - Downhill ski trails
 - Chair lifts
 - Lift stations
 
-First, you need to find the proper tags for these features. You can do this by opening OpenStreetMap and clicking a feature to find its tags or by searching the [OpenStreetMap Map Features wiki](http://wiki.openstreetmap.org/wiki/Map_Features). Search the [wiki](http://wiki.openstreetmap.org/wiki/Map_Features) to find the keys and values that most closely resemble the features you want to query.
+首先，您需要为这些功能找到合适的标签。您可以通过打开 OpenStreetMap 并单击某个功能来查找其标签或搜索 [OpenStreetMap Map Features wiki](http://wiki.openstreetmap.org/wiki/Map_Features) 来完成此操作。搜索 [Wiki](http://wiki.openstreetmap.org/wiki/Map_Features) 以查找与您要查询的功能最相似的键和值。
 
-From the wiki, you can find the following key and values for our features:
+在 wiki 中，您可以找到以下关键字和我们的功能值：
 
 | **Key**  | **Value**  | **Element**  | **Comment**  |
 |---|---|---|---|
@@ -53,39 +53,39 @@ From the wiki, you can find the following key and values for our features:
 | aerialway| station	| Node Area| A station, where passengers can enter and/or leave the aerialway|
 
 
-Now that you have the correct keys and values, open [Overpass Turbo](http://overpass-turbo.eu/) to query OpenStreetMap for the data.
+现在您已拥有正确的键和值，打开 [Overpass Turbo](http://overpass-turbo.eu/) 以查询OpenStreetMap以获取数据。
 
-## Use Overpass Turbo
+## 使用 Overpass Turbo
 
-Start by taking a quick tour of Overpass Turbo's interface.
+首先快速浏览一下Overpass Turbo的界面。
 
 ![screenshot of the Overpass Turbo interface](/help/img/3rdparty/overpass-portland.png)
 
 ### Navigate the interface menu
 
-- **Run.** Runs the current query in the code window. The result is highlighted on the map to the right.
-- **Share.** Links to the current query.
-- **Export.** Exports the queried data into different formats for use in other applications.
-- **Wizard.** A query wizard that allows you to find features based on their keys and values.
-- **Save.** Saves your query for future use.
-- **Load.** Load a sample query or your saved query.
-- **Settings.** Allows you to change the map background, language, and other features of the interface.
-- **Help.** Useful hints and topics about the interface.
+- **Run.** 在代码窗口中运行当前查询。结果将在右侧地图上突出显示。
+- **Share.** 指向当前查询的链接。
+- **Export.** 将查询的数据导出为不同的格式，以便在其他应用程序中使用。
+- **Wizard.** 一个查询向导，允许您根据键和值查找功能。
+- **Save.** 保存您的查询以供将来使用。
+- **Load.** 加载示例查询或保存的查询。
+- **Settings.** 允许您更改界面的地图背景，语言和其他功能。
+- **Help.** 有关界面的有用提示和主题。
 
 __Tabs__
 
-- **Map.** The default map view (you can swap background with other web services).
-- **Data.** A raw data view.
+- **Map.** 默认地图视图（您可以将背景与其他Web服务交换）。
+- **Data.** 原始数据视图。
 
 ### Run a query
 
-When you first launch [Overpass Turbo](http://overpass-turbo.eu/), it starts you off with an example for querying [drinking fountains](http://overpass-turbo.eu/s/3Xp). Overpass Turbo uses a simplified version of the XQuery to query OpenStreetMap features.
+当你第一次启动 [Overpass Turbo时](http://overpass-turbo.eu/)，它会以一个查询[饮水机](http://overpass-turbo.eu/s/3Xp)的例子开始。Overpass Turbo使用简化版的XQuery来查询OpenStreetMap功能。
 
-You must click **Run** for Overpass to show the results on the map. Once you've executed the query, Overpass will highlight the features that meet the query conditions.
+您必须单击**”Run“**以在地图上显示结果。执行查询后，Overpass将突出显示符合查询条件的功能。
 
 ![Portland drinking fountains](/help/img/3rdparty/overpass-portland-df.png)
 
-Take a closer look at the structure of the query:
+仔细查看查询的结构：
 
 ```
 /*
@@ -99,32 +99,33 @@ node
 out;
 ```
 
-The query starts by looking for features with the type `node`. Then it checks the key `amenity` against the value `drinking_water`. A bounding box (southwest and northeast coordinate pairs) can be issued, or in this case, a `bbox` variable will grab the current window's extent.
+查询首先查找具有该类型的功能 `node` 。然后它 `amenity` 根据值检查密钥 `drinking_water` 。可以发出边界框（西南和东北坐标对），或者在这种情况下， `bbox` 变量将获取当前窗口的范围。
 
-Now that you're familiar with Overpass Turbo's interface, you can use it to grab the ski features.
+现在您已熟悉 Overpass Turbo 的界面，您可以使用它来获取滑雪功能。
 
 ### Find the ski amenities
 
-Start by using the search tool to locate `mt. bachelor, oregon`. The search tool is located on the map to the right of the zoom buttons.
+首先使用搜索工具进行定位 `mt. bachelor, oregon`。搜索工具位于缩放按钮右侧的地图上。
 
-Once you've located and zoomed to Mt. Bachelor, click the **Wizard** button from the toolbar and paste the following statement in the Query Wizard window:
+一旦你找到并放大到 Mt. Bachelor，单击工具栏中的**”Wizard“**按钮并在查询向导窗口中粘贴以下语句：
 
 ```sql
 aerialway=station OR aerialway=chair_lift OR piste:type=downhill
 ```
 
-These are the keys and values we found from the OpenStreetMap Features wiki. Click **Run**. You should see that Overpass has highlighted the features on the map.
+这些是我们从OpenStreetMap Features wiki中找到的键和值。单击**Run**。您应该看到Overpass已突出显示地图上的功能。
 
 ![screenshot of OverpassTurbo querying ski features](/help/img/3rdparty/overpass-build-query.png)
 
-### Export data
+### 导出数据
 
-Now that Overpass has found the features, export them. Click the **Export** button in the toolbar, select **GeoJSON**.
+现在Overpass找到了这些功能，然后导出它们。单击工具栏中的**“Export”**按钮，选择“ **GeoJSON”**。
 
 ![screenshot of the export options in Overpass Turbo](/help/img/3rdparty/overpass-export.png)
 
-You can also share queries in Overpass from the **Share** button in the toolbar. [Here's the saved query we made](http://overpass-turbo.eu/s/f5F).
+您还可以从工具栏中的**“Share”**按钮共享Overpass中的查询。[这是我们保存的查询](http://overpass-turbo.eu/s/f5F)。
 
 ## Finished Product
 
-You've learned how to query and export data from OpenStreetMap using Overpass Turbo! Now that you have your data, you can start building with Mapbox by [uploading your data](https://www.mapbox.com/studio-manual/overview/geospatial-data/) as a [dataset](https://www.mapbox.com/studio-manual/reference/datasets/) or [tileset](https://www.mapbox.com/studio-manual/reference/tilesets/) in [Mapbox Studio](https://www.mapbox.com/studio), and creating a new custom style using the Mapbox Studio style editor. Read the [Mapbox Studio Manual](https://www.mapbox.com/studio-manual/) to get started.
+您已经学习了如何使用 Overpass Turbo 从 OpenStreetMap 查询和导出数据！现在您已拥有数据，您可以通过[将数据](https://www.mapbox.com/studio-manual/overview/geospatial-data/)作为[数据集](https://www.mapbox.com/studio-manual/reference/datasets/)或 [tileset](https://www.mapbox.com/studio-manual/reference/tilesets/) 在[Mapbox Studio](https://www.mapbox.com/studio)中[上传](https://www.mapbox.com/studio)，并使用 Mapbox Studio 样式编辑器创建新的自定义样式，开始使用 Mapbox 构建。阅读[ Mapbox Studio 手册](https://www.mapbox.com/studio-manual/)以开始使用。
+
