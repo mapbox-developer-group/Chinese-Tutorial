@@ -119,7 +119,7 @@ aerialway=station OR aerialway=chair_lift OR piste:type=downhill
 
 ### 导出数据
 
-现在Overpass找到了这些功能，然后导出它们。单击工具栏中的**Export**按钮，选择 **GeoJSON**。
+现在Overpass找到了这些功能，然后导出它们。单击工具栏中的**Export**按钮，选择**GeoJSON**。
 
 ![screenshot of the export options in Overpass Turbo](/help/img/3rdparty/overpass-export.png)
 
