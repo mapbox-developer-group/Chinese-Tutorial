@@ -26,19 +26,19 @@ language:
 }}
 
 
-在这份指南中，我们会展示给你如何添加、个性化调整、和停用 Mapbox.js 中[标记](/help/glossary/marker/)功能。将这份指南作为你探索Mapbox.js 中标记功能无限可能的指导吧！
+在这份指南中，我们会展示给你如何添加 [markers](/help/glossary/marker/)，自定义标记并使它们与 Mapbox.js 交互。将这份指南作为你探索 Mapbox.js 中标记功能所有可能的指导吧！
 
-## 写在前面：
+## 准备开始
 
-这份教程中，你需要用到你的 **API access token** 你可以在你的[个人中心](https://www.mapbox.com/account/)里找到它。 为了更好地理解每个例子，你可以将全部源代码复制到本地项目或实验中。 我们会在[Mapbox.js范例](https://www.mapbox.com/mapbox.js/example/v1.0.0/)中展示优秀应用。
+这份教程中，你需要用到 **your API access token** 你可以在你的 [Account page](https://www.mapbox.com/account/) 里找到它。为了更好地理解每个例子，你可以将全部源代码复制到本地项目和实验中。我们会在 [Mapbox.js examples](https://www.mapbox.com/mapbox.js/example/v1.0.0/) 中展示优秀应用。
 
 ## 添加标记
 
-你可以通过[Leaflet](http://leafletjs.com/)或者使用Mapbox.js 以GeoJSON格式向地图中添加标记。
+你可以通过 [Leaflet](http://leafletjs.com/) 或者使用 Mapbox.js 以 GeoJSON 格式向地图中添加标记。
 
-### 使用Leaflet添加Markers:
+### 在Leaflet中添加标记
 
-你可以用[L.marker](https://www.mapbox.com/mapbox.js/api/{{constants.VERSION_MAPBOXJS}}/l-marker/)在你的地图中添加DOM标记。在下面这个例子中，我们在地图中添加了已知横纵坐标的标记。 如果你只有少数标记需要添加，请使用这种方式。
+你可以用 [L.marker](https://www.mapbox.com/mapbox.js/api/{{constants.VERSION_MAPBOXJS}}/l-marker/) 在你的地图中添加 DOM 标记。在下面这个例子中，我们在地图中添加了已知坐标的标记。如果你只有少数标记需要添加，请使用这种方式。
 
 ```html
 <div id='map-leaflet' class='map'> </div>
@@ -54,9 +54,9 @@ mapLeaflet.scrollWheelZoom.disable();
 </script>
 ```
 
-### 使用Mapbox.js，以GeoJSON格式添加标记
+### 在Mapbox.js使用GeoJSON格式添加标记
 
-你也可以将标记的坐标存储为[GeoJSON](/help/glossary/geojson/)，之后将GeoJSON加载并显示在你的地图文件中。在这个例子中，我们在GeoJSON文件中添加了并显示了Mapbox 在华盛顿特区和旧金山的办公室位置。即使是处理较大的数据文件，GeoJSON中数据特征管理也是有序的。
+你也可以将标记的坐标存储为 [GeoJSON](/help/glossary/geojson/)，之后将 GeoJSON 加载并显示在你的地图文件中。在这个例子中，我们在 GeoJSON 文件中添加了并显示了 Mapbox 在华盛顿特区和旧金山的办公室位置。即使是处理较大的数据文件，GeoJSON中数据特征管理也是有序的。
 
 ```html
 <div id='map_geo' class='map'> </div>
@@ -86,7 +86,7 @@ var myLayer = L.mapbox.featureLayer().setGeoJSON(geojson).addTo(mapGeo);
 mapGeo.scrollWheelZoom.disable();
 </script>
 ```
-你同样可以将GeoJSON作为[本地文件](https://www.mapbox.com/mapbox.js/example/v1.0.0/geojson-marker-from-url/)或Github上的[外部文件](https://www.mapbox.com/mapbox.js/example/v1.0.0/geojson-marker-from-remote-url/)加载。 在下一部分中，你会学到如何使用[simplestyle specification](/help/glossary/simplestyle/)对GeoJSON 标记进行个性化编辑。
+你同样可以将 GeoJSON 作为外部文件 [hosted locally](https://www.mapbox.com/mapbox.js/example/v1.0.0/geojson-marker-from-url/)或在 [GitHub](https://www.mapbox.com/mapbox.js/example/v1.0.0/geojson-marker-from-remote-url/) 上加载。 在下一部分中，你会学到如何使用 [simplestyle specification](/help/glossary/simplestyle/) 对 GeoJSON 标记设置样式。
 
 如果你刚刚开始使用GeoJSON文件，这里有一些可以帮助你生成、验证GeoJSON或者调整GeoJSON格式的工具：
 
