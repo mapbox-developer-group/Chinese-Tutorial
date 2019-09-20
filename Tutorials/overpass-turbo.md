@@ -10,9 +10,10 @@ language:
 - No code
 prereq: Learn to navigate the OpenStreetMap tagging system.
 contentType: tutorial
+
 ---
 
-如果您希望在 Mapbox Studio 中使用 [OpenStreetMap](https://www.osm.org/) 数据，请不要再犹豫了！在本指南中，您将学习如何使用 [Overpass Turbo](https://overpass-turbo.eu/) 获取 OpenStreetMap 数据并提取给定区域中的特定要素。您将可以导出[Mt. Bachelor](https://en.wikipedia.org/wiki/Mount_Bachelor) (俄勒冈州中部一个受欢迎的滑雪胜地)的雪地缆车和滑雪路线。如果您想以编程方式而不是用户界面提取 OpenStreetMap 功能，请阅读 [Overpass API](https://wiki.openstreetmap.org/wiki/Overpass_API) 文档以获取更多信息。
+如果您希望在 Mapbox Studio 中使用 [OpenStreetMap](https://www.osm.org/) 数据，请不要再犹豫了！在本指南中，您将学习如何使用 [Overpass Turbo](https://overpass-turbo.eu/) 获取 OpenStreetMap 数据并提取给定区域中的特定要素。您将可以导出 [Mt. Bachelor](https://en.wikipedia.org/wiki/Mount_Bachelor)（俄勒冈州中部一个受欢迎的滑雪胜地）的雪地缆车和滑雪路线。如果您想以编程方式而不是用户界面提取 OpenStreetMap 功能，请阅读 [Overpass API](https://wiki.openstreetmap.org/wiki/Overpass_API) 文档以获取更多信息。
 
 ## 入门
 
@@ -20,11 +21,11 @@ contentType: tutorial
 
 ### OpenStreetMap 功能
 
-在OpenStreetMap中，贡献者可以标记建筑物或道路等物理特征以帮助描述它们。例如，要向 `building` 要素添加标记，该要素的关键将是 `building` ，值将是`yes`。
+在OpenStreetMap中，贡献者可以标记建筑物或道路等物理特征以帮助描述它们。例如，要向 `building` 要素添加标记，该要素的关键将是 `building` ，值将是 `yes`。
 
 ![example of adding a building tag in OpenStreetMap](/help/img/3rdparty/overpass-tag.jpg)
 
-如果我们想要更具体地说明它是什么类型的建筑物，例如酒店，我们可以将标签更改为`building=hotel`。现在，访问数据的其他人将知道该功能是一个建筑物*，*而且它是一个酒店。这对于试图查询特定区域内所有酒店的人尤其有用。
+如果我们想要更具体地说明它是什么类型的建筑物，例如酒店，我们可以将标签更改为 `building=hotel`。现在，访问数据的其他人将知道该功能是一个建筑物*，*而且它是一个酒店。这对于试图查询特定区域内所有酒店的人尤其有用。
 
 您可以在 [OpenStreetMap Features wiki](http://wiki.openstreetmap.org/wiki/Map_Features) 上找到所有键和值的列表。
 
@@ -32,7 +33,7 @@ contentType: tutorial
 
 [Mapbox Streets](https://www.mapbox.com/developers/vector-tiles/mapbox-streets-v7/) 使用OpenStreetMap作为其主要数据源。Mapbox Streets 是一个矢量 [tileset](https://docs.mapbox.com/help/glossary/tileset) ，可供所有 Mapbox 用户使用，几乎可用于所有 Mapbox 模板样式。如果您在 Mapbox Studio 样式编辑器中基于 Mapbox 模板创建新样式，则样式包括 Mapbox Streets tileset。
 
-如果您想在 Mapbox Studio 中使用 OpenStreetMap 数据，最快捷的方法是使用Mapbox Streets作为您样式的源。Mapbox Streets 是根据 OpenStreetMap 数据创建的tileset，随着 OpenStreetMap 的编辑，它会不断更新。要查看您的 Mapbox Streets 版本中包含哪些OpenStreetMap 功能，请访问 [Mapbox Streets文档](https://www.mapbox.com/vector-tiles/mapbox-streets-v7/)。如果要向地图中添加未包含在 Mapbox Streets 中的要素，则需要使用其他工具（如Overpass Turbo）来提取OpenStreetMap数据。
+如果您想在 Mapbox Studio 中使用 OpenStreetMap 数据，最快捷的方法是使用Mapbox Streets作为您样式的源。Mapbox Streets 是根据 OpenStreetMap 数据创建的 tileset，随着 OpenStreetMap 的编辑，它会不断更新。要查看您的 Mapbox Streets 版本中包含哪些OpenStreetMap 功能，请访问 [Mapbox Streets文档](https://www.mapbox.com/vector-tiles/mapbox-streets-v7/)。如果要向地图中添加未包含在 Mapbox Streets 中的要素，则需要使用其他工具（如Overpass Turbo）来提取OpenStreetMap数据。
 
 ## 使用 OpenStreetMap Wiki
 
@@ -46,12 +47,11 @@ contentType: tutorial
 
 在 wiki 中，您可以找到以下关键字和我们的功能值：
 
-| **Key**  | **Value**  | **Element**  | **Comment**  |
-|---|---|---|---|
-| piste:type| downhill |Area/Way| An alpine/downhill ski route. Ways should be used for trails connecting the routes. This automatically implies `oneway=yes`. The direction of the way should be the downhill direction.	|
-| aerialway | chair_lift | Way | Looped cable with a series of single chairs or benches, exposed to the open air. Implies `oneway=yes`; where passengers can be carried in the reverse direction, tag with `oneway=no`.|
-| aerialway| station	| Node Area| A station, where passengers can enter and/or leave the aerialway|
-
+| **Key**    | **Value**  | **Element** | **Comment**                                                  |
+| ---------- | ---------- | ----------- | ------------------------------------------------------------ |
+| piste:type | downhill   | Area/Way    | An alpine/downhill ski route. Ways should be used for trails connecting the routes. This automatically implies `oneway=yes`. The direction of the way should be the downhill direction. |
+| aerialway  | chair_lift | Way         | Looped cable with a series of single chairs or benches, exposed to the open air. Implies `oneway=yes`; where passengers can be carried in the reverse direction, tag with `oneway=no`. |
+| aerialway  | station    | Node Area   | A station, where passengers can enter and/or leave the aerialway |
 
 现在您已拥有正确的键和值，打开 [Overpass Turbo](http://overpass-turbo.eu/) 以查询OpenStreetMap以获取数据。
 
@@ -61,7 +61,7 @@ contentType: tutorial
 
 ![screenshot of the Overpass Turbo interface](/help/img/3rdparty/overpass-portland.png)
 
-### Navigate the interface menu
+### 界面菜单导航
 
 - **Run.** 在代码窗口中运行当前查询。结果将在右侧地图上突出显示。
 - **Share.** 指向当前查询的链接。
@@ -77,11 +77,11 @@ __Tabs__
 - **Map.** 默认地图视图（您可以将背景与其他Web服务交换）。
 - **Data.** 原始数据视图。
 
-### Run a query
+### 运行查询
 
-当你第一次启动 [Overpass Turbo时](http://overpass-turbo.eu/)，它会以一个查询[饮水机](http://overpass-turbo.eu/s/3Xp)的例子开始。Overpass Turbo使用简化版的XQuery来查询OpenStreetMap功能。
+当你第一次启动 [Overpass Turbo时](http://overpass-turbo.eu/)，它会以一个查询 [饮水机](http://overpass-turbo.eu/s/3Xp) 的例子开始。Overpass Turbo使用简化版的XQuery来查询OpenStreetMap功能。
 
-您必须单击**”Run“**以在地图上显示结果。执行查询后，Overpass将突出显示符合查询条件的功能。
+您必须单击**Run**以在地图上显示结果。执行查询后，Overpass将突出显示符合查询条件的功能。
 
 ![Portland drinking fountains](/help/img/3rdparty/overpass-portland-df.png)
 
@@ -103,11 +103,11 @@ out;
 
 现在您已熟悉 Overpass Turbo 的界面，您可以使用它来获取滑雪功能。
 
-### Find the ski amenities
+### 找到滑雪设施
 
 首先使用搜索工具进行定位 `mt. bachelor, oregon`。搜索工具位于缩放按钮右侧的地图上。
 
-一旦你找到并放大到 Mt. Bachelor，单击工具栏中的**”Wizard“**按钮并在查询向导窗口中粘贴以下语句：
+一旦你找到并放大到 Mt. Bachelor，单击工具栏中的**Wizard**按钮并在查询向导窗口中粘贴以下语句：
 
 ```sql
 aerialway=station OR aerialway=chair_lift OR piste:type=downhill
@@ -119,13 +119,12 @@ aerialway=station OR aerialway=chair_lift OR piste:type=downhill
 
 ### 导出数据
 
-现在Overpass找到了这些功能，然后导出它们。单击工具栏中的**“Export”**按钮，选择“ **GeoJSON”**。
+现在Overpass找到了这些功能，然后导出它们。单击工具栏中的**Export**按钮，选择 **GeoJSON**。
 
 ![screenshot of the export options in Overpass Turbo](/help/img/3rdparty/overpass-export.png)
 
-您还可以从工具栏中的**“Share”**按钮共享Overpass中的查询。[这是我们保存的查询](http://overpass-turbo.eu/s/f5F)。
+您还可以从工具栏中的**Share**按钮共享Overpass中的查询。[这是我们保存的查询](http://overpass-turbo.eu/s/f5F)。
 
-## Finished Product
+## 完成的产品
 
-您已经学习了如何使用 Overpass Turbo 从 OpenStreetMap 查询和导出数据！现在您已拥有数据，您可以通过[将数据](https://www.mapbox.com/studio-manual/overview/geospatial-data/)作为[数据集](https://www.mapbox.com/studio-manual/reference/datasets/)或 [tileset](https://www.mapbox.com/studio-manual/reference/tilesets/) 在[Mapbox Studio](https://www.mapbox.com/studio)中[上传](https://www.mapbox.com/studio)，并使用 Mapbox Studio 样式编辑器创建新的自定义样式，开始使用 Mapbox 构建。阅读[ Mapbox Studio 手册](https://www.mapbox.com/studio-manual/)以开始使用。
-
+您已经学习了如何使用 Overpass Turbo 从 OpenStreetMap 查询和导出数据！现在您已拥有数据，您可以通过 [将数据](https://www.mapbox.com/studio-manual/overview/geospatial-data/) 作为 [数据集](https://www.mapbox.com/studio-manual/reference/datasets/) 或 [tileset](https://www.mapbox.com/studio-manual/reference/tilesets/) 在 [Mapbox Studio](https://www.mapbox.com/studio) 中 [上传](https://www.mapbox.com/studio)，并使用 Mapbox Studio 样式编辑器创建新的自定义样式，开始使用 Mapbox 构建。阅读 [ Mapbox Studio 手册](https://www.mapbox.com/studio-manual/) 以开始使用。
