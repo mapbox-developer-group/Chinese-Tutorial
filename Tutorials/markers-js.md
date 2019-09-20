@@ -1,6 +1,6 @@
 ---
-title: 在Mapbox.js中使用标记
-description: 使用Mapbox.js向你的地图添加个性化、可互动的标记
+title: Work with markers in Mapbox.js
+description: Add custom, interactive markers to your map with Mapbox.js.
 thumbnail: markersJs
 level: 2
 topics:
