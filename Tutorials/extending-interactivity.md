@@ -28,30 +28,30 @@ contentType: tutorial
   />
 }}
 
-This guide walks you through how to use [Mapbox.js](https://www.mapbox.com/mapbox.js/), a JavaScript API for rendering maps and creating custom interactions.
+本教程向你介绍怎样使用 [Mapbox.js](https://www.mapbox.com/mapbox.js/) ，一个渲染地图并能创建自定义交互的 JavaScript API。
 
 {{
   <DemoIframe gl={false} src="/help/demos/extending-interactivity/index.html" />
 }}
 
-## Getting started
+## 开始
 
-For this guide you will need:
+本教程您需要准备：
 
-* **Your API access token.** If you're logged in, we automatically added your token to the examples in this guide. You can also find your access token on your [Account page](https://www.mapbox.com/account/).
-* **A tileset ID.** You can use a [tileset ID](/help/glossary/tileset-id) from a default Mapbox Style or from your own Mapbox Studio Classic project. You can find your project's tileset ID by visiting your [Classic projects page](https://www.mapbox.com/studio/classic/projects/). It's not covered in this guide, but you can add a Mapbox Studio style to your Mapbox.js map by following [these instructions](https://www.mapbox.com/studio-manual/overview/publish-your-style/#mapboxjs).
-* **Your favorite text editor**. You'll be writing some HTML and JavaScript, after all.
+* **你的 API 访问 token。** 如果您已经登录，我们自动将您的 token 添加到本教程中的示例中。 您可以在 [Account page](https://www.mapbox.com/account/) 找到您的 token 。
+* **一个切片集 ID。** 您可以使用默认 Mapbox 样式中的 [tileset ID](/help/glossary/tileset-id) ，或者使用您自己 Mapbox Studio 经典项目中的。 您可以找到您项目中的切片集 ID 通过访问您的 [Classic projects page](https://www.mapbox.com/studio/classic/projects/)。本教程中未涉及到，但您可以按照 [these instructions](https://www.mapbox.com/studio-manual/overview/publish-your-style/#mapboxjs) 将您的 Mapbox Studio 样式添加到 Mapbox.js 地图中。
+* **您最喜爱的文字编辑器**。您将编写一些 HTML 和 JavaScript 代码。
 
-## Initialize a map
+## 初始化一个地图
 
-First, you'll need the latest version of Mapbox.js. You can link directly to the Mapbox-hosted version by copying this snippet into your HTML document:
+首先，您需要最新版本的 Mapbox.js 。你可以把这个片段复制到你的HTML文档中，直接链接到mapbox托管的版本:
 
 ```html
 <script src='https://api.mapbox.com/mapbox.js/{{constants.VERSION_MAPBOXJS}}/mapbox.js'></script>
 <link href='https://api.mapbox.com/mapbox.js/{{constants.VERSION_MAPBOXJS}}/mapbox.css' rel='stylesheet' />
 ```
 
-To use a Mapbox map style with Mapbox.js, you also need a [style URL](/help/glossary/style-url/). We put a placeholder in for you, `mapbox://styles/mapbox/streets-v{{constants.VERSION_STREETS_STYLE}}`, but you can swap it out with the style URL for another Mapbox [map style](https://docs.mapbox.com/api/maps/#styles) or create your own custom style with [Mapbox Studio](https://docs.mapbox.com/studio-manual/).
+为了在 Mapbox.js 中使用Mapbox 地图样式，您还需要一个 [style URL](/help/glossary/style-url/)。我们为您准备了一个占位符， `mapbox://styles/mapbox/streets-v{{constants.VERSION_STREETS_STYLE}}`，但是您可以使用其它 [map style](https://docs.mapbox.com/api/maps/#styles)的样式 URL 将其替换，或者您可以用[Mapbox Studio](https://docs.mapbox.com/studio-manual/)创建自己自定义样式。
 
 ```html
 <div id='map' class='map'> </div>
@@ -62,9 +62,9 @@ var map = L.mapbox.map('map')
 </script>
 ```
 
-### Coordinates
+### 坐标
 
-Now that you've loaded your map tiles, set the initial location and zoom level to show our map when the page is loaded. You can do this by adding `setView` to `L.map()` so that your map opens up to Washington, DC.
+现在您已经加载您的地图切片，设置初始位置和缩放级别，以便在加载页面时显示地图。您可以将 `setView` 添加到 `L.map()` 中，这样您的地图就可以打开到华盛顿特区。
 
 ```html
 <div id='map' class='map'> </div>
@@ -75,9 +75,9 @@ var map = L.mapbox.map('map')
 </script>
 ```
 
-### Disable mouse zooming
+### 禁用鼠标缩放
 
-Scrolling down a page that has a map can cause unwanted scroll zooming. For this guide, disable that interaction by setting `scrollWheelZoom` to false. Notice that you can't scroll zoom on the map anymore.
+向下滚动具有地图的页面会导致不必要的滚动缩放。对于本教程，通过将 `scrollWheelZoom` 设置为 false 来禁用该交互。注意，您无法在地图上滚动缩放。
 
 ```html
 <div id='map-three' class='map'> </div>
@@ -89,13 +89,13 @@ map.scrollWheelZoom.disable();
 </script>
 ```
 
-## Add data
+## 添加数据
 
-You can add data to our map to help tell a story, show a feature's location, or visualize a trend. Mapbox.js supports a few different formats, including [GeoJSON](/help/glossary/geojson), [KML](/help/glossary/kml), and [CSV](/help/glossary/csv). In this example, you'll start with GeoJSON.
+您可以向我们的地图添加数据，以帮助讲述一个故事、显示一个特性的位置或可视化一种趋势。 Mapbox.js 支持几种不同的格式，包括了 [GeoJSON](/help/glossary/geojson) ， [KML](/help/glossary/kml) ， 和 [CSV](/help/glossary/csv)。在这个样例中，您将从 GeoJSON 开始。
 
 ### GeoJSON
 
-GeoJSON is a format for storing geometric shapes and marker positions. Here's what a single point looks like in GeoJSON:
+GeoJSON 是用于存储几何形状和标记位置的格式。下面是在GeoJSON中单个点的样子：
 
 ```json
 {
@@ -116,18 +116,18 @@ GeoJSON is a format for storing geometric shapes and marker positions. Here's wh
 }
 ```
 
-Does GeoJSON look like hieroglyphics to you? Don't sweat it. Once you learn the patterns, it becomes easier to write. If you need help, [geojson.net](http://geojson.net/) writes and displays GeoJSON for you.
+GeoJSON 看起来像象形文字吗？别担心。一旦你学会了这些模式，编写就会变得更容易。如果需要帮助，[geojson.net](http://geojson.net/) 为您编写和显示GeoJSON。
 
-### Add a marker
+### 添加一个标记
 
-Store the GeoJSON as a variable called `geojson` and create a `featureLayer` to add it to the map.
+将 GeoJSON 存储为一个名为 `geojson` 的变量，并创建一个 `featureLayer` 将其添加到地图中。
 
 ```javascript
 var myLayer = L.mapbox.featureLayer().addTo(map);
 myLayer.setGeoJSON(geojson);
 ```
 
-Now you have the marker on the map:
+现在你有了地图上的标记：
 
 ```html
 <div id='map' class='map'> </div>
@@ -155,15 +155,15 @@ myLayer.setGeoJSON(geojson);
 </script>
 ```
 
-If you have a lot of features, you'll want to move the GeoJSON to its own file. You can then load the GeoJSON [by specifying its URL](https://www.mapbox.com/mapbox.js/example/v1.0.0/geojson-marker-from-url/). You can also load a file from [a remote source like GitHub](https://www.mapbox.com/mapbox.js/example/v1.0.0/geojson-marker-from-remote-url/).
+如果您有很多地图元素，您可以将这些 GeoJSON 移动到一个文件中。您可以加载这些 GeoJSON 从 [by specifying its URL](https://www.mapbox.com/mapbox.js/example/v1.0.0/geojson-marker-from-url/)。您也可以从一个 [远程服务器比如GitHub](https://www.mapbox.com/mapbox.js/example/v1.0.0/geojson-marker-from-remote-url/) 加载一个文件。
 
-### Style data
+### 自定义数据的样式
 
-The default gray style is rather boring, but you can customize it! You can specify your own styles within `"properties": {}` attribute found in the GeoJSON. Styles are defined according to [Simplestyle](https://github.com/mapbox/simplestyle-spec) rules. You can learn more about the supported property names by browsing the [specification](https://github.com/mapbox/simplestyle-spec/tree/master/1.1.0).
+默认的灰色样式相当枯燥，但是您可以自定义它！您可以指定您自己的样式通过 GeoJSON 中的 `"properties": {}` 。这些样式是根据 [Simplestyle](https://github.com/mapbox/simplestyle-spec) 规则而定义的。 浏览 [specification](https://github.com/mapbox/simplestyle-spec/tree/master/1.1.0) 您可以了解更多关于所支持的属性名的信息。 
 
-You can also add a `title` in the properties object to create a tooltip over the feature.
+您还可以在属性对象中添加 `title` ，从而在这些地图元素上添加提示。
 
-Here's what your GeoJSON looks like with styles and a title added to the marker:
+下面是添加了样式和标题的 GeoJSON 的样子：
 
 ```json
 {
@@ -189,7 +189,7 @@ Here's what your GeoJSON looks like with styles and a title added to the marker:
 }
 ```
 
-And here's the styled marker on the map:
+这是地图上定义样式的标记：
 
 ```html
 <div id='map' class='map'> </div>
@@ -222,19 +222,19 @@ myLayer.setGeoJSON(geojson);
 </script>
 ```
 
-Click on the marker to see the tooltip!
+单击标记查看提示！
 
-### Add a line
+### 添加一条线
 
-Make your map a little more interesting by adding *another* marker and a line to connect them.
+通过添加 *其它* 标记并用一条线来连接它们，使您的地图更有趣一些
 
-Add a marker and line with set styles to our existing GeoJSON.
+添加一个标记和线和它们的样式到我们已有的 GeoJSON 中。
 
 ```json
 {{geojsonSample}}
 ```
 
-Here's how your new styled features look on the map:
+下面是地图上您新定义了样式的地图元素：
 
 ```html
 <div id='map' class='map'> </div>
@@ -250,13 +250,13 @@ myLayer.setGeoJSON(geojson);
 </script>
 ```
 
-## Add a legend
+## 添加一个图例
 
-Legends describe data on a map. Mapbox.js allows you to add a legend with `L.mapbox.legendControl.addLegend('Legend content')`. The `addLegend()` method takes HTML code as an argument, so feel free to customize your legend to fit your needs!
+图例表述地图上的数据。 Mapbox.js 可以通过 `L.mapbox.legendControl.addLegend('Legend content')` 添加一个图例。`addLegend()` 方法使用 HTML Element 作为参数，所以请随意定制您的图例来满足您的需求！
 
-By default, legends appear at the bottom right of a map. Since you're working in a small space, nudge the legend up by setting `position: 'topright'` when the map is initialized.
+默认情况下，图例出现在地图的右下角。但地图在一个狭小的空间里，当地图初始化时，通过设置 `position: 'topright'` 将图例放在上方。
 
-The legend now appears on the map:
+图例现在出现在地图上：
 
 ```html
 <div id='map' class='map'> </div>
@@ -275,14 +275,14 @@ L.mapbox.legendControl({ position: 'topright' }).addLegend('<strong>My walk from
 </script>
 ```
 
-## Finished product
+## 成品
 
-You did it! This guide covered a lot and we hope you leave feeling equipped with skills and tools to build your own custom projects.
+你做到了！本教程涵盖了很多内容，我们希望您在离开的时候能够拥有创建自己的定制项目的技能和工具。
 
 {{
   <DemoIframe gl={false} src="/help/demos/extending-interactivity/index.html" />
 }}
 
-## Next steps
+## 下一个步骤
 
-Explore the [Mapbox.js examples](https://docs.mapbox.com/mapbox.js/examples/) page for more ideas and code to help you further customize your Mapbox.js projects.
+查看 [Mapbox.js examples](https://docs.mapbox.com/mapbox.js/examples/) 页面，了解更多的想法和代码，以帮助您进一步定制 Mapbox.js 项目。
