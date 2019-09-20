@@ -38,20 +38,20 @@ contentType: tutorial
 
 本教程您需要准备：
 
-* **你的 API 访问 token。** 如果您已经登录，我们自动将您的 token 添加到本教程中的示例中。 您可以在 [Account page](https://www.mapbox.com/account/) 找到您的 token 。
-* **一个切片集 ID。** 您可以使用默认 Mapbox 样式中的 [tileset ID](/help/glossary/tileset-id) ，或者使用您自己 Mapbox Studio 经典项目中的。 您可以找到您项目中的切片集 ID 通过访问您的 [Classic projects page](https://www.mapbox.com/studio/classic/projects/)。本教程中未涉及到，但您可以按照 [these instructions](https://www.mapbox.com/studio-manual/overview/publish-your-style/#mapboxjs) 将您的 Mapbox Studio 样式添加到 Mapbox.js 地图中。
+* **你的 API 访问 token。** 如果您已经登录，我们自动将您的 token 添加到本教程中的示例中。您可以在 [Account page](https://www.mapbox.com/account/) 找到您的 token 。
+* **一个切片集 ID。** 您可以使用默认 Mapbox 样式中的 [tileset ID](/help/glossary/tileset-id) ，或者使用您自己 Mapbox Studio 经典项目中的。您可以找到您项目中的切片集 ID 通过访问您的 [Classic projects page](https://www.mapbox.com/studio/classic/projects/)。本教程中未涉及到，但您可以按照 [these instructions](https://www.mapbox.com/studio-manual/overview/publish-your-style/#mapboxjs) 将您的 Mapbox Studio 样式添加到 Mapbox.js 地图中。
 * **您最喜爱的文字编辑器**。您将编写一些 HTML 和 JavaScript 代码。
 
 ## 初始化一个地图
 
-首先，您需要最新版本的 Mapbox.js 。你可以把这个片段复制到你的HTML文档中，直接链接到mapbox托管的版本:
+首先，您需要最新版本的 Mapbox.js 。你可以把这个片段复制到你的 HTML 文档中，直接链接到 mapbox 托管的版本：
 
 ```html
 <script src='https://api.mapbox.com/mapbox.js/{{constants.VERSION_MAPBOXJS}}/mapbox.js'></script>
 <link href='https://api.mapbox.com/mapbox.js/{{constants.VERSION_MAPBOXJS}}/mapbox.css' rel='stylesheet' />
 ```
 
-为了在 Mapbox.js 中使用Mapbox 地图样式，您还需要一个 [style URL](/help/glossary/style-url/)。我们为您准备了一个占位符， `mapbox://styles/mapbox/streets-v{{constants.VERSION_STREETS_STYLE}}`，但是您可以使用其它 [map style](https://docs.mapbox.com/api/maps/#styles)的样式 URL 将其替换，或者您可以用[Mapbox Studio](https://docs.mapbox.com/studio-manual/)创建自己自定义样式。
+为了在 Mapbox.js 中使用 Mapbox 地图样式，您还需要一个 [style URL](/help/glossary/style-url/)。我们为您准备了一个占位符， `mapbox://styles/mapbox/streets-v{{constants.VERSION_STREETS_STYLE}}`，但是您可以使用其它 [map style](https://docs.mapbox.com/api/maps/#styles) 的样式 URL 将其替换，或者您可以用 [Mapbox Studio](https://docs.mapbox.com/studio-manual/) 创建自己自定义样式。
 
 ```html
 <div id='map' class='map'> </div>
@@ -95,7 +95,7 @@ map.scrollWheelZoom.disable();
 
 ### GeoJSON
 
-GeoJSON 是用于存储几何形状和标记位置的格式。下面是在GeoJSON中单个点的样子：
+GeoJSON 是用于存储几何形状和标记位置的格式。下面是在 GeoJSON 中单个点的样子：
 
 ```json
 {
@@ -116,7 +116,7 @@ GeoJSON 是用于存储几何形状和标记位置的格式。下面是在GeoJSO
 }
 ```
 
-GeoJSON 看起来像象形文字吗？别担心。一旦你学会了这些模式，编写就会变得更容易。如果需要帮助，[geojson.net](http://geojson.net/) 为您编写和显示GeoJSON。
+GeoJSON 看起来像象形文字吗？别担心。一旦你学会了这些模式，编写就会变得更容易。如果需要帮助，[geojson.net](http://geojson.net/) 为您编写和显示 GeoJSON。
 
 ### 添加一个标记
 
@@ -155,13 +155,13 @@ myLayer.setGeoJSON(geojson);
 </script>
 ```
 
-如果您有很多地图元素，您可以将这些 GeoJSON 移动到一个文件中。您可以加载这些 GeoJSON 从 [by specifying its URL](https://www.mapbox.com/mapbox.js/example/v1.0.0/geojson-marker-from-url/)。您也可以从一个 [远程服务器比如GitHub](https://www.mapbox.com/mapbox.js/example/v1.0.0/geojson-marker-from-remote-url/) 加载一个文件。
+如果您有很多地图元素，您可以将这些 GeoJSON 移动到一个文件中。您可以加载这些 GeoJSON 从 [by specifying its URL](https://www.mapbox.com/mapbox.js/example/v1.0.0/geojson-marker-from-url/)。您也可以从一个 [a remote source like GitHub](https://www.mapbox.com/mapbox.js/example/v1.0.0/geojson-marker-from-remote-url/) 加载一个文件。
 
 ### 自定义数据的样式
 
 默认的灰色样式相当枯燥，但是您可以自定义它！您可以指定您自己的样式通过 GeoJSON 中的 `"properties": {}` 。这些样式是根据 [Simplestyle](https://github.com/mapbox/simplestyle-spec) 规则而定义的。 浏览 [specification](https://github.com/mapbox/simplestyle-spec/tree/master/1.1.0) 您可以了解更多关于所支持的属性名的信息。 
 
-您还可以在属性对象中添加 `title` ，从而在这些地图元素上添加提示。
+您还可以在属性对象中添加 `title`，从而在这些地图元素上添加提示。
 
 下面是添加了样式和标题的 GeoJSON 的样子：
 
@@ -226,7 +226,7 @@ myLayer.setGeoJSON(geojson);
 
 ### 添加一条线
 
-通过添加 *其它* 标记并用一条线来连接它们，使您的地图更有趣一些
+通过添加*其它*标记并用一条线来连接它们，使您的地图更有趣一些。
 
 添加一个标记和线和它们的样式到我们已有的 GeoJSON 中。
 
@@ -252,7 +252,7 @@ myLayer.setGeoJSON(geojson);
 
 ## 添加一个图例
 
-图例表述地图上的数据。 Mapbox.js 可以通过 `L.mapbox.legendControl.addLegend('Legend content')` 添加一个图例。`addLegend()` 方法使用 HTML Element 作为参数，所以请随意定制您的图例来满足您的需求！
+图例表述地图上的数据。Mapbox.js 可以通过 `L.mapbox.legendControl.addLegend('Legend content')` 添加一个图例。`addLegend()` 方法使用 HTML Element 作为参数，所以请随意定制您的图例来满足您的需求！
 
 默认情况下，图例出现在地图的右下角。但地图在一个狭小的空间里，当地图初始化时，通过设置 `position: 'topright'` 将图例放在上方。
 
