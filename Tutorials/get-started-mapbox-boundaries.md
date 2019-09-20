@@ -111,7 +111,7 @@ map.on('load', function() {
 });
 ```
 
-上面的代码将产生一张地图，所有的国家/地区的边界都是红色的，每个国家/地区的中心都有一个圆圈。
+上面的代码将生成一张所有国家/地区的边界为红色并且每一个国家/地区的中心都有一个圆圈的世界地图。
 
 ![a map with all country boundaries in red with a circle at the center of each country](/help/img/data/enterprise-boundaries-sample.png)
 
