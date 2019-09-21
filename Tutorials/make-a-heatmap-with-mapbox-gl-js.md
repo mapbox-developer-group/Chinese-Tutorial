@@ -261,6 +261,6 @@ map.on('click', 'trees-point', function(e) {
 
 ## 完成的产品
 
-恭喜！您已经使用我们的 Mapbox GL JS制作完成了属于您的第一张热图！♥
+恭喜！您已经使用我们的 Mapbox GL JS 制作完成了属于您的第一张热图！♥
 
 {{ }}
