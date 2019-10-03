@@ -17,7 +17,7 @@ prependJs:
 contentType: tutorial
 ---
 
-In this tutorial, you will use the Mapbox Visual in [Microsoft Power BI](https://powerbi.microsoft.com/en-us/), data with information about US wildfires by state, and a custom tileset with information about US wildfires by county to create a choropleth visualization. This choropleth will display the number of acres burned at both the state and county levels, allowing you to drill into the data at the appropriate level. You will need a Mapbox account and a Microsoft Power BI account to complete this tutorial.
+此教程将展示如何在微软Power BI(https://powerbi.microsoft.com/en-us/)中使用Mapbox Visual。我们将使用来自美国各州的自然火灾数据以及一个自定义的瓦片集来创建地区分布地图。瓦片集包含了以县为单位的美国自然火灾统计数据。地区分布图可以显示每个州和县不同的受灾程度，帮助读图人更好地从不同的尺度分析问题。您将需要一个Mapbox账户以及一个微软Power BI账户。
 
 ![A screenshot of a choropleth visualization in Power BI](/help/img/3rdparty/power-bi-choropleth-final.png)
 
@@ -25,71 +25,70 @@ In this tutorial, you will use the Mapbox Visual in [Microsoft Power BI](https:/
 <Note
   imageComponent={<BookImage />}
 >
-  <p>This guide walks through using the Mapbox Visual in Power BI Online. The process in Power BI Desktop is similar, but the interface is different.</p>
+  <p>此教程将展示如何在Power BI在线版本中使用Mapbox Visual。桌面版本的操作流程基本一致，但是界面有所区别。</p>
 </Note>
 }}
 
-## Getting started
+## 准备工作
 
-Here are a few resources you'll need before you get started:
+您需要进行以下准备工作：
 
-- **Mapbox account**. You need a [Mapbox account](https://account.mapbox.com/auth/signup/) and a Mapbox access token, which you can find on the [Account page](https://account.mapbox.com/).
-- **Microsoft Power BI account**. Sign into your [Power BI account](https://app.powerbi.com/) or create a new one.
-- **Mapbox Visual for Power BI**. You can either add the Mapbox Visual using the Power BI Marketplace, or you can download the <a href='https://github.com/mapbox/mapboxgl-powerbi/raw/master/dist/mapboxGLMap.pbiviz'>latest Mapbox Visual</a> from the <a href='https://github.com/mapbox/mapboxgl-powerbi'>open-source GitHub repository</a>. Both of these options are explained in detail in the tutorial.
-- **Geospatial data.** You will upload this GeoJSON file, which contains county-level detail about wildfires in the United States, to Mapbox Studio as a tileset.
+- **Mapbox账号**：如果要将Mapbox Visual工具添加到Power BI程序中，您将需要一个Mapbox秘钥。此秘钥可以通过[免费注册](https://account.mapbox.com/auth/signup/)获取。
+- **Power BI账号**：登陆您的[Power BI账号](https://app.powerbi.com/)或者创建一个新的账号。
+- **支持微软Power BI的Mapbox Visual插件**：您可以在Power BI应用中心找到并添加Mapbox Visual，或者您也可以从[Github](https://github.com/mapbox/mapboxgl-powerbi)下载[Mapbox Visual最新版本](https://github.com/mapbox/mapboxgl-powerbi/raw/master/dist/mapboxGLMap.pbiviz)。详情请阅读本教程。
+- **地理数据**：您需要上传一个GeoJSON文件，以作为Mapbox Studio中的瓦片集。这个文件包含了县级的美国森林火灾数据。
 
 {{
 <Button href="/help/data/power-bi-wildfires-by-county.geojson" passthroughProps={{ download: "power-bi-wildfires-by-county.geojson" }} >
-    <Icon name='arrow-down' inline={true} /> Download GeoJSON
+    <Icon name='arrow-down' inline={true} /> 下载GeoJSON文件
 </Button>
 }}
 
-- **Dataset for Power BI**. You will upload this sample dataset, a CSV file that contains historical information about wildfires in the United States, to Power BI.
+- **Power BI中的数据**：您需要上传下面的CSV样本数据集文件至Power BI中，这个文件中包含了美国自然火灾的历史数据。
 
 {{
 <Button href="/help/data/power-bi-2014-widfires.csv" passthroughProps={{ download: "power-bi-2014-widfires" }} >
-    <Icon name='arrow-down' inline={true} /> Download CSV
+    <Icon name='arrow-down' inline={true} /> 下载CSV文件
 </Button>
 }}
 
-## Upload your tileset to Mapbox
+## 上传瓦片集至Mapbox中
 
-Before you can reference the geospatial data from the downloaded GeoJSON file in a Power BI report, you need to upload it to Mapbox as a [tileset](/help/glossary/tileset/).
+在您能从Power BI报告中索引您已经下载的GeoJSON文件之前，您需要将此文件作为一个[瓦片集](/help/glossary/tileset/)上传至Mapbox中。
 
 {{
 <Note
   imageComponent={<BookImage />}
 >
-  <p>To upload geospatial data to Mapbox as a tileset, the data must be in one of the following formats:</p>
+  <p>Mapbox只允许以下类型的文件上传为一个瓦片集：</p>
   <ul>
     <li>MBTile</li>
     <li>KML</li>
     <li>GPX</li>
     <li>GeoJSON</li>
-    <li>Shapefile (zipped)</li>
+    <li>Shapefile (压缩)</li>
     <li>CSV</li>
   </ul>
-  <p>For information on upload file size limits for these formats, refer to the <a href="/help/troubleshooting/uploads/#tilesets">Uploads troubleshooting page</a>.</p>
+  <p>在<a href="/help/troubleshooting/uploads/#tilesets">这里</a>可以阅读更多的有关上传文件大小的限制。</p>
 </Note>
 }}
 
-1. Navigate to the [Tilesets page](https://www.mapbox.com/studio/tilesets/) in Mapbox Studio.
-1. Click on the **New tileset** button.
-![Screenshot showing the New tileset button in Mapbox Studio](/help/img/3rdparty/power-bi-new-tileset.png)
-1. In the _New tileset_ window, you can either click the **Select a file** button and choose the file, or you can drag and drop the file directly into the window.
-1. When you are prompted to do so, click **Confirm**.
+1. 在Mapbox Studio中找到[瓦片集页面](https://www.mapbox.com/studio/tilesets/)
+2. 点击**新的瓦片集**按钮。
+![Screenshot showing the New tileset button in Mapbox Studio](/help/img/3rdparty/power-bi-new-tileset.png)3. 在_新的瓦片集_窗口中，您可以点击**选择一个文件**并选择一个文件，或者您可以将您的本地文件直接拖拽到窗口中。
+4. 当您看到一个提示的时候，点击**确认**。
 ![Screenshot showing the Confirm button in the New tileset window in Mapbox Studio](/help/img/3rdparty/power-bi-confirm-tileset-upload.png)
-1. After the file uploads, you will see a confirmation success message. Click on the link in the confirmation message to open your new tileset’s information page. The tileset's information page includes the _tileset ID_, the layer's _name_, and the layer’s _properties_, all which you will need to reference in Power BI.
+5. 当文件上传完毕之后，您将会看到一个完成消息。点击消息中的链接，您将可以直接打开新创建的瓦片集的信息页。这个信息页面包含了_瓦片集ID_，_图层名_，以及图层的_属性_。所有的这些信息您都可以在Power BI中索引。
 
-You will use these pieces of information in the [Add a custom tileset](#add-a-custom-tileset) section of this tutorial. For now, though, you will open Power BI.
+您将会在[添加一个瓦片集](#add-a-custom-tileset)这一章中使用以上信息。现在，请打开Power BI。
 
-## Add data to Power BI
+## 在Power BI中添加数据
 
-You will start by adding the wildfire data you downloaded to a new Power BI workspace.
+首先，您需要将您所下载的自然火灾数据添加到一个新的Power BI工作环境中。
 
-1. In Power BI, click **Get Data**, which allows you to import data or connect to a data source.
-1. Under the _Files_ option, click **Get**.
-1. Choose **Local File** and upload the wildfire data CSV file.
+1. 在Power BI中，点击**获取数据**。您将可以载入或者连接到一个数据源。
+2. 在_文件_选项中，点击**获取**。
+3. 选择**本地文件**以上传自然火灾CSV数据文件。
 
 ![A screenshot showing how to upload a CSV to Power BI](/help/img/3rdparty/power-bi-choropleth-upload.png)
 
@@ -98,110 +97,113 @@ You will start by adding the wildfire data you downloaded to a new Power BI work
   title="Notes on using a custom dataset in Power BI"
   imageComponent={<BookImage />}
 >
-  <p>Your dataset should be a CSV file with at least 2 columns. One column must be a unique identifier, which will be used to match a unique property from your tileset. The second column must be the value you want to connect to the unique identifier. (For the dataset in this example, the unique property is the `state_name`, which you will match to the pre-defined Power BI state tileset. The value you connect to the unique identifier will be the number of acres burned.)</p>
+  <p>您的CSV文件至少需要包含2列数据。一列数据是唯一的ID，这一列ID用于匹配每一个瓦片集。另一列是具体的数据值，数据值应该与每一个瓦片相互对应和关联。（此教程所使用的数据中，`state_name`是唯一识别ID，此ID将用于在Power BI中匹配美国各州的瓦片集。每个ID之后所赋予的数据值是对应的州的烧毁面积。）</p>
 </Note>
 }}
 
-## Create a new report
-1. Click on **My Workspace** and select the **Datasets** tab.
-1. Click the **Create a report** option (the bar graph icon) next to the new dataset. This will open the report window.
+## 创建一份新的报告
+
+1. 点击**我的工作环境**并选择**数据集**标签。
+2. 点击新数据集旁边的**创建一份报告**选项（柱状图图标）。您将会看到一个报告结果窗口。
 
 ![A GIF showing how to create a new report in Power BI](/help/img/3rdparty/power-bi-choropleth-new-report.gif)
 
-## Add the Mapbox Visual to the report
+## 将Mapbox Visual添加到报告中
 
-You can use the _Mapbox Visual for Microsoft Power BI_ with any dataset that contains geographic data values. To add the Mapbox Visual to your report:
+您可以在_微软Power BI中的Mapbox Visual_中使用任何包含有地理信息的数据集。您需要以下步骤将Mapbox Visual添加到您的报告中：
 
-1. In the _Visualizations_ pane, click the **Import a custom visual** option, represented by a three-dot icon.
-1. Select **Import from marketplace**.
-{{<img alt='Screenshot showing how to import a visual from marketplace in Power BI' src='/help/img/3rdparty/power-bi-choropleth-import.png' className='block wmax600 pt18 mx-auto' />}}
-1. Enter "Mapbox" in the search menu and press enter.
-1. Click the **Add** button next to the _Mapbox Visual_ option to add it to your Power BI report. After the Mapbox Visual is imported, it will appear as a blue Mapbox logo on the _Visualizations_ pane.
+1. 在_可视化_窗格中，点击**载入一个自定义可视化**选项，此图标由三个小点组成。
+2. 选择**从工作环境载入**。
+{{<img alt='如何从应用商店向Power BI中载入一个可视化' src='/help/img/3rdparty/power-bi-choropleth-import.png' className='block wmax600 pt18 mx-auto' />}}
+3. 在搜索栏中输入“Mapbox”并回车。
+4. 点击位于_Mapbox Visual_选项旁边的**添加**按钮，将一个可视化添加至您的Power BI报告中。添加完成之后，在您的_可视化_窗格中会显示一个蓝色的Mapbox图标。
 
-{{<img alt='Screenshot showing the Mapbox Visual icon in the Visualizations pane in Power BI' src='/help/img/3rdparty/power-bi-choropleth-mapbox-visual.png' className='block wmax600 mx-auto' />}}
+{{<img alt='Power BI可视化窗格中的Mapbox Visual图标' src='/help/img/3rdparty/power-bi-choropleth-mapbox-visual.png' className='block wmax600 mx-auto' />}}
 
 {{
 <Note
   title="Alternative workflow: Manual upload"
   imageComponent={<BookImage />}
 >
-  <p>Alternatively, you can download the latest <a href='https://github.com/mapbox/mapboxgl-powerbi/raw/master/dist/mapboxGLMap.pbiviz'>Mapbox Visual for Power BI</a> from Mapbox's <a href='https://github.com/mapbox/mapboxgl-powerbi'>open-source GitHub repository</a>:</p>
+  <p>您也可以下从<a href='https://github.com/mapbox/mapboxgl-powerbi'>Mapbox</a>下载<a href='https://github.com/mapbox/mapboxgl-powerbi/raw/master/dist/mapboxGLMap.pbiviz'>最新版本的Mapbox Visual</a>。:</p>
   <ol>
-  <li>Click the <strong>Import a custom visual</strong> icon (three dots) and select <strong>Import from file</strong>.</li>
-  <li>Upload the <a href='https://github.com/mapbox/mapboxgl-powerbi/raw/master/dist/mapboxGLMap.pbiviz'>latest Mapbox Visual</a>.</li>
-  <li>A new blue Mapbox logo will appear in the <em>Visualizations</em> pane.</li>
+  <li>点击<strong>载入一个自定义可视化工具</strong>图标（图标为三个小点）然后选择<strong>从文件导入</strong>。</li>
+  <li>上传您刚才下载的<a href='https://github.com/mapbox/mapboxgl-powerbi/raw/master/dist/mapboxGLMap.pbiviz'>Mapbox Visual最新版文件</a>。</li>
+  <li>一个蓝色的Mapbox图标将会在<em>可视化</em>窗格中显现。</li>
   </ol>
 </Note>
 }}
 
-## Build the choropleth visualization
+## 创建地区分类可视化
 
-### Include an access token
+### 提供一个Mapbox秘钥
 
-1. Click on the Mapbox icon in the _Visualizations_ pane to add a new visualization to your report.
-1. In the **Fields** tab, drag the `state_name` field from your data onto the _Location_ shelf. You should see the Mapbox visualization container populate with instructions on how to create your first visualization.
-{{<img alt='Screenshot showing the state_name field in the Location shelf' src='/help/img/3rdparty/power-bi-choropleth-state-name.png' className='mx-auto mt18' />}}
-1. Connect your Mapbox account using your access token:
-    - Click the **Click here to get a free Mapbox access token** link in the visualization container. Accept the external link request if prompted. You will be forwarded to either the Mapbox sign up page or your Mapbox account page.
-    - Copy your Mapbox Access token from your [account page](https://www.mapbox.com/account/access-tokens).
-  1. Back in Power BI, go to the **Format** tab and open the **Viz Settings** option. Paste your access token in the _Access token_ field.
+1. 选择_可视化_窗格中的Mapbox图标，添加一个新的可视化至您的报告中。
+2. 在**字段**标签中，将数据中`state_name`拖拽至_位置_栏中。Mapbox容器可视化会提供如何创建您的第一个可视化的后续步骤。
+{{<img alt='state_name已经被添加到位置栏中' src='/help/img/3rdparty/power-bi-choropleth-state-name.png' className='mx-auto mt18' />}}
+3. 通过您的秘钥连接Mapbox账号：
+    - 点击可视化容器中的**点击此处已获得一个免费的Mapbox秘钥**链接。如有提示，请允许访问外部链接。您将会被转移到Mapbox登录界面或者您的账户信息页面。
+    - 在账户信息页面(https://www.mapbox.com/account/access-tokens)复制您的Mapbox秘钥。
+4. 返回Power BI界面，选择**格式**标签以打开**可视化设置**选项。在_秘钥_字段中粘贴您的秘钥。
 
-{{<img alt='GIF showing how to add Mapbox access token in Power BI' src='/help/img/3rdparty/power-bi-choropleth-access-token.gif' className='block wmax600 mx-auto' />}}
+{{<img alt='在Power BI中添加Mapbox秘钥' src='/help/img/3rdparty/power-bi-choropleth-access-token.gif' className='block wmax600 mx-auto' />}}
 
-### Create the choropleth
+### 创建地区分布图
 
-1. In the **Viz Settings** pane, change the _Map Style_ option to _Dark_.
-1. Drag the `ACRES` field from the data options onto the _Color_ shelf.
-1. Go back to the **Format** tab. Switch the **Circle** option off and turn the **Choropleth** option on.
+1. 在**可视化设置**窗格中，将_地图风格_设置为_暗黑_。
+2. 将数据集中的`ACRES`字段拖拽至_颜色_栏目中。
+3. 返回**格式**标签，关闭**圆圈**选项，打开**地区分布**选项。
 
-You will see a choropleth that visualizes the number of acres burned per state.
+您将可以看到一个地区分布图。此图展示了美国各州的受灾面积统计情况。
 
 ![Screenshot showing the choropleth visualization in Power BI](/help/img/3rdparty/power-bi-choropleth-visualization-on.png)
 
-### Add a custom tileset
+### 添加一个瓦片集
 
-To drill down more deeply into data about wildfires in the United States, you will reference the custom tileset with information about wildfires at the county level that you created in the first step of this tutorial.
+如果想要展示更加详细的美国自然火灾数据，您需要将之前您所创建的县级瓦片集信息与您的可视化关联起来。
 
-To add this data to Power BI, you will plug its identifying features into the appropriate fields in Power BI. The information that you'll need from the tileset are the _tileset ID_, the _layer name_, and the _unique identifier property name_.
+为了能够将县级信息添加到Power BI中，您需要将它们的ID与Power BI中对应的字段关联起来。您需要的信息有_瓦片集ID_、_图层名_以及_唯一属性名_。
 
-![Screenshot showing the elements necessary to add a tileset to Power BI: the tileset ID, the layer name, and the property name](/help/img/3rdparty/power-bi-tileset-details-pt2.png)
+![将瓦片集添加到Power BI时所需要的信息：瓦片集ID、图层名以及属性名](/help/img/3rdparty/power-bi-tileset-details-pt2.png)
 
-1. In the **Format** tab, click on **Choropleth** to open the choropleth layer settings.
-1. Use the _Number of levels_ dropdown menu to change the number of levels to **2**. (Having two levels will allow you to drill down from the state-level data in Level 1 into the county-level data that you are adding now.)
-1. In the _Level_ dropdown, select **Level 2**.
-1. Click on the _Data Level 2_ dropdown.
-1. Select the _Custom Tileset_ option.
-{{<img alt='Screenshot showing how to add a custom tileset to a choropleth in Power BI' src='/help/img/3rdparty/power-bi-choropleth-custom-tileset.png' className='mx-auto mt18' />}}
-1. In the _Vector Tile URL Level 2_ field, paste the tileset ID. The tileset ID in this field must always be preceded by `mapbox://`.
-1. In the _Source Layer Name Level 2_ field, paste the layer's name.
-1. In the _Vector Property Level 2_ field, enter the unique identifier property name: `id`.
-1. Click on the **Fields** tab again. Drag the `county_id` field from the data options onto the _Location_ shelf.
+1. 在**格式**标签中，点击**地区分布图**打开一个地区分布图层的设置窗口。
+2. 在_等级数_下拉菜单中选择`2`。（设置两个等级是为了能够将州级设置为1，将您将要添加的县级数据设置为2。）
+3. 在_等级_下拉菜单中选择`2`。
+4. 点击_数据等级2_下拉菜单。
+5. 选择_自定义瓦片集_选项。
+{{<img alt='如何向Power BI中的地区分布图添加一个自定义的瓦片集' src='/help/img/3rdparty/power-bi-choropleth-custom-tileset.png' className='mx-auto mt18' />}}
+6. 在_等级2矢量瓦片URL_字段中，输入瓦片集的ID。这个字段中的瓦片集ID必须以`mapbox://`开头。
+7. 在_等级2源图层名_字段中，输入图层名。
+8. 在_等级2矢量属性_字段中，输入唯一识别的属性名：`id`。
+9. 再次点击**字段**标签。将数据选项中的`county_id`字段拖拽至_位置_栏中。
 
 {{
-<AppropriateImage imageId="powerBiAddCustomTileset" alt="Screenshot showing how to add a Mapbox tileset ID, layer name, and property name in Power BI" />
+<AppropriateImage imageId="powerBiAddCustomTileset" alt="如何向Power BI添加Mapbox瓦片集ID、图层名以及属性名" />
 }}
 
 {{
 <Note
-  title="Using a custom tileset in Power BI"
+  title="在Power BI中使用自定义的瓦片集"
   imageComponent={<BookImage />}
 >
-  <p>The boundaries in a custom tileset should contain one unique identifying property key that matches the dataset you are using in Power BI. Common examples are: FIPS code, zip code, ISO code, or any unique name string.</p>
+  <p>瓦片集的边界必须包含一个唯一识别的属性列，这个属性列将用于与Power BI中的数据集做匹配。常用的有：FIPS码、邮编、ISO码或者任何的唯一字符串。</p>
 </Note>
 }}
 
-## Final product
+## 最终成果
 
-Use the buttons on the upper left side of the visualization to drill up to the state level or down to the county level. Hover over a state or county to see the number of acres burned in that specific boundary.
+使用位于可视化窗口左上角的按钮实现在州和县级数据之间的切换。将鼠标停在一个州或者县区域可以显示此地区的受灾统计面积。
 
-![Screenshot showing a county-level choropleth visualization in Power BI](/help/img/3rdparty/power-bi-choropleth-counties.png)
+![图为Power BI中一个县级的地区分布可视化](/help/img/3rdparty/power-bi-choropleth-counties.png)
 
-You have created a choropleth visualization in Microsoft Power BI using the Mapbox Visual for Power BI.
+至此，您已经使用微软Power BI中的Mapbox Visual创建了一个地区分布可视化。
 
-## Next steps
+## 下一步
 
-Explore ways to further customize the choropleth. For instance, you could use the **Choropleth** settings in the **Format** tab to change the color range of the visualization.
+您可以尝试更多的自定义地区分布可视化的方法。例如，您可以使用在**格式**标签中的**地区分布**设置以改变可视化的色彩设计。
 
-For support and troubleshooting with the Mapbox Visual, open an issue in the [open source repository](https://github.com/mapbox/mapboxgl-powerbi) or [contact our support team](https://www.mapbox.com/contact/support/#other).
+请前往[Github](https://github.com/mapbox/mapboxgl-powerbi)或者[客服](https://www.mapbox.com/contact/support/#other)寻求更多的帮助。
 
-Want to do more with Mapbox and Power BI? [Contact Mapbox sales](https://www.mapbox.com/contact/sales) to learn what else is possible, from adding custom shapes to visualize territories, adding detailed indoor maps, or visualizing billions of data points.
+想要学习更多的有关Mapbox和Power BI的知识吗？请移步此处以探索更多的可能性，包括
+
+想要更加深入的学习Mapbox和Power BI吗？[在这里](https://www.mapbox.com/contact/sales)您可以了解到更多的可能性，包括通过添加自定义的shapefile文件来可视化领土范围、添加详细的室内地图，或者是大型点集数据的可视化。
