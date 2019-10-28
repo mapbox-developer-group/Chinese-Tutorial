@@ -19,25 +19,24 @@ prependJs:
 contentType: tutorial
 ---
 
-This is the second in a [series of tutorials](https://docs.mapbox.com/studio-manual/help/#add-points-to-a-map) that will teach you how to add points to a map using the Mapbox Studio dataset editor, the Mapbox Studio style editor, and Mapbox GL JS.
+这是 [series of tutorials](https://docs.mapbox.com/studio-manual/help/#add-points-to-a-map) 中的第二部分，在这一部分中将会教您如何使用 Mapbox Studio 数据集编辑器、 Mapbox Studio 样式编辑器和 Mapbox GL JS 在网络地图中添加点。
+*第二部分* Mapbox Studio 关注于样式编辑器。在本教程中，您将会学习如何：
 
-*Part 2* focuses on the Mapbox Studio style editor. In this tutorial, you will learn how to:
-
-- Create a new style using one of the Mapbox default styles
-- Add a tileset as a layer
-- Style the new layer
-- Publish your style
+- 利用 Mapbox 默认样式创建一个新的样式
+- 添加一个地形数据集作为图层
+- 设置新图层样式
+- 发布样式
 
 {{
 <DemoIframe src="https://api.mapbox.com/styles/v1/examples/cjgiiz9ck002j2ss5zur1vjji.html?access_token=MapboxAccessToken#10.7/41.893748/-87.661557/0" />
 }}
 
-## Getting started
+## 准备
 
-There are a few resources you will need to follow along with this guide:
+以下是在使用教程中将会用到的一些资源：
 
-- **Tileset.** You will need a tileset containing 10 Chicago parks. You can learn how to create this tileset in [Add points to a web map, Part 1: create a dataset](/help/tutorials/add-points-pt-1).
-- **Custom icon.** This tutorial uses a custom icon to show the location of the parks. You will need to download the SVG icon to use in your style.
+- **地形数据集。** 您将需要一个包含10个芝加哥公园的地形数据集。您可以在 [Add points to a web map, Part 1: create a dataset](/help/tutorials/add-points-pt-1) 中学习如何创建这个地形数据集。
+- **自定义图标。** 本教程使用自定义图标显示公园的位置。 您需要下载 SVG 图标才能在您的样式中使用。
 
 {{
 <Button href="/help/data/marker-editor.svg" passthroughProps={{ download: "marker-editor" }} >
@@ -45,15 +44,15 @@ There are a few resources you will need to follow along with this guide:
 </Button>
 }}
 
-## Add data to a style
+## 将数据添加到一个样式中
 
-Web maps are comprised of [map tiles](/help/how-mapbox-works/web-apps/). To add your data to a web map, Mapbox will cut it up into tiles so the data can display at various zoom levels. The collection of tiles that Mapbox cuts your map into is called a tileset. In [Add points to a web map, part 1: create a dataset](/help/tutorials/add-points-pt-1), you converted a dataset into a tileset to add it to a new map style.
+Web地图由 [map tiles](/help/how-mapbox-works/web-apps/) 组成。要将数据添加到Web地图， Mapbox 会将其切割为切片，以便数据以各种缩放级别显示。 Mapbox 将地图切割成的图块集合称为切片集。在 [Add points to a web map, part 1: create a dataset](/help/tutorials/add-points-pt-1) 时，您将数据集转换为地图切片集以将其添加到新的地图样式。
 
-### Create a new style
+### 创建一个新样式
 
-After finishing [Add points to a web map, part 1: create a dataset](/help/tutorials/add-points-pt-1), create a new style using the Basic template. On your [Styles page](https://studio.mapbox.com/styles) in Mapbox Studio, click the **New style** button. Find the _Basic Template_ style and click **Customize Basic Template**.
+在完成 [Add points to a web map, part 1: create a dataset](/help/tutorials/add-points-pt-1) 后，利用基础模板创建一个新的样式。在 Mapbox Studio 的[Styles page](https://studio.mapbox.com/styles) 上，单击 **New style** 按钮。找到 _Basic Template_ 样式，然后单击 **Customize Basic Template** 。
 
-The style editor will open automatically. Rename your new style to _Chicago Parks_ using the title field in the upper left side of the screen.
+样式编辑器会自动打开。使用屏幕左上角的标题字段将新样式重命名为 _Chicago Parks_ 。
 
 {{
   <AppropriateImage
@@ -62,12 +61,12 @@ The style editor will open automatically. Rename your new style to _Chicago Park
   />
 }}
 
-### Create a new layer
+### 创建一个新的图层
 
-You will add your tileset as a new layer here:
+您将会添加您的地图切片集作为一个新的图层：
 
-1. When the style editor opens, click **+ Add layer** in the upper left.
-2. In the list of _Data sources_, find your **chicago-parks** tileset, click the name of the tileset, and then click the source layer that appears to add it as the source for the layer.
+1. 当样式编辑器打开时，点击左上方的 **+Add layer** 。
+2. 在 _Data sources_ 中，找到您的 **chicago-parks** 地形数据集，点击数据集的名字，然后点击显示的源图层，将其添加为图层的源。
 
 {{
   <AppropriateImage
@@ -76,9 +75,9 @@ You will add your tileset as a new layer here:
   />
 }}
 
-3. Mapbox Studio recognizes that the data you have uploaded is focused on a different location, so it displays the message _"This tileset isn't available from your map view."_ Click **Go to data**, and the map view will refocus on Chicago.
-4. Click the **Type** option, and then choose the _Symbol_ layer option so you can create a layer with [markers](/help/glossary/marker/).
-5. Click back to the **Style** tab.
+3. Mapbox Studio 可识别您上传的数据集中在不同的位置，因此会显示消息 _“此地图视图中无法使用此切片集”_ 。点击 **Go to data** ，地图视图将重新聚焦芝加哥。
+4. 点击 **Type** 选项，然后选择 _Symbol_ 图层选项，以便创建带有[markers](/help/glossary/marker/) 的图层。
+5. 点击返回 **Style** 选项卡。 
 
 {{
   <AppropriateImage
@@ -87,16 +86,16 @@ You will add your tileset as a new layer here:
   />
 }}
 
-## Style a layer
+## 图层样式
 
-In the Mapbox Studio style editor, you can specify the style properties of each layer. This includes the layers in the Mapbox default styles and any layers you’ve added with custom data. For this example, you will style a *symbol* layer. You can style symbol layers with both text and icons.
+在 Mapbox Studio 样式编辑器中，您可以指定每个图层的样式属性。这包括 Mapbox 默认样式中的图层以及您使用自定义数据添加的任何图层。对于此示例，您将设置 *symbol* 图层的样式。您可以使用文本和图标设置符号图层样式。
 
-### Style as a symbol layer
+### 将样式作为一个符号图层
 
-1. Click on the **chicago-parks** layer you created in the layer list on the left side of the style editor.
-2. When the style panel opens, click the **Style** tab if you're not already there.
-3. Select the **Icon** tab and click on **Manage icons in your spritesheet**.
-4. This opens the **Images** option in the top toolbar.
+1. 点击在样式编辑器左侧的图层列表中创建的 **芝加哥公园** 图层。
+2. 样式面板打开后，如果您创建的图层尚未存在，请单击 **Style** 选项卡。
+3. 选择 **Icon** 选项卡，然后点击 **Manage icons in your spritesheet** 。
+4. 这将打开顶部工具栏的 **Images** 设置。
 
 {{
   <AppropriateImage
@@ -105,8 +104,8 @@ In the Mapbox Studio style editor, you can specify the style properties of each 
   />
 }}
 
-5. Click the **Upload SVG Image** button to and choose the marker you downloaded at the beginning of this tutorial from your files.
-6. Once the icon has loaded, choose it from the list.
+5. 点击 **Upload SVG Image** 按钮，从文件中选择您在本教程开头下载的标记。
+6. 图标下载完成后，在列表中选择它。
 
 {{
   <AppropriateImage
@@ -115,9 +114,9 @@ In the Mapbox Studio style editor, you can specify the style properties of each 
   />
 }}
 
-7. If you would like to show all the markers, even if they overlap, click on the **Placement** tab. Scroll down to **Allow icon overlap** and set it to `True`.
+7. 如果您想显示所有标记，即使它们有所重叠，也请单击 **Placement** 选项卡。向下滚动到 **Allow icon overlap** 并将其设置为`True`。
 
-You should now see the marker icon appear on all your points.
+您现在应该会在所有点上看到标志。
 
 {{
   <AppropriateImage
@@ -126,13 +125,13 @@ You should now see the marker icon appear on all your points.
   />
 }}
 
-## Publish a style
+## 发布样式
 
-Now that you have finished styling your map, you need to publish your style for those changes to be live on the web.
+现在您已经完成了地图的样式设置，您需要发布您的样式以使这些更改在Web上生效。
 
-1. Click the **Publish** button in the top right of the editor.
-2. A window will pop up asking you to review your changes.
-3. Click **Publish**.
+1. 单击编辑器右上角的 **Pubilsh** 按钮。
+2. 弹出一个窗口，要求您查看更改。
+3. 点击 **Publish** 。
 
 {{
   <Video
@@ -141,13 +140,13 @@ Now that you have finished styling your map, you need to publish your style for 
   />
 }}
 
-## Share
+## 共享
 
-The [Share modal](https://docs.mapbox.com/studio-manual/overview/publish-your-style/) contains the resources you need to publish your style in a web app, mobile app, or with another third-party tool.
+[Share modal](https://docs.mapbox.com/studio-manual/overview/publish-your-style/) 包括在Web应用程序，移动应用程序或其他第三方工具中发布样式所需的资源。
 
-### Share
+### 共享
 
-Click **Share** in the upper right of the style editor. The Share modal contains a share URL that allows you to share a preview of your style with others. The modal also contains a style URL and your access token, both of which you will need in [part three of this tutorial](/help/tutorials/add-points-pt-3/).
+单击样式编辑器右上角的 **Share** 。共享模块包含一个共享URL，允许您与其他人共享样式预览。该模块还包含样式URL和访问令牌， [part three of this tutorial](/help/tutorials/add-points-pt-3/) 中都需要它们。
 
 {{
   <AppropriateImage
@@ -156,6 +155,6 @@ Click **Share** in the upper right of the style editor. The Share modal contains
   />
 }}
 
-## Next Steps
+## 下一步
 
-Head to [Add points to a web map, part 3: add interactivity](/help/tutorials/add-points-pt-3/) to add popups with information about each park to your map using Mapbox GL JS.
+前往 [Add points to a web map, part 3: add interactivity](/help/tutorials/add-points-pt-3/) 并使用 Mapbox GL JS 向您的地图添加有关每个公园的信息弹出窗口。
