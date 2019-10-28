@@ -19,33 +19,29 @@ prependJs:
 contentType: tutorial
 ---
 
-This guide will walk you through how to create a store locator map using Mapbox GL JS. You'll be able to browse all the locations from a sidebar and select a specific store to view more information. Selecting a [marker](/help/glossary/marker/) on the map will highlight the selected store on the sidebar.
+
+此教程将展示如何利用 Mapbox GL JS 创建一个商店定位地图。您将可以通过侧边栏浏览所有的位置并选择一个位置以查看详细信息。从侧边栏中选择一个 [标签](/help/glossary/marker/) 可以进而标记地图上所选商店的位置。
 
 {{
   <DemoIframe src="/help/demos/gl-store-locator/step-five.html" />
 }}
 
-You will use [Sweetgreen](http://sweetgreen.com), a local salad shop, as an example. They have a healthy number of locations, plus their salads are delicious!
+我们将以一个当地的沙拉店， [Sweetgreen](http://sweetgreen.com) ，作为示例。他们拥有一系列的连锁店位置，而且他们的沙拉非常新鲜可口！
 
-This guide shows you how to use [Mapbox GL JS](https://www.mapbox.com/mapbox-gl-js/) to build an interactive web map. If you're new to Mapbox GL JS, you might want to read our guide on Mapbox [web applications](/help/how-mapbox-works/web-apps/) first.
+本教程将展示如何使用 [Mapbox GL JS](https://www.mapbox.com/mapbox-gl-js/) 创建一个交互式的网页地图。如果您是第一次使用 Mapbox GL JS ，我们建议您先阅读 Mapbox 所提供的关于 [web applications](/help/how-mapbox-works/web-apps/) 的教程。
 
-## Getting started
+## 入门指南
 
-For this project, we recommend that you create a local folder called "store-locator" to house your project files. You'll see this folder referred to as your *project folder*.
+首先，我们建议您创建一个本地文件夹，“store-locator”，以存放您的工程文件。在之后的教程中，我们称这个文件夹为 *工程文件夹*。
 
-There are a few resources you'll need before getting started:
+您需要以下的资源：
 
-- [__A style URL__](/help/glossary/style-url). A style URL points to a unique map you have created with Mapbox Studio. You can either create a custom style with the [Mapbox Studio style editor](https://www.mapbox.com/studio-manual/reference/styles/) or use a [Mapbox style](https://www.mapbox.com/studio/styles).
-
-- [__An access token__](/help/glossary/access-token/) from your account. You will use an access token to associate a map with your account. Your access token is on the  [Account page](https://www.mapbox.com/account/).
-
-- [__Mapbox GL JS__](https://www.mapbox.com/mapbox-gl-js/). The Mapbox JavaScript library that uses WebGL to render interactive maps from Mapbox GL styles.
-
-- __A text editor.__ You'll be writing HTML, CSS, and JavaScript after all.
-
-- __Data__. We collected some of Sweetgreen's locations and marked up the data in GeoJSON.
-
-- __Custom map marker__. You'll be using an image for your map marker. Save the image to your project folder.
+- [__A style URL__](/help/glossary/style-url) ：一个风格URL对应着您在Mapbox Studio中所创建一个地图风格。您可以在 [Mapbox Studio style editor](https://www.mapbox.com/studio-manual/reference/styles/)中创建一个自定义风格，或者使用 [Mapbox style](https://www.mapbox.com/studio/styles)。
+- [__An access token__](/help/glossary/access-token/)：您需要一个 access token 来将您的账号和您的地图关联起来。您的 access token 可以在 [Account page](https://www.mapbox.com/account/) 获取。
+- [__Mapbox GL JS__](https://www.mapbox.com/mapbox-gl-js/) ：Mapbox JavaScript 开发者库使用了 WebGL 来呈递 Mapbox GL 风格的交互式地图。
+- __文本编辑器__ ： 您需要能够编写 HTML、CSS 以及 JavaScript 。
+- __数据__ ：我们准备了一些 Sweetgreen 连锁店的位置信息，并编译成了 GeoJSON 格式的文件。
+- __自定义地图标签__ ：您需要一张图片来作为您的地图标签。请自行选择并保存一张图片至您的工作文件夹中。
 
 {{
 <Button href="/help/demos/store-locator/marker.png" passthroughProps={{ download: "marker" }} >
@@ -53,23 +49,23 @@ There are a few resources you'll need before getting started:
 </Button>
 }}
 
-## Add structure
+## 页面布局设置
 
-In your project folder, create an `index.html` file. Set up the document by adding Mapbox GL JS and CSS to your `head`:
+在您的工程文件夹中，创建一个文件并命名为 `index.html`。在 `head` 中添加以下 Mapbox GL JS 和 CSS 代码：
 
 ```html
 <script src='https://api.tiles.mapbox.com/mapbox-gl-js/{{constants.VERSION_MAPBOXGLJS}}/mapbox-gl.js'></script>
 <link href='https://api.tiles.mapbox.com/mapbox-gl-js/{{constants.VERSION_MAPBOXGLJS}}/mapbox-gl.css' rel='stylesheet' />
 ```
 
-Next, markup the page to create a map container and sidebar listing:
+然后，我们需要标记此页面并创建一个地图容器和一个侧边栏：
 
 ```html
 <div class='sidebar pad2'>Listing</div>
 <div id='map' class='map pad2'>Map</div>
 ```
 
-Then, apply some CSS to create the page layout:
+接下来，我们设置一些 CSS 以定义页面的布局：
 
 ```css
 body {
@@ -81,8 +77,7 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* The page is split between map and sidebar - the sidebar gets 1/3, map
-gets 2/3 of the page. You can adjust this to your personal liking. */
+/*这个页面被分为了地图和侧边栏。侧边栏相对宽度为页面的三分之一，地图容器为三分之二。您可以自行调整相对宽度。*/
 .sidebar {
   width: 33.3333%;
 }
@@ -108,56 +103,53 @@ gets 2/3 of the page. You can adjust this to your personal liking. */
   <DemoIframe src="/help/demos/gl-store-locator/step-one.html" />
 }}
 
-## Initialize the map
+## 初始化地图
 
-Now that you have the structure of the page, initialize the map with Mapbox GL JS.
+您已经完成了页面的布局设计，我们可以通过 Mapbox GL JS 来初始化我们的地图。
 
-First, add your access token using `mapboxgl.accessToken`. Then, create a new `map` object using `new mapboxgl.Map()` and store it in a variable called `map`:
+首先，在 `mapboxgl.accessToken` 中添加您的 access token。然后，通过 `new mapboxgl.Map()` 创建一个新的 `map` 对象，并将其保存在变量 `map` 中：
 
 ```js
 mapboxgl.accessToken = '{{ <UserAccessToken /> }}';
-// This adds the map to your page
+// 在页面中添加一个地图
 var map = new mapboxgl.Map({
-  // container id specified in the HTML
+  // HTML中所包含的容器ID
   container: 'map',
-  // style URL
+  // 风格URL
   style: 'mapbox://styles/mapbox/light-v{{constants.VERSION_LIGHT_STYLE}}',
-  // initial position in [lon, lat] format
+  // 初始化的位置用[x, y]格式标记
   center: [-77.034084, 38.909671],
-  // initial zoom
+  // 初始的缩放层级
   zoom: 14
 });
 ```
 
-As you can see above, the Mapbox GL JS map requires several options:
+如您所见，Mapbox GL JS 初始化地图的时候需要以下的设置：
 
-- `container`: the `id` of the `<div>` element on the page where the map should live. In this case, the `id` for the `<div>` is `'map'`.
+- `contianer`： `<div>` 的 `id` 元素标注了地图的显示位置。在上面的例子中，我们的 `id` 是 `map` 。
+- `style`： 地图所选用的 [style URL](/help/glossary/style-url/) 。在我们的例子中， {{ <DemoLink href="https://api.mapbox.com/styles/v1/mapbox/light-v{constants.VERSION_LIGHT_STYLE}.html?title=true&access_token=MapboxAccessToken#1.07/0.0/0.0" text="Mapbox Light map" /> }} 包含了风格URL `mapbox://styles/mapbox/light-{{constants.VERSION_LIGHT_STYLE}}` 。
+- `center`： 由 [经度，纬度] 所标注的初始化地图中心位置。
+- `zoom`： 初始的地图缩放层级。
 
-- `style`: the [style URL](/help/glossary/style-url/) for the map style. In this case, use the {{ <DemoLink href="https://api.mapbox.com/styles/v1/mapbox/light-v{constants.VERSION_LIGHT_STYLE}.html?title=true&access_token=MapboxAccessToken#1.07/0.0/0.0" text="Mapbox Light map" /> }} which has the style URL `mapbox://styles/mapbox/light-{{constants.VERSION_LIGHT_STYLE}}`.
+## 加载数据
 
-- `center`: the initial centerpoint of the map in [longitude, latitude] format.
+在 Mapbox GL JS 中，地图的呈递过程在浏览器中实现。想要实现这一过程，您需要添加一个具有地理信息的图层以及对应的操作步骤。
 
-- `zoom`: the initial zoom level of the map.
-
-## Load data
-
-With Mapbox GL JS, map rendering happens in the browser. For the browser to render your map, you need to add a layer with geospatial data and instructions for how that data should be rendered.
-
-To add a source to the map, your code needs to access the geospatial data. Store all the GeoJSON data in `sweetgreen.geojson` in a variable called `stores`:
+您的代码需要能够访问地理信息才能够添加一个源地图。将所有的 `sweetgreen.geojson` GeoJSON 数据保存在变量 `stores` 中：
 
 ```js
 var stores = {{ sweetgreenLocations }};
 ```
 
-Now you can add a layer that contains this data and describes how it should be rendered. Add the data to your map once the map loads using `addLayer()`. Create a new layer, and specify `stores` as a GeoJSON data source. Then, add instructions for rendering the source. This example only adds minimal styling --- for full details on all the layer styling options, see the [Mapbox Style Specification](https://www.mapbox.com/mapbox-gl-style-spec/):
+现在您可以添加一个图层并进一步定义这个图层应该如何显示。当地图通过 `addLayer()` 显示的时候，向地图中添加您的数据。创建一个新的图层，并设置 `stores` 为您的 GeoJSON 数据源。然后，添加如何显示数据的操作步骤。此教程仅使用了极简风格，如果您想要了解完整的图层风格设置信息，请阅读 [Mapbox Style Specification](https://www.mapbox.com/mapbox-gl-style-spec/) ：
 
 ```js
 map.on('load', function(e) {
-  // Add the data to your map as a layer
+  // 向地图中添加数据图层
   map.addLayer({
     id: 'locations',
     type: 'symbol',
-    // Add a GeoJSON source containing place coordinates and information.
+    // 添加包含有坐标和附加信息的GeoJSON数据源
     source: {
       type: 'geojson',
       data: stores
@@ -170,17 +162,17 @@ map.on('load', function(e) {
 });
 ```
 
-_Note: `restaurant-15` refers to an icon in the Mapbox Light style you added earlier in the code._
+_请注意，`restaurant-15` 指的是 Mapbox Light style 中的一个图标，您在之前的步骤中已经添加了这个风格。_
 
 {{
   <DemoIframe src="/help/demos/gl-store-locator/step-two.html" />
 }}
 
-## Build store listing
+## 创建商店列表
 
-Now that the points are on your map, it's time to build the restaurant location listing by iterating through the GeoJSON and creating a list of restaurants dynamically. This means that if you need to add a location then you *only* need to update the GeoJSON.
+您已经将商店的位置显示在了地图上，现在可以利用一个循环语句来自动创建包含所有商店位置信息的列表了。我们使用一个循环语句遍历所有的 GeoJSON 数据，这样一来，如果您需要修改或者添加商店位置信息，您 *只需要* 修改 GeoJSON 文件，而不需要改动任何的代码。
 
-First, update the sidebar HTML to hold the listing information and update your CSS to accommodate the layout changes:
+首先，我们需要改动 HTML 以保证列表信息的显示，同时相应的我们需要更改 CSS 格式设置：
 
 ```html
 <div class='sidebar'>
@@ -310,33 +302,33 @@ a:hover {
 }
 ```
 
-Next, build a function to iterate through the Sweetgreen locations and add each one to the sidebar listing:
+然后，我们定义一个函数。这个函数自动遍历所有的 Sweetgreen 位置，并且添加它们到侧边栏中：
 
 ```js
 function buildLocationList(data) {
-  // Iterate through the list of stores
+  // 遍历所有的商店
   for (i = 0; i < data.features.length; i++) {
     var currentFeature = data.features[i];
-    // Shorten data.feature.properties to `prop` so we're not
-    // writing this long form over and over again.
+    // 重新命名data.feature.properties为`prop`
+    // 以避免过长字符串的反复出现
     var prop = currentFeature.properties;
-    // Select the listing container in the HTML and append a div
-    // with the class 'item' for each store
+    // 选择列表容器的HTML元素
+    // 为每一个商店添加一个item类的div
     var listings = document.getElementById('listings');
     var listing = listings.appendChild(document.createElement('div'));
     listing.className = 'item';
     listing.id = 'listing-' + i;
 
-    // Create a new link with the class 'title' for each store
-    // and fill it with the store address
+    // 为每一个商店添加一个title类的链接
+    // 并将其与位置相互关联
     var link = listing.appendChild(document.createElement('a'));
     link.href = '#';
     link.className = 'title';
     link.dataPosition = i;
     link.innerHTML = prop.address;
 
-    // Create a new div with the class 'details' for each store
-    // and fill it with the city and phone number
+    // 为每一个商店创建一个details类的div
+    // 并添加相应的城市和电话号码
     var details = listing.appendChild(document.createElement('div'));
     details.innerHTML = prop.city;
     if (prop.phone) {
@@ -346,25 +338,27 @@ function buildLocationList(data) {
 }
 ```
 
-Then, you will need to call this function when the map loads. You can do this by adding `buildLocationList(stores);` inside your `map.on('load', ...)` function after `addLayer()`. The result will look like this:
+接下来，您可以通过调用这个函数来加载地图。您可以在 `addLayer()` 之后的 `map.on('load', ...)` 函数中调用 `buildLocationList(stores);` 。调用结果如下：
 
 {{
   <DemoIframe src="/help/demos/gl-store-locator/step-three.html" />
 }}
 
-## Make the map interactive
+## 创建可交互式地图
 
-When a user clicks a link in the sidebar or on a point on the map, you want three things to happen:
+当用户点击地图上的某个点或者侧边栏中的一个链接的时候，我们希望以下事件的发生：
 
-1. The map to fly to the associated store location.
-2. A popup to be displayed at that point.
-3. The listing to be highlighted in the sidebar.
+1、地图自动显示商店的位置。
 
-This will require a bit more code, but you can do it!
+2、在标签上方自动弹出一个窗口。
 
-### Define interactivity functions
+3、选中的商店在侧边栏中高亮显示。
 
-First, define two functions: one that flies the map to the correct store, and one that displays a popup at that point. These functions will be fired both when a user clicks on a link in the sidebar listing and when a user clicks on a store location in the map. (Highlighting the listing on the sidebar will be handled separately for the two different click events.)
+这看上去比较复杂，但是我们可以做到！
+
+### 定义可交互式的函数
+
+首先，我们需要两个函数：第一个函数能够将地图设置在正确的位置，第二个函数显示一个弹出窗口。这些函数会在用户点击侧边栏中的商店或者点击一个商店位置的时候同时被调用。（我们将在之后创建我们的第三个函数来完成侧边栏的高亮显示功能。）
 
 ```js
 function flyToStore(currentFeature) {
@@ -376,7 +370,7 @@ function flyToStore(currentFeature) {
 
 function createPopUp(currentFeature) {
   var popUps = document.getElementsByClassName('mapboxgl-popup');
-  // Check if there is already a popup on the map and if so, remove it
+  // 我们需要检查并移除已经存在的弹出窗口
   if (popUps[0]) popUps[0].remove();
 
   var popup = new mapboxgl.Popup({ closeOnClick: false })
@@ -387,7 +381,7 @@ function createPopUp(currentFeature) {
 }
 ```
 
-You can also style your popups using CSS:
+您还可以使用 CSS 设置弹出窗口的样式：
 
 ```css
 /* Marker tweaks */
@@ -440,7 +434,7 @@ You can also style your popups using CSS:
 }
 ```
 
-For the `.remove()` method to work in older browsers, you will need to include the code below at the beginning of your script:
+为了 `.remove()` 能够后相兼容老版本的浏览器，您需要在脚本开头处添加下面的代码：
 
 ```js
 // This will let you use the .remove() function later on
@@ -453,24 +447,24 @@ if (!('remove' in Element.prototype)) {
 }
 ```
 
-See the [HTML documentation](https://developer.mozilla.org/en-US/docs/Web/API/ChildNode/remove) for more information.
+请移步 [HTML documentation](https://developer.mozilla.org/en-US/docs/Web/API/ChildNode/remove) 以获得详细信息。
 
-### Add event listeners
+### 添加事件监听器
 
-Now that you've defined these two functions, you want them to fire when a user clicks on a restaurant in the sidebar listing or when a user clicks on a restaurant on the map. To do this, you will add _event listeners_ that listen for "click" events and execute some function when they happen. You will add two event listeners: one for when a link in the sidebar is clicked and one for when a location on the map is clicked.
+现在我们已经定义了两个函数，但是我们希望在用户点击的时候调用这两个函数。因此，我们需要添加 _事件监听器_ ，一旦用户做出了点击的操作，这个 “点击” 事件会自动检测到这个操作并调用一些函数。我们需要添加两个事件监听器：一个响应对于侧边栏的点击，一个响应对于地图位置的点击。
 
-Use this code for when a link is clicked:
+下面的代码实现了对链接点击事件的响应：
 
 ```js
-// Add an event listener for the links in the sidebar listing
+// 对链接点击的响应
 link.addEventListener('click', function(e) {
-  // Update the currentFeature to the store associated with the clicked link
+  // 更新currentFeature至被点击的链接
   var clickedListing = data.features[this.dataPosition];
-  // 1. Fly to the point associated with the clicked link
+  // 1. 地图重定位
   flyToStore(clickedListing);
-  // 2. Close all other popups and display popup for clicked store
+  // 2. 关闭其他所有的弹出窗口并显示新的弹出窗口
   createPopUp(clickedListing);
-  // 3. Highlight listing in sidebar (and remove highlight for all other listings)
+  // 3. 移除所有的高亮显示并高亮显示新的链接
   var activeItem = document.getElementsByClassName('active');
   if (activeItem[0]) {
     activeItem[0].classList.remove('active');
@@ -479,25 +473,25 @@ link.addEventListener('click', function(e) {
 });
 ```
 
-Use this code for when a location on the map is clicked:
+下面的代码实现了对地图位置点击事件的响应：
 
 ```js
-// Add an event listener for when a user clicks on the map
+// 对地图位置点击事件的响应
 map.on('click', function(e) {
-  // Query all the rendered points in the view
+  // 查询在视窗中所有的位置
   var features = map.queryRenderedFeatures(e.point, { layers: ['locations'] });
   if (features.length) {
     var clickedPoint = features[0];
-    // 1. Fly to the point
+    // 1. 地图重定位
     flyToStore(clickedPoint);
-    // 2. Close all other popups and display popup for clicked store
+    // 2. 关闭其他所有的弹出窗口并显示新的弹出窗口
     createPopUp(clickedPoint);
-    // 3. Highlight listing in sidebar (and remove highlight for all other listings)
+    // 3. 移除所有的高亮显示并高亮显示新的链接
     var activeItem = document.getElementsByClassName('active');
     if (activeItem[0]) {
       activeItem[0].classList.remove('active');
     }
-    // Find the index of the store.features that corresponds to the clickedPoint that fired the event listener
+    // 查找store.features与接受点击事件的clickedPoint所关联的索引号
     var selectedFeature = clickedPoint.properties.address;
 
     for (var i = 0; i < stores.features.length; i++) {
@@ -505,7 +499,7 @@ map.on('click', function(e) {
         selectedFeatureIndex = i;
       }
     }
-    // Select the correct list item using the found index and add the active class
+    // 选择被选中的商店并添加到active类中
     var listing = document.getElementById('listing-' + selectedFeatureIndex);
     listing.classList.add('active');
   }
@@ -516,9 +510,9 @@ map.on('click', function(e) {
   <DemoIframe src="/help/demos/gl-store-locator/step-four.html" />
 }}
 
-## Add custom markers
+## 添加自定义标签
 
-This section will walk you through how to replace the existing standard symbol layer with custom markers. First, you will need to remove the existing symbol layer and related functions. Remove the symbol layer by deleting the `.addLayer()` function from your code, and replace it with the `.addSource()` code below. Instead of styling the symbol layer with `addLayer`, you will use the Markers API to add an image to each point in the GeoJSON data:
+此部分的教程将展示如何使用自定义的地图标签。首先，您需要移除已存在的图层以及关联的方程。删除 `.addLayer()` 方程以移除图层，并添加 `.addSource()` 方程。之前我们使用 `addLayer` 方程来定义地图标签，但是现在我们要使用 Markers API 来向 GeoJSON 数据中添加我们的标签图片：
 
 ```js
 map.addSource('places', {
@@ -527,8 +521,7 @@ map.addSource('places', {
 });
 ```
 
-
-You'll also want to delete the [function that listened for a click on a symbol](#symbol-click) to fly to the location, display a popup, and highlight the list item. Then, add the custom Sweetgreen icons to the map using `mapboxgl.Marker()` objects. Unlike the symbol layer, which has symbols embedded in the map, `mapboxgl.Marker()` objects are HTML DOM elements that can be styled with CSS. Add a new class to the CSS called `.marker` and set the Sweetgreen marker you [downloaded](/help/demos/store-locator/marker.png) earlier as the `background-image`:
+您也需要删除 [监听符号点击事件的函数](#symbol-click) 。我们之前创建了这个函数来完成地图重定位、显示弹出窗口以及高亮商店信息。然后，我们需要通过 `mapboxgl.Marker()` 添加我们自定义的 Sweetgreen 图标。与符号图层不同的是，符号图层包含自己的图标，但是 `mapboxgl.Marker()` 仅仅是 HTML DOM 元素，它可以进一步通过 CSS 来定义样式。添加一个 `.marker` CSS 样式然后将 `background-image` 设置为您之前已经 [downloaded](/help/demos/store-locator/marker.png) 好的 Sweetgreen 标签。
 
 ```css
 .marker {
@@ -541,35 +534,34 @@ You'll also want to delete the [function that listened for a click on a symbol](
 }
 ```
 
-To add the new markers to the map, iterate through all stores and add the new marker to the map at each location:
+我们可以通过遍历所有的商店，向地图给每一个商店添加新的标签：
 
 ```js
 stores.features.forEach(function(marker) {
-  // Create a div element for the marker
+  // 给标签创建一个div
   var el = document.createElement('div');
   // Add a class called 'marker' to each div
   el.className = 'marker';
-  // By default the image for your custom marker will be anchored
-  // by its center. Adjust the position accordingly
-  // Create the custom markers, set their position, and add to map
+  // 图片默认为中心显示。您可以调整显示的中心。
+  // 创建自定义标签，调整中心位置，然后添加到地图中
   new mapboxgl.Marker(el, { offset: [0, -23] })
     .setLngLat(marker.geometry.coordinates)
     .addTo(map);
 });
 ```
 
-### Add new event listeners
+### 添加新事件监听器
 
-Now that you have replaced your symbols with markers, you will need to re-add some code for flying to the position on the map, displaying a popup, and highlighting the `list` item in the sidebar when clicking on the marker. Within your `forEach` function from above, add an event listener:
+现在您已经添加了自定义的标签，您需要重新定义点击事件的监听函数来实现地图重定位、弹出窗口的显示以及商店 `list` 信息的高亮显示。在您的 `forEach` 函数中我们需要添加一个事件监听:
 
 ```js
 el.addEventListener('click', function(e) {
   var activeItem = document.getElementsByClassName('active');
-  // 1. Fly to the point
+  // 1. 地图重定位
   flyToStore(marker);
-  // 2. Close all other popups and display popup for clicked store
+  // 2. 关闭其他所有的弹出窗口并显示新的弹出窗口
   createPopUp(marker);
-  // 3. Highlight listing in sidebar (and remove highlight for all other listings)
+  // 3. 移除所有的高亮显示并高亮显示新的链接
   e.stopPropagation();
   if (activeItem[0]) {
     activeItem[0].classList.remove('active');
@@ -580,9 +572,9 @@ el.addEventListener('click', function(e) {
 });
 ```
 
-### Final tweaks
+### 微调
 
-You will need to adjust the position of the popup to account for the added height of the marker. You can do this using CSS:
+再添加了标签之后，您需要调整自动弹出窗口的位置以防止遮挡。您需要修改一下 CSS 代码：
 
 ```css
 .mapboxgl-popup {
@@ -590,26 +582,26 @@ You will need to adjust the position of the popup to account for the added heigh
 }
 ```
 
-At this point, you can also freshen up the type with Source Sans Pro:
+此时，您也可以使用 Source Sans Pro 来更改您的风格：
 
 ```html
 <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700' rel='stylesheet'>
 ```
 
-You'll need to update the `font` property in `body` style:
+您需要相应地修改 `body` 风格中 `font` 属性:
 
 ```css
 font: 400 15px/22px 'Source Sans Pro', 'Helvetica Neue', Sans-serif;
 ```
 
-## Finished product
+## 成果
 
-You have completed the store locator.
+您已经成功创建了一个商店定位地图。
 
 {{
   <DemoIframe src="/help/demos/gl-store-locator/step-five.html" />
 }}
 
-## Next steps
+## 下一步
 
-After following this guide, you have the tools you need to create your own store locator. Explore more Mapbox GL JS resources on our [help page](/help/tutorials/).
+您已经具备了创建属于你自己的商店定位地图的能力。请查阅 [帮助页面](/help/tutorials/) 以获取更多的 Mapbox GL JS 操作技巧。
