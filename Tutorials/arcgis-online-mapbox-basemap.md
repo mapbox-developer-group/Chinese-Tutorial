@@ -1,6 +1,6 @@
 ---
-title: Add a Mapbox Studio style as a basemap in ArcGIS Online
-description: Add your map as a basemap to ArcGIS Online.
+title: 在ArcGIS Online中添加Mapbox Studio样式作为底图
+description: 将地图添加为ArcGIS Online的底图.
 thumbnail: arcgisOnline
 level: 2
 topics:
@@ -18,16 +18,16 @@ Mapbox允许你将[Mapbox工作室样式](https://www.mapbox.com/studio/styles)�
 
 ## 操作准备
 
-在按教程进行后续操作前您需要作如下准备：
+在按教程操作前您需要作如下准备：
 
 - **ArcGIS Online 账号**。 您可以在[ArcGIS网站](https://www.arcgis.com/home/createaccount.html)上注册免费帐户。
-- **集成 URL**。 您可以在*Share &amp; use* 窗口中找到[地图样式](https://www.mapbox.com/studio)的集成URL。我们将在后续步骤中详细介绍。
+- **集成 URL**。 您可以在*Share &amp; use* 窗口中找到[地图样式](https://www.mapbox.com/studio)的集成URL。我们将在后续步骤中详细介绍如何找到。
 ## 在ArcGIS中创建一个新项目
 
 找到您的ArcGIS Online项目页面并创建一个新的项目：
 
 - 登录ArcGIS Online。
-- 找到[**地图**](http://www.arcgisonline.cn/arcgis/home/index.html)页面。网页将自动为您生成一个新项目。
+- 找到[**制图**](http://www.arcgisonline.cn/arcgis/home/index.html)页面。网页将自动为您生成一个新项目。
 - 点击 **添加** > **从Web添加图层**。
 
 {{
@@ -37,7 +37,7 @@ Mapbox允许你将[Mapbox工作室样式](https://www.mapbox.com/studio/styles)�
   />
 }}
 
-在新的窗口中从下拉菜单里选择**切片图层**。
+从打开的新窗口中的下拉菜单里选择**切片图层**。
 
 {{
   <AppropriateImage
@@ -53,8 +53,8 @@ Mapbox允许你将[Mapbox工作室样式](https://www.mapbox.com/studio/styles)�
 - 登录 [Mapbox工作室](https://www.mapbox.com/studio)。
 - 在样式编辑器中打开您准备使用的样式。
 - 点击顶部菜单栏中的 **Share...** 按钮。
-- 在 **Share**窗口打开后，切换到其中的**Production** 选项卡。
-- 点击**Third party** 选项。
+- 在 **Share**窗口打开后，请确认正在查看的是**Production** 选项卡。
+- 切换到**Third party** 选项。
 - 在下拉列表中选择 **ArcGIS Online** 选项。
 - 点击剪贴板图标{{<Icon name='menu' inline={true} />}}复制URL。
 
@@ -67,7 +67,7 @@ Mapbox允许你将[Mapbox工作室样式](https://www.mapbox.com/studio/styles)�
 
 ## 将Mapbox样式添加为切片图层
 
-返回ArcGIS Online完成添加图块层
+返回ArcGIS Online完成切片图层添加
 
 <!--copyeditor ignore basemap-->
 
@@ -93,4 +93,4 @@ Mapbox允许你将[Mapbox工作室样式](https://www.mapbox.com/studio/styles)�
 
 ## 后续步骤
 
-如果您感兴趣在Mapbox工作室中创建自定义风格样式以在ArcGIS Online中使用，请查看我们的[创建自定义样式](/help/tutorials/create-a-custom-style) 教程。
+如果您对在ArcGIS Online中使用在Mapbox工作室中创建的自定义或品牌风格样式感兴趣，请查看我们的[创建自定义样式](/help/tutorials/create-a-custom-style) 教程。
